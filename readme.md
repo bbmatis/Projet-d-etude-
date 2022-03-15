@@ -2,7 +2,7 @@
 ## Membres
  - Ballouard Julien p2006861
  - Boulet Benjamin p2006010
- - Brun matis p2003969
+ - Brun Matis p2003969
 
 
 Cahier des charges 
