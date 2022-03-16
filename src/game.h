@@ -1,13 +1,14 @@
 #include "monstre.h"
 #include "defense.h"
 
-#define DIMENTION 32
+#define Largeur 25
+#define Longueur 15
 
 class Game {
     private:
         Monstre * monstres;         // Tableau contenant les monstres
         Defense * defenses;         // Tableau contenant les défenses
-        unsigned char * plaques;    // Tableau contenant les case et leur état (0 vide / 1 utilisé par une défense)
+        bool * plaques;    // Tableau contenant les case et leur état (0 vide / 1 utilisé par une défense)
         unsigned int money;         // Argent du joueur
 
     public:
@@ -18,16 +19,16 @@ class Game {
         unsigned char& getPlaque(const unsigned int posX, const unsigned int posY) const;
 
         // Inverse l'état d'une plaque
-        void togglePlaque(const unsigned int plaque);
+        void togglePlaque(const bool plaque);
 
         // Ajouter une défense sur le plateau avec le n° de la plaque
-        void addDefense(const unsigned int plaque, Defense defense);
+        void addDefense(const bool plaque, Defense defense);
         
         // Enlever une défense d'une plaque
-        void removeDefense(const unsigned int plaque);
+        void removeDefense(const bool plaque);
 
         // Obtenir une defense qui est sur une plaque
-        Defense& getDefense(const unsigned int plaque) const;
+        Defense& getDefense(const bool plaque) const;
 
         // Acheter une defense
         void buyDefense(const unsigned char type);
