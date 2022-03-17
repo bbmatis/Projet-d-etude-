@@ -41,7 +41,3 @@ Chapitre 4 : Déroulement du projet
 -	Tâche 6 : Correctifs 
 
 Diagramme de Gantt
-
-
-
-
