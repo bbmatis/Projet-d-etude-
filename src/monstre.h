@@ -3,6 +3,6 @@ class Monstre {
         unsigned char type;
 
     public:
-        Monstre(int type);
+        Monstre();
         ~Monstre();
 };
