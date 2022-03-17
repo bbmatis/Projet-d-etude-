@@ -14,7 +14,7 @@ Chapitre 1 : Présentation du Projet
 Chapitre 2 : Descriptif de la demande 
 -	Développer un jeu, type Tower Defense. 
 -	Fonctionnalités :
-- Le joueur doit défendre sa base contre des ennemies contrôlés par l’ordinateur(IA) => Labyrinth Solver.
+- Le joueur doit défendre sa base contre des ennemies contrôlés par l’ordinateur(IA) => Path finder/Labyrinth Solver.
 - Les ennemies se déplacent uniquement cases par cases, uniquement verticalement ou horizontalement.  
 - Le jeu se déroule sur une carte représentée sur un plateau composé de cases, les ennemies d’un côté et la base du joueur de l’autre côté.
 - Le joueur pourra poser des défenses sur le plateau afin de bloquer les ennemies et les éliminés.
@@ -41,3 +41,7 @@ Chapitre 4 : Déroulement du projet
 -	Tâche 6 : Correctifs 
 
 Diagramme de Gantt
+
+
+
+
