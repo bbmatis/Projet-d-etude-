@@ -1,3 +1,5 @@
+enum TypeDef {TYPE1,TYPE2};
+
 class Defense {
     private:
         unsigned char type; // Le type de la défense
