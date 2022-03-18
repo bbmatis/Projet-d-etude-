@@ -4,6 +4,14 @@
 #define Largeur 25
 #define Longueur 15
 
+struct Projectile
+{
+    unsigned int defenseWhoSendMe;
+    unsigned int posX, posY;
+    float vitesse;
+};
+
+
 class Game {
     private:
         Monstre * monstres;         // Tableau contenant les monstres
@@ -16,13 +24,7 @@ class Game {
         ~Game(); // Destructeur
 
         // Obtenir une plaque grâce a des coordonée x / y sur le plateau
-        unsigned char& getPlaque(const unsigned int posX, const unsigned int posY) const;
-
-        // Inverse l'état d'une plaque
-        void togglePlaque(const bool plaque);
-
-        // Ajouter une défense sur le plateau avec le n° de la plaque
-        void addDefense(const bool plaque, Defense defense);
+        unsigned int& getPlaque(const unsigned int posX, const unsigned int posY) const;
         
         // Enlever une défense d'une plaque
         void removeDefense(const bool plaque);
@@ -31,8 +33,11 @@ class Game {
         Defense& getDefense(const bool plaque) const;
 
         // Acheter une defense
-        void buyDefense(const unsigned char type);
+        void buyDefense(const TypeDef type);
 
         // Afficher le jeu en version textuel
         void afficherTextuel() const; 
+
+        // Afficher le jeu
+        void afficherGraphiquement() const;
 };
