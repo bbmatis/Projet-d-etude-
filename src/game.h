@@ -1,8 +1,8 @@
 #include "monstre.h"
 #include "defense.h"
 
-#define Largeur 25
-#define Longueur 15
+#define LARGEUR 25
+#define HAUTEUR 15
 
 struct Projectile
 {

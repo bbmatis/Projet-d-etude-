@@ -4,7 +4,7 @@
 
 Game::Game() {
     monstres = new Monstre [200];
-    defenses = new Defense [100];
+    defenses = new Defense [LARGEUR*HAUTEUR];
     money = 10;
 }
 
