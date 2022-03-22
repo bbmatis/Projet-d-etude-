@@ -1,6 +1,4 @@
 #include "game.h"
-#include "defense.h"
-#include "monstre.h"
 
 Game::Game() {
     monstres = new Monstre [200];

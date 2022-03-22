@@ -1,5 +1,6 @@
-#include "monstre.h"
 #include "defense.h"
+#include "monstre.h"
+#include "Joueur.h"
 
 #define LARGEUR 25
 #define HAUTEUR 15
