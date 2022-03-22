@@ -1,9 +1,20 @@
-enum TypeDef {TYPE1,TYPE2};
+using namespace std;
+
+enum typeDef {CANNON, DOUBLECANNON, MORTIER};
 
 class Defense {
-    private:
-        TypeDef type; // Le type de la défense
+    private: 
+        float reloadTime;
+        unsigned int damage;
+        bool zoneDamage;
     public:
-        Defense();
-        ~Defense();
+        //! \brief Construit la défense selon le type donné (typeDef) 
+        Defense(typeDef type);
+
+        //! \brief Obtenir les dégats que fait la defense
+        unsigned int getDamage() const;
+
+        //! \brief Attaque le/les montres autour suivant les type 
+        void attackNearby() const ;
 };
+
