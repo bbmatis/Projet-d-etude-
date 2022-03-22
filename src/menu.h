@@ -1,7 +1,7 @@
 class menu {
 
     private : 
-        Scores * scores;
+        Scores * scores; /** \param scores Tableau contenant les monstres **/
         struct Scores {
             int score;
             char date;
