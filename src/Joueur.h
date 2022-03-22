@@ -8,4 +8,4 @@ class Joueur {
         unsigned int getLifes(); /** \brief affiche le nombre vies du joueur **/
         unsigned int setLifes(int life); /** \brief modifie le nombre vies du joueur 
                                              \param life vie du joueur **/
-}
+};
