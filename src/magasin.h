@@ -13,5 +13,7 @@ class Magasin {
         unsigned int getMoney() const; /** \brief lis le nombre d'argent du joueur **/
         unsigned int addMoney(Monstre type); /** \brief ajoute de l'argent au compteur du joueur 
                                                  \param type le type du Monstre tuer **/
+        void acheterImproveDef(typeDef type);  /** \brief permet au joueur d'acheter des améliorations 
+                                                   \param type le type de la defense à améliorer **/
 
 };
