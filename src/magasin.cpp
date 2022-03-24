@@ -55,3 +55,20 @@ unsigned int Magasin::addMoney(TypeMonstres type) {
 
     return money;
 }
+
+
+// les set marche pas zebi
+void Magasin::acheterImproveDef(typeDef type , Defense d) {
+    switch (type) {
+        case CANNON:
+            money -= 1;
+            d.setReloadTime(0.25f);
+            break;
+
+        case DOUBLECANNON:
+            money -= 2;
+            d.setDamage(100);
+            d.setZoneDamage(true);
+            break;
+    }
+}

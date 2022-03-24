@@ -20,12 +20,28 @@ Defense::Defense(typeDef type) {
     }
 }
 
-Defense::Defense() //!Constructeur case vide
-{
-    reloadTime = 0;
-    damage = 0;
-    zoneDamage = 0;
+unsigned int Defense::setDamage(unsigned int new_damage) {
+    return damage = new_damage;
 }
+
+bool Defense::setZoneDamage(bool new_zoneDamage) {
+    return zoneDamage = new_zoneDamage;
+}
+
+float Defense::setReloadTime(float new_reloadTime) {
+    return reloadTime = new_reloadTime;
+}
+
 unsigned int Defense::getDamage() const {
     return damage;
 }
+
+float Defense::getReloadTime() const {
+    return reloadTime;
+}
+
+bool Defense::getZoneDamage() const {
+    return zoneDamage;
+}
+
+
