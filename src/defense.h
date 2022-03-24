@@ -11,6 +11,8 @@ class Defense {
         //! \brief Construit la défense selon le type donné (typeDef) 
         Defense(typeDef type);
 
+        Defense();
+
         //! \brief Obtenir les dégats que fait la defense
         unsigned int getDamage() const;
 

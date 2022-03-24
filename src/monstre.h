@@ -12,24 +12,31 @@ class Monstre {
     private:
 
         
-        float speed;
-        Vecteur2D position;
-        unsigned int nb_vie;
+        float speed;            /** \param speed Vitesse du monstre **/
+        Vecteur2D position;     /** \param position Vecteur position (x;y) du monstre**/
+        unsigned int nb_vie;    /** \param nb_vie Nombre de points de vie du monstre**/
+     
 
     public:
         
-        Monstre(TypeMonstres type, Vecteur2D PosInit);
+        Monstre(TypeMonstres type);     /** \brief Initialise un monstre avec un type donné 
+                                            \param type le type du monstre**/
+                                        
+        Monstre();
         ~Monstre();
 
-        void MoveRight();
-        void MoveLeft();
-        void MoveUp();
-        void MoveDown();
+        void MoveRight();   /** \brief Fait avancer le monstre de x = speed **/
+        void MoveLeft();    /** \brief Fait reculer le monstre de x = speed **/
+        void MoveUp();      /** \brief Fait monter le monstre de y = speed **/
+        void MoveDown();    /** \brief Fait descendre le monstre de y = speed **/
 
-        unsigned int getLife();
-        void removeLife(int nb);
+        unsigned int getLife();     /** \brief Donne la vie du monstre**/
+        void removeLife(int nb);    /** \brief Fait décroitre la vie du monstre
+                                        \param nb nombre de point de vie à retirer**/
 
-        Vecteur2D getPos();
+        Vecteur2D getPos();     /** \brief Récupère la position du monstre**/
+
+     
 
         
 

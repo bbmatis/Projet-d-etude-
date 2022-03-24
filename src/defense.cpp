@@ -20,6 +20,12 @@ Defense::Defense(typeDef type) {
     }
 }
 
+Defense::Defense() //!Constructeur case vide
+{
+    reloadTime = 0;
+    damage = 0;
+    zoneDamage = 0;
+}
 unsigned int Defense::getDamage() const {
     return damage;
 }

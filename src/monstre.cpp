@@ -1,7 +1,7 @@
 #include "monstre.h"
 
 
-Monstre::Monstre(TypeMonstres type, Vecteur2D PosInit) {
+Monstre::Monstre(TypeMonstres type) {
     
     switch (type)
     {
@@ -18,6 +18,8 @@ Monstre::Monstre(TypeMonstres type, Vecteur2D PosInit) {
             speed = 2;
             break;
     }
+}
+Monstre::Monstre(){
 }
 
 Monstre::~Monstre(){
@@ -60,3 +62,4 @@ void Monstre::removeLife(int nb)
 {
     nb_vie -= nb;
 }
+

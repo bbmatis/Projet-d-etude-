@@ -22,13 +22,13 @@ struct Projectile
 class Game {
     private:
         
-        Defense * defenses;  /** \param defenses Tableau contenant les défenses **/
         int score;
         Joueur joueur;
         int time;
 
     public:
-        Monstre * monstres;  /** \param monstres Tableau contenant les monstres **/
+        Monstre * monstres;/** \param monstres Tableau contenant les monstres **/
+        Defense * defenses;  /** \param defenses Tableau contenant les défenses **/
         Game(); /** \brief Constructeur **/
         ~Game(); /** \brief Destructeur **/
         void DefineMonstres();

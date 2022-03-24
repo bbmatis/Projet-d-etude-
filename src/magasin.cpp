@@ -37,7 +37,7 @@ unsigned int Magasin::getMoney() const {
     return money;
 }
 
-unsigned int Magasin::addMoney(Monstre type) {
+unsigned int Magasin::addMoney(TypeMonstres type) {
     switch (type)
     {
         case Mob1:
