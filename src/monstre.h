@@ -1,18 +1,36 @@
-#include "game.h"
+struct Vecteur2D
+{
+    
+    float x,y;
 
-enum Monste = {Mob1, Mob2, Mob3};
+};
+
+enum TypeMonstres {Mob1, Mob2, Mob3};
 
 class Monstre {
 
     private:
 
-        unsigned int nb_vie;
+        
         float speed;
-        Vecteur2D pos;
-
-
+        Vecteur2D position;
+        unsigned int nb_vie;
 
     public:
-        Monstre();
+        
+        Monstre(TypeMonstres type, Vecteur2D PosInit);
         ~Monstre();
+
+        void MoveRight();
+        void MoveLeft();
+        void MoveUp();
+        void MoveDown();
+
+        unsigned int getLife();
+        void removeLife(int nb);
+
+        Vecteur2D getPos();
+
+        
+
 };
