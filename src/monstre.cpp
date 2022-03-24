@@ -29,26 +29,26 @@ Vecteur2D Monstre::getPos()
     return position;
 }
 
-void Monstre::MoveRight(Vecteur2D pos2){
+void Monstre::MoveRight(){
 
-    position.x += pos2.x;
-
-}
-
-void Monstre::MoveLeft(Vecteur2D pos2){
-
-    position.x -= pos2.x;
+    position.x += speed;
 
 }
 
-void Monstre::MoveUp(Vecteur2D pos2){
+void Monstre::MoveLeft(){
 
-    position.y += pos2.y;
+    position.x -= speed;
 
 }
-void Monstre::MoveDown(Vecteur2D pos2){
 
-    position.y -= pos2.y;
+void Monstre::MoveUp(){
+
+    position.y += speed;
+
+}
+void Monstre::MoveDown(){
+
+    position.y -= speed;
 
 }
 
