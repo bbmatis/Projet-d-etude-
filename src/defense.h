@@ -16,5 +16,8 @@ class Defense {
 
         //! \brief Attaque le/les montres autour suivant les type 
         void attackNearby() const ;
+
+        void Ameliorer() const;
+        
 };
 

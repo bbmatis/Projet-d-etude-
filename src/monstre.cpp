@@ -21,7 +21,6 @@ Monstre::Monstre(TypeMonstres type, Vecteur2D PosInit) {
 }
 
 Monstre::~Monstre(){
-    
 }
 
 Vecteur2D Monstre::getPos()
@@ -61,4 +60,3 @@ void Monstre::removeLife(int nb)
 {
     nb_vie -= nb;
 }
-

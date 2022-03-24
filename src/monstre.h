@@ -1,11 +1,8 @@
 struct Vecteur2D
 {
+    
     float x,y;
 
-    const Vecteur2D & operator +(const Vecteur2D PosD) {
-       x += PosD.x;
-       y += PosD.y;
-    }
 };
 
 enum TypeMonstres {Mob1, Mob2, Mob3};
