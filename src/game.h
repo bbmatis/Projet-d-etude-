@@ -10,9 +10,10 @@
 
 struct Projectile
 {
-    unsigned int defenseWhoSendMe;
-    unsigned int posX, posY;
-    float vitesse;
+    unsigned int defenseWhoSendMe; /** \param defenseWhoSendMe identifie de quelle defense vient le projectile **/
+    unsigned int posX, posY; /** \param posX position en x du projectile
+                                 \param posY position en y du projectile **/
+    float vitesse; /** \param vitesse vitesse du projectile **/
 };
 
 
