@@ -1,6 +1,16 @@
+#include "game.h"
+
+enum Monste = {Mob1, Mob2, Mob3};
+
 class Monstre {
+
     private:
-        unsigned char type;
+
+        unsigned int nb_vie;
+        float speed;
+        Vecteur2D pos;
+
+
 
     public:
         Monstre();
