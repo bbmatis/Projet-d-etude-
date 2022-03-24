@@ -5,6 +5,9 @@
 #define LARGEUR 25
 #define HAUTEUR 15
 
+
+
+
 struct Projectile
 {
     unsigned int defenseWhoSendMe;
@@ -13,14 +16,7 @@ struct Projectile
 };
 
 
-struct Vecteur2D
-{
-    float x,y;
 
-    const &operator +(const opérande_D) {
-       x = x + opérande_D.x;
-    }
-};
 
 class Game {
     private:
