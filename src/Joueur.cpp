@@ -1,6 +1,6 @@
 #include "Joueur.h"
 
-unsigned int Joueur::getLifes() {
+unsigned int Joueur::getLifes() const {
     return nb_vies;
 }
 
