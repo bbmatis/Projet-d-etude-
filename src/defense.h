@@ -9,38 +9,63 @@ class Defense {
         bool zoneDamage;
         unsigned int range;
         unsigned int level;
+        typeDef type;
     public:
-        //! \brief Construit la défense selon le type donné (typeDef) 
+        //! \fn Constructeur
+        //! \param type Type de la défense
         Defense(typeDef type);
 
+        //! \fn Constructeur par défaut
         Defense();
 
-        //! \brief Obtenir les dégats que fait la defense
+        //! \fn Destructeur
+        ~Defense();
+
+        //! \fn Obtenir le prix de la défense
+        unsigned int getPrix() const;
+
+        //! \fn Modifier le prix de la défense
+        //! \param newPrix Nouveau prix de la défense
+        void setPrix(unsigned int newPrix);
+
+        //! \fn Obtenir les dégats que fait la defense
         unsigned int getDamage() const;
 
-        //! \brief Modifier les dégats que fait la defense
+        //! \fn Modifier les dégats que fait la defense
         //! \param newDamage Nouveau dégats
         void setDamage(unsigned int newDamage);
 
-        //! \brief Obtenir le temps de recharge de la defense
+        //! \fn Obtenir le temps de recharge de la defense
         float getReloadTime() const;
 
-        //! \brief Modifie le temps de recharge de la defense
+        //! \fn Modifie le temps de recharge de la defense
         //! \param newReloadTime Nouveau temps de recharge
         void setReloadTime(float newReloadTime);
 
-        //! \brief Définir la portée de la défense
+        //! \fn Définir la portée de la défense
         //! \param newRange Nouvelle portée
         void setRange(unsigned int newRange);
 
-        //! \brief Obtenir la portée de la défense
+        //! \fn Obtenir la portée de la défense
         unsigned int getRange() const;
 
-        //! \brief Attaque le/les montres autour d'elle même
-        void attackNearby() const ;
+        //! \fn Définir le lvl de la défense
+        //! \param newLevel Nouveau lvl
+        void setLevel(unsigned int newLevel);
 
-        //! \brief Améliorer la défense au niveau supérieur
-        void Ameliorer();
+        //! \fn Récuper le lvl de la défense
+        unsigned int getLevel() const;
+
+        //! \fn Obtenir le type de la défense
+        typeDef getType() const;
+
+        //! \fn Attaque le/les montres autour d'elle même
+        void attackNearby() const;
+
+        //! \fn Améliorer la défense au niveau supérieur
+        void upgrade();
+
+
         
 };
 

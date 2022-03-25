@@ -1,6 +1,7 @@
 #include "defense.h"
 
 Defense::Defense(typeDef type) {
+    type = type;
     zoneDamage = false;
     level = 1;
     switch (type)
@@ -52,13 +53,18 @@ unsigned int Defense::getRange() const {
     return range;
 }
 
+// Récuper le type de la défense
+typeDef Defense::getType() const {
+    return type;
+}
+
 // Améliorer la défense au niveau supérieur
-void Defense::Ameliorer() {
+void Defense::upgrade() {
     level++;
-    // Todo: modifier les valeurs de dégats et de portée
+    // Todo: modifier les valeurs de dégats et de portée et de temps de recharge pourquoi pas
 }
 
 // Attaque le/les montres autour d'elle même
 void Defense::attackNearby() const {
-    // TODO
+    // TODO : tout mdr
 }
