@@ -14,30 +14,35 @@ class Monstre {
         
         float speed;            /** \param speed Vitesse du monstre **/
         Vecteur2D position;     /** \param position Vecteur position (x;y) du monstre**/
-        unsigned int nb_vie;    /** \param nb_vie Nombre de points de vie du monstre**/
+        unsigned int hp;        /** \param hp Nombre de points de vie du monstre**/
      
 
     public:
-        
-        Monstre(TypeMonstres type);     /** \brief Initialise un monstre avec un type donné 
-                                            \param type le type du monstre**/
-                                        
-        Monstre();
+        //! \fn Constructeur
+        //! \param type Type du monstre
+        Monstre(TypeMonstres type);
+
+        //! \fn Destructeur
         ~Monstre();
 
-        void MoveRight();   /** \brief Fait avancer le monstre de x = speed **/
-        void MoveLeft();    /** \brief Fait reculer le monstre de x = speed **/
-        void MoveUp();      /** \brief Fait monter le monstre de y = speed **/
-        void MoveDown();    /** \brief Fait descendre le monstre de y = speed **/
+        //! \fn Déplacer le monstre vers la droite
+        void MoveRight(); 
 
-        unsigned int getLife();     /** \brief Donne la vie du monstre**/
-        void removeLife(int nb);    /** \brief Fait décroitre la vie du monstre
-                                        \param nb nombre de point de vie à retirer**/
+        //! \fn Déplacer le monstre vers la gauche
+        void MoveLeft();
 
-        Vecteur2D getPos();     /** \brief Récupère la position du monstre**/
+        //! \fn Déplacer le monstre vers le haut
+        void MoveUp();
 
-     
+        //! \fn Déplacer le monstre vers le bas
+        void MoveDown();
 
-        
+        //! \fn Obtenir la santée du monstre
+        unsigned int getHp() const;
 
+        //! \fn Modifier la santée du monstre
+        void setHp(unsigned int newHp);
+
+        //! \fn Obtenir la position du monstre
+        Vecteur2D getPosition() const;
 };
