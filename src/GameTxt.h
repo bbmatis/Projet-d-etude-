@@ -6,7 +6,16 @@ class GameTxt {
         Game game;
 
     public: 
-        void afficherTxtGame(); /** \brief affiche le jeu en version texte **/
-        void afficherPrix(); /** \brief affiche les prix des différentes défenses **/
+        //! \fn Constructeur
+        GameTxt();
+
+        //! \fn Destructeur
+        ~GameTxt();
+
+        //! \fn afficher le jeu en mode textuel
+        void afficherGame();
+
+        //! \fn afficher les prix des défenses
+        void afficherPrix();
         
 };

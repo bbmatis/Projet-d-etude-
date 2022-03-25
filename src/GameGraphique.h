@@ -7,7 +7,16 @@ class GameGraphique {
         Game game;
 
     public:
-        void afficherGrBoucleGame(); /** \brief affiche le jeu en version graphique **/
-        void afficherPrix(); /** \brief affiche les prix des différentes défenses **/
+        //! \fn Constructeur
+        GameGraphique();
+
+        //! \fn Destructeur
+        ~GameGraphique();
+
+        //! \fn afficher le jeu en mode graphique
+        void afficherGame();
+
+        //! \fn afficher les prix des défenses
+        void afficherPrix();
 
 };
