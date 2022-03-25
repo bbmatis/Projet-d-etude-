@@ -1,74 +1,46 @@
 #include "magasin.h"
+#include <iostream>
 
-/** \brief on appuie sur une case et ça ouvre un menu où on peut cliquer sur une défense à acheter **/
-void Magasin::acheterDef(typeDef type) {  
-    switch (type) {
-        case CANNON:
-            money -= 1;
-            break;
+using namespace std;
 
-        case DOUBLECANNON:
-            money -= 2;
-            break;
-
-        case MORTIER:
-            money -= 3;
-            break;
+// Acheter une défense
+void Magasin::buyDef(typeDef type) {  
+    Defense defense(type);
+    if (defense.getPrix() <= money) {
+        money -= defense.getPrix();
+        cout << "Vous avez acheté une " << type << " pour " << defense.getPrix() << " Money" << endl;
+    } else {
+        cout << "Vous n'avez pas assez d'argent pour acheter cette défense" << endl;
     }
+
+    // TODO: Ajouter la défense au jeu
 }
 
-void Magasin::vendreDef(typeDef type) {
-    switch (type) {
-        case CANNON:
-            money += 1;
-            break;
+// vendre une défense
+void Magasin::sellDef(Defense defense) {
+    money += defense.getPrix()/2; // On lui donne que la moitié de la thune hein
+    cout << "Vous avez vendu une " << defense.getType() << " pour " << defense.getPrix() << " Money" << endl;
 
-        case DOUBLECANNON:
-            money += 2;
-            break;
-
-        case MORTIER:
-            money += 3;
-            break;
-    }
+    // TODO: Enlever la défense du jeu
 }
 
+// Obtenir l'argent du joueur
 unsigned int Magasin::getMoney() const {
     return money;
 }
 
-unsigned int Magasin::addMoney(TypeMonstres type) {
-    switch (type)
-    {
-        case Mob1:
-            money += 1;
-            break;
-
-        case Mob2:
-            money += 2;
-            break;
-
-        case Mob3:
-            money += 3;
-            break;
-    }
-
-    return money;
+// Modifier l'argent du joueur
+void Magasin::setMoney(unsigned int newMoney) {
+    money = newMoney;
 }
 
-
-// les set marche pas zebi
-void Magasin::acheterImproveDef(typeDef type , Defense d) {
-    switch (type) {
-        case CANNON:
-            money -= 1;
-            d.setReloadTime(0.25f);
-            break;
-
-        case DOUBLECANNON:
-            money -= 2;
-            d.setDamage(100);
-            d.setZoneDamage(true);
-            break;
+// Améliorer une défense au niveau supérieur
+void Magasin::upgradeDef(Defense defense) {
+    if (defense.getPrix()*2 <= money) { // TODO : Choisir le cout de l'amélioration
+        money -= defense.getPrix();
+        defense.upgrade();
+        cout << "Vous avez amélioré une " << defense.getType() << " pour " << defense.getPrix() << " Money" << endl;
+    } else {
+        cout << "Vous n'avez pas assez d'argent pour améliorer cette défense" << endl;
     }
 }
