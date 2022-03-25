@@ -4,10 +4,10 @@
 
 #define LARGEUR 25
 #define HAUTEUR 15
+#define MAX_MONSTRES 50
+#define MAX_PROJECTILES 50
 
-
-
-
+// Définition de la stucture Projectile
 struct Projectile
 {
     unsigned int defenseWhoSendMe; /** \param defenseWhoSendMe identifie de quelle defense vient le projectile **/
@@ -16,20 +16,23 @@ struct Projectile
     float vitesse; /** \param vitesse vitesse du projectile **/
 };
 
-
-
-
 class Game {
     private:
-        
-        int score;
+        unsigned int score;
         Joueur joueur;
         int time;
 
     public:
-        Monstre * monstres;/** \param monstres Tableau contenant les monstres **/
-        Defense * defenses;  /** \param defenses Tableau contenant les défenses **/
-        Game(); /** \brief Constructeur **/
-        ~Game(); /** \brief Destructeur **/
-        void DefineMonstres();
+        Monstre *monstres;
+        Defense *defenses;
+        Projectile *projectiles;
+        
+        //! \fn Constructeur
+        Game();
+        //! \fn Destructeur
+        ~Game();
+
+        //! \fn Initialiser le jeu
+        void init();
+
 };
