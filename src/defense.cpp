@@ -2,6 +2,7 @@
 
 Defense::Defense(typeDef type) {
     zoneDamage = false;
+    level = 1;
     switch (type)
     {
         case CANNON:
@@ -20,28 +21,44 @@ Defense::Defense(typeDef type) {
     }
 }
 
-unsigned int Defense::setDamage(unsigned int new_damage) {
-    return damage = new_damage;
+
+// Définir les dégats de la défense
+void Defense::setDamage(unsigned int newDamage) {
+    damage = newDamage;
 }
 
-bool Defense::setZoneDamage(bool new_zoneDamage) {
-    return zoneDamage = new_zoneDamage;
-}
-
-float Defense::setReloadTime(float new_reloadTime) {
-    return reloadTime = new_reloadTime;
-}
-
+// Obtenir les dégats que fait la defense
 unsigned int Defense::getDamage() const {
     return damage;
 }
 
+// Définir le temps de recharge de la defense
+void Defense::setReloadTime(float newReloadTime) {
+    reloadTime = newReloadTime;
+}
+
+// Obtenir le temps de recharge de la defense
 float Defense::getReloadTime() const {
     return reloadTime;
 }
 
-bool Defense::getZoneDamage() const {
-    return zoneDamage;
+// Définir la portée de la défense
+void Defense::setRange(unsigned int newRange) {
+    range = newRange;
 }
 
+// Obtenir la portée de la défense
+unsigned int Defense::getRange() const {
+    return range;
+}
 
+// Améliorer la défense au niveau supérieur
+void Defense::Ameliorer() {
+    level++;
+    // Todo: modifier les valeurs de dégats et de portée
+}
+
+// Attaque le/les montres autour d'elle même
+void Defense::attackNearby() const {
+    // TODO
+}

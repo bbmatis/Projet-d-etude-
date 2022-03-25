@@ -7,6 +7,8 @@ class Defense {
         float reloadTime;
         unsigned int damage;
         bool zoneDamage;
+        unsigned int range;
+        unsigned int level;
     public:
         //! \brief Construit la défense selon le type donné (typeDef) 
         Defense(typeDef type);
@@ -16,25 +18,29 @@ class Defense {
         //! \brief Obtenir les dégats que fait la defense
         unsigned int getDamage() const;
 
-        //! \brief Obtenir la zone de dégats de la defense
-        bool getZoneDamage() const;
+        //! \brief Modifier les dégats que fait la defense
+        //! \param newDamage Nouveau dégats
+        void setDamage(unsigned int newDamage);
 
         //! \brief Obtenir le temps de recharge de la defense
         float getReloadTime() const;
 
-        //! \brief Modifier les dégats que fait la defense
-        unsigned int setDamage(unsigned int new_damage);
-
-        //! \brief Modifier la zone de dégats de la defense
-        bool setZoneDamage(bool new_zoneDamage);
-
         //! \brief Modifie le temps de recharge de la defense
-        float setReloadTime(float new_reloadTime);
+        //! \param newReloadTime Nouveau temps de recharge
+        void setReloadTime(float newReloadTime);
 
-        //! \brief Attaque le/les montres autour suivant les type 
+        //! \brief Définir la portée de la défense
+        //! \param newRange Nouvelle portée
+        void setRange(unsigned int newRange);
+
+        //! \brief Obtenir la portée de la défense
+        unsigned int getRange() const;
+
+        //! \brief Attaque le/les montres autour d'elle même
         void attackNearby() const ;
 
-        void Ameliorer() const;
+        //! \brief Améliorer la défense au niveau supérieur
+        void Ameliorer();
         
 };
 
