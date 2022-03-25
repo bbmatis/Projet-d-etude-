@@ -1,11 +1,20 @@
 class Joueur {
 
     private:
-        unsigned int nb_vies; /** \param nb_vies la vie du joueur **/
+        unsigned int nbVies;
 
     public:
-        void removesLifes(); /** \brief diminue le nombre de vies du joueur **/
-        unsigned int getLifes() const ; /** \brief affiche le nombre vies du joueur **/
-        unsigned int setLifes(int life); /** \brief modifie le nombre vies du joueur 
-                                             \param life vie du joueur modifiée **/
+        //! \fn Constructeur
+        Joueur();
+
+        //! \fn Destructeur
+        ~Joueur();
+
+        //! \fn Obtenir le nombre de vies du joueur
+        unsigned int getNbVies() const;
+
+        //! \fn Modifier le nombre de vies du joueur
+        //! \param newNbVies Nouveau nombre de vies
+        void setNbVies(unsigned int newNbVies);
+
 };

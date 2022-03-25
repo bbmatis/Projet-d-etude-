@@ -1,13 +1,17 @@
 #include "Joueur.h"
 
-unsigned int Joueur::getLifes() const {
-    return nb_vies;
+// Constructeur
+Joueur::Joueur() {
+    nbVies = 3;
 }
 
-unsigned int Joueur::setLifes(int life) {
-    return nb_vies = life;
+// Obtenir le nombre de vies du joueur
+unsigned int Joueur::getNbVies() const {
+    return nbVies;
 }
 
-void Joueur::removesLifes() {
-    nb_vies = nb_vies - 1;
+// Modifier le nombre de vies du joueur
+void Joueur::setNbVies(unsigned int newNbVies) {
+    nbVies = newNbVies;
 }
+
