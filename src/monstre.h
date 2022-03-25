@@ -22,6 +22,9 @@ class Monstre {
         //! \param type Type du monstre
         Monstre(TypeMonstres type);
 
+        //! \fn Constructeur par défaut
+        Monstre();
+
         //! \fn Destructeur
         ~Monstre();
 
