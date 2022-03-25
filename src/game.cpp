@@ -23,3 +23,13 @@ void Game::init() {
 
 }
 
+// récupérer le score
+unsigned int Game::getScore() {
+    return score;
+}
+
+// définir le score
+void Game::setScore(unsigned int score) {
+    score = score;
+}
+

@@ -29,10 +29,17 @@ class Game {
         
         //! \fn Constructeur
         Game();
+        
         //! \fn Destructeur
         ~Game();
 
         //! \fn Initialiser le jeu
         void init();
+
+        //! \fn getScore
+        unsigned int getScore();
+
+        //! \fn setScore
+        void setScore(unsigned int score);
 
 };
