@@ -2,8 +2,8 @@ CC=g++ -g -Wall
 
 all: bin/test
 
-bin/test : obj/main.o obj/game.o
-	$(CC) obj/main.o obj/game.o -o bin/test
+bin/test : obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/Joueur.o
+	$(CC) obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/Joueur.o -o bin/test
 
 obj/main.o : src/main.cpp src/game.h
 	$(CC) -c src/main.cpp -o obj/main.o
