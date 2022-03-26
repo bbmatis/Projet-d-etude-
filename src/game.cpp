@@ -33,7 +33,7 @@ void Game::setScore(unsigned int new_score) {
     score = new_score;
 }
 
-void Game::InitVagueMonstre(){
+void Game::InitVagueMonstre(){ //test voir le .h
 
      for(int i=0; i<MAX_MONSTRES/2; i++)
     {
@@ -42,7 +42,7 @@ void Game::InitVagueMonstre(){
     }
 }
 
-void Game::InitPlateauJeu(){
+void Game::InitPlateauJeu(){ //test voir le .h
 
     for(int i=0; i<HAUTEUR; i++)
     {
@@ -54,17 +54,17 @@ void Game::InitPlateauJeu(){
     }
 }
 
-void Game::CasePlateauEstVide(){
+void Game::CasePlateauEstVide(){ //test voir le .h
 
     for(int i=0; i<HAUTEUR; i++)
     {
         for(int j=0; j<LARGEUR; j++)
         {
-            if(defenses[j].getType() == RIEN){
-                cout<<" * ";
+            if(defenses[j].getType() == RIEN){ //regarde si la case est "Null"
+                cout<<" 0 ";
             }
             else 
-                cout<<" - ";
+                cout<<" 1 ";
         }
         cout<<endl;
     }
