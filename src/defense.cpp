@@ -1,7 +1,7 @@
 #include "defense.h"
 
-Defense::Defense(typeDef type) {
-    type = type;
+Defense::Defense(typeDef typeDef) {
+    type = typeDef;
     zoneDamage = false;
     level = 1;
     switch (type)
