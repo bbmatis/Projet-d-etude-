@@ -40,6 +40,6 @@ class Game {
         unsigned int getScore();
 
         //! \fn setScore
-        void setScore(unsigned int score);
+        void setScore(unsigned int new_score);
 
 };

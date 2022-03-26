@@ -29,7 +29,6 @@ unsigned int Game::getScore() {
 }
 
 // définir le score
-void Game::setScore(unsigned int score) {
-    score = score;
+void Game::setScore(unsigned int new_score) {
+    score = new_score;
 }
-
