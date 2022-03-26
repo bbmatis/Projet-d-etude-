@@ -20,6 +20,8 @@ Monstre::Monstre(TypeMonstres type) {
     }
 }
 
+Monstre::Monstre(){};
+
 // Destructeur
 
 Monstre::~Monstre() {

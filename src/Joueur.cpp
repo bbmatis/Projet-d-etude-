@@ -5,6 +5,7 @@ Joueur::Joueur() {
     nbVies = 3;
 }
 
+
 // Obtenir le nombre de vies du joueur
 unsigned int Joueur::getNbVies() const {
     return nbVies;

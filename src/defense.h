@@ -1,6 +1,7 @@
 using namespace std;
 
-enum typeDef {CANNON, DOUBLECANNON, MORTIER};
+
+enum typeDef {RIEN, CANNON, DOUBLECANNON, MORTIER};
 
 class Defense {
     private: 
@@ -10,6 +11,7 @@ class Defense {
         unsigned int range;
         unsigned int level;
         typeDef type;
+        //Vecteur2D Position : pour récup la pos d'une def sur le plateau ?
     public:
         //! \fn Constructeur
         //! \param type Type de la défense
@@ -64,6 +66,7 @@ class Defense {
 
         //! \fn Améliorer la défense au niveau supérieur
         void upgrade();
+
 
 
         

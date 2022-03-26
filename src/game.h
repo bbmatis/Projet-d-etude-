@@ -19,7 +19,7 @@ struct Projectile
 class Game {
     private:
         unsigned int score;
-        Joueur joueur;
+        Joueur joueur();
         int time;
 
     public:
@@ -41,5 +41,13 @@ class Game {
 
         //! \fn setScore
         void setScore(unsigned int new_score);
+
+        void InitVagueMonstre(); //test Initialisation d'une vague de monstre différent
+
+        void InitPlateauJeu(); //test Initialisation du plateau de jeu, rempli de Def et non Null -> affichage texte
+
+        void CasePlateauEstVide(); //Dcp regarde si la case du plateau est une def Null ou non 
+
+        //void AddDefPlateau(Vecteur2D PosDef);
 
 };

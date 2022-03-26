@@ -6,6 +6,10 @@ Defense::Defense(typeDef typeDef) {
     level = 1;
     switch (type)
     {
+        case RIEN: //peut-être créer un type Rien / Null pour dire genre on créer un plateau rempli de déf Null puis 
+                   //quand on choisira la déf on changera le type ? 
+            damage =0;
+            break;
         case CANNON:
             reloadTime = 0.5f;
             damage = 5;
@@ -22,6 +26,9 @@ Defense::Defense(typeDef typeDef) {
     }
 }
 
+Defense::Defense(){};
+
+Defense::~Defense(){};
 
 // Définir les dégats de la défense
 void Defense::setDamage(unsigned int newDamage) {

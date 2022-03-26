@@ -48,4 +48,6 @@ class Monstre {
 
         //! \fn Obtenir la position du monstre
         Vecteur2D getPosition() const;
+
+       
 };

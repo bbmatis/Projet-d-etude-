@@ -20,7 +20,7 @@ Game::~Game(){
 // Initialiser le jeu
 void Game::init() {
     // TODO
-
+    
 }
 
 // récupérer le score
@@ -32,3 +32,42 @@ unsigned int Game::getScore() {
 void Game::setScore(unsigned int new_score) {
     score = new_score;
 }
+
+void Game::InitVagueMonstre(){
+
+     for(int i=0; i<MAX_MONSTRES/2; i++)
+    {
+       monstres[i] = Monstre(Mob1);
+       monstres[i+MAX_MONSTRES/2] = Monstre(Mob2);
+    }
+}
+
+void Game::InitPlateauJeu(){
+
+    for(int i=0; i<HAUTEUR; i++)
+    {
+        for(int j=0; j<LARGEUR/2; j++)
+        {
+            defenses[j] = Defense(RIEN);
+            defenses[j*2] = Defense(CANNON); 
+        }
+    }
+}
+
+void Game::CasePlateauEstVide(){
+
+    for(int i=0; i<HAUTEUR; i++)
+    {
+        for(int j=0; j<LARGEUR; j++)
+        {
+            if(defenses[j].getType() == RIEN){
+                cout<<" * ";
+            }
+            else 
+                cout<<" - ";
+        }
+        cout<<endl;
+    }
+    
+}
+
