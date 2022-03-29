@@ -4,6 +4,7 @@
 #include "defense.h"
 #include "monstre.h"
 #include "joueur.h"
+#include <vector>
 
 #define LARGEUR 25
 #define HAUTEUR 15
@@ -24,11 +25,13 @@ class Game {
         int time;
 
     public:
-        Monstre *monstres;
-        Defense *defenses;
-        Projectile *projectiles;
+        vector<Monstre> monstres;
+        vector<Defense> defenses;
+        vector<Projectile> projectiles;
+        
         Joueur joueur;
         
+
         //! \fn Constructeur
         Game();
         
