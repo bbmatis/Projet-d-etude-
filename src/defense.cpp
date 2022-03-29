@@ -68,6 +68,8 @@ typeDef Defense::getType() const {
 // Améliorer la défense au niveau supérieur
 void Defense::upgrade() {
     level++;
+    damage += 5;
+    range = 1;
     // Todo: modifier les valeurs de dégats et de portée et de temps de recharge pourquoi pas
 }
 
