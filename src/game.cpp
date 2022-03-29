@@ -6,9 +6,9 @@ using namespace std;
 Game::Game() {
     score = .0;
     time = .0f;
-    monstres = new Monstre[MAX_MONSTRES];                // Créer un taleau de 200 monstres **/
-    defenses = new Defense[LARGEUR*HAUTEUR];    // Créer un tableau de defense de dimension L * H **/
-    projectiles = new Projectile[MAX_PROJECTILES]; // Créer un tableau de projectile de dimension L * H **/
+    monstres = new Monstre[MAX_MONSTRES];           // Créer un taleau de 200 monstres **/
+    defenses = new Defense[LARGEUR*HAUTEUR];        // Créer un tableau de defense de dimension L * H **/
+    projectiles = new Projectile[MAX_PROJECTILES];  // Créer un tableau de projectile de dimension L * H **/
 }
 
 Game::~Game(){
@@ -26,19 +26,14 @@ void Game::init() {
 }
 
 void Game::InitVagueMonstre(){ //test voir le .h
+    // TODO : Initialiser les monstres de la vague
 
-     for(int i=0; i<MAX_MONSTRES/2; i++)
-    {
-       monstres[i] = Monstre(Mob1);
-       monstres[i+MAX_MONSTRES/2] = Monstre(Mob2);
-    }
 }
 
 // Initialiser le plateau de jeu
 void Game::InitPlateauJeu(){
+    // TODO : Initialiser le plateau de jeu
 
-    for(int i=0; i<HAUTEUR; i++) for(int j=0; j<LARGEUR/2; j++)
-        defenses[j*2] = Defense(CANNON); // Initialisation des defenses
 }
 
 // Acheter une défense
@@ -52,6 +47,41 @@ void Game::buyDef(typeDef type) {
     }
 
     // TODO: Ajouter la défense au jeu
+}
+
+// Placer une défense
+void Game::placerDef(typeDef defense, unsigned int position) {
+    // On vérifie que le type de défense est valide
+    if (defense == RIEN) {
+        cout << "Type de défense non valide" << endl;
+        return;
+    }
+
+    // On vérifie que la position valide
+    if (position > LARGEUR*HAUTEUR || position <= 0) {
+        cout << "La position " << position << " n'est pas valide" << endl;
+        return;
+    }
+
+    // On vérifie que la position est libre
+    if (defenses[position].getType() != RIEN) {
+        cout << "La position " << position << " est déjà occupée" << endl;
+        return;
+    }
+
+    // On créer la défense
+    Defense defense_tmp(defense);
+
+    // On vérifie que le joueur a assez d'argent
+    if (defense_tmp.getPrix() > joueur.money) {
+        cout << "Vous n'avez pas assez d'argent pour acheter cette défense" << endl;
+        return;
+    }
+
+    // On ajoute la défense au jeu
+    defenses[position] = defense_tmp;
+    joueur.money -= defense_tmp.getPrix();
+    cout << "Vous avez acheté une " << defense_tmp.getType() << " pour " << defense_tmp.getPrix() << " Money" << endl;
 }
 
 // vendre une défense

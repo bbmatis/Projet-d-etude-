@@ -13,8 +13,8 @@ int main (void) {
     // On créer un GameTxt à partir de maGame
     GameTxt maGameTxt(maGame);
 
-    // On affiche le jeu
-    maGameTxt.afficher();    
+    // On lance le jeu
+    maGameTxt.jouer();    
 
     return 0;
 }

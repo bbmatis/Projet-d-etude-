@@ -3,7 +3,7 @@
 // Constructeur
 Joueur::Joueur() {
     nbVies = 3;
-    money = 10;
+    money = 200;
 }
 
 // Destructeur

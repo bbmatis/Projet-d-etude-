@@ -6,21 +6,24 @@ Defense::Defense(typeDef typeDef) {
     level = 1;
     switch (type)
     {
-        case CANNON:
+        case CANON:
             reloadTime = 0.5f;
             damage = 5;
             range = 5;
+            prix = 50;
             break;
-        case DOUBLECANNON:
+        case DOUBLECANON:
             reloadTime = 0.25f;
             damage = 5;
             range = 3;
+            prix = 100;
             break;
         case MORTIER:
             reloadTime = 2.0f;
             damage = 100;
             range = 8;
             zoneDamage = true;
+            prix = 200;
             break;
         default:
             break;

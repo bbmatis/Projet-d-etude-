@@ -19,8 +19,8 @@ class GameTxt {
         //! \fn afficher le jeu en mode textuel
         void afficher();
 
-        //! \fn afficher les prix des défenses
-        void afficherPrix();
+        //! \fn jouer le jeu en mode textuel
+        void jouer();
         
 };
 

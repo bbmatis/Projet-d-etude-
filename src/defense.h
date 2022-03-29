@@ -2,7 +2,7 @@
 #define DEFENSE_H
 
 
-enum typeDef {RIEN, CANNON, DOUBLECANNON, MORTIER};
+enum typeDef {RIEN, CANON, DOUBLECANON, MORTIER};
 
 class Defense {
     private: 

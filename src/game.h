@@ -4,6 +4,7 @@
 #include "defense.h"
 #include "monstre.h"
 #include "joueur.h"
+#include "vecteur2D.h"
 
 #define LARGEUR 25
 #define HAUTEUR 15
@@ -14,7 +15,7 @@
 struct Projectile
 {
     unsigned int defenseWhoSendMe; // Identifie de quelle defense vient le projectile 
-    unsigned int posX, posY; // Position du projectil
+    Vecteur2D position; // Position du projectil
     float vitesse; // vitesse du projectile
 };
 
@@ -22,6 +23,14 @@ class Game {
     private:
         unsigned int score;
         int time;
+
+        //! \fn Acheter une défense
+        //! \param type type de défense à acheter
+        void buyDef(typeDef type);
+
+        //! \fn vendre une défense
+        //! \param defense défense à vendre
+        void sellDef(Defense defense);
 
     public:
         Monstre *monstres;
@@ -42,15 +51,10 @@ class Game {
 
         void InitPlateauJeu(); //test Initialisation du plateau de jeu, rempli de Def et non Null -> affichage texte
 
-        //void AddDefPlateau(Vecteur2D PosDef);
-
-        //! \fn Acheter une défense
-        //! \param type type de défense à acheter
-        void buyDef(typeDef type);
-
-        //! \fn vendre une défense
-        //! \param defense défense à vendre
-        void sellDef(Defense defense);
+        //! \fn Placer une défense
+        //! \param defense défense à placer
+        //! \param position position de la défense
+        void placerDef(typeDef defense, unsigned int position);
 
         //! \fn Améliorer une défense
         //! \param defense défense à améliorer
