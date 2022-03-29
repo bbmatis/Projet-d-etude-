@@ -27,7 +27,7 @@ class Game {
         Monstre *monstres;
         Defense *defenses;
         Projectile *projectiles;
-        Joueur joueur();
+        Joueur joueur;
         
         //! \fn Constructeur
         Game();
