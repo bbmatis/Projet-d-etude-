@@ -3,6 +3,7 @@
 // Constructeur
 Joueur::Joueur() {
     nbVies = 3;
+    money = 10;
 }
 
 

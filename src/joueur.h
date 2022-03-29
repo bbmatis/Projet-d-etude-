@@ -5,14 +5,18 @@ class Joueur {
 
     private:
         unsigned int nbVies;
+        
 
     public:
+
+        unsigned int money; /** \param money porte-monnaie du joueur pendant la partie **/
+
         //! \fn Constructeur
         Joueur();
 
         //! \fn Destructeur
         ~Joueur();
-
+        
         //! \fn Obtenir le nombre de vies du joueur
         unsigned int getNbVies() const;
 
