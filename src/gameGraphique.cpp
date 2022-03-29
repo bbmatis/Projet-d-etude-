@@ -1,1 +1,1 @@
-#include "GameGraphique.h"
+#include "gameGraphique.h"
