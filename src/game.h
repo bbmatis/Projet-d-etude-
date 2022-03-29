@@ -22,7 +22,7 @@ struct Projectile
 class Game {
     private:
         unsigned int score;
-        Joueur joueur();
+        Joueur joueur;
         int time;
 
     public:
@@ -50,6 +50,18 @@ class Game {
         void InitPlateauJeu(); //test Initialisation du plateau de jeu, rempli de Def et non Null -> affichage texte
 
         //void AddDefPlateau(Vecteur2D PosDef);
+
+        //! \fn Acheter une défense
+        //! \param type type de défense à acheter
+        void buyDef(typeDef type);
+
+        //! \fn vendre une défense
+        //! \param defense défense à vendre
+        void sellDef(Defense defense);
+
+        //! \fn Améliorer une défense
+        //! \param defense défense à améliorer
+        void upgradeDef(Defense defense);
 
 };
 
