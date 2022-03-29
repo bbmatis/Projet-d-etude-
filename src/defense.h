@@ -12,8 +12,7 @@ class Defense {
         unsigned int range;
         unsigned int level;
         typeDef type;
-        unsigned int cost;
-        //Vecteur2D Position : pour récup la pos d'une def sur le plateau ?
+        unsigned int prix;
     public:
         //! \fn Constructeur
         //! \param type Type de la défense
