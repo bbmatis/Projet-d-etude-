@@ -23,7 +23,6 @@ void Game::init() {
 }
 
 void Game::InitVagueMonstre(){ //test voir le .h
-    // TODO : Initialiser les monstres de la vague
 
      for(int i=1; i<=MAX_MONSTRES/2; i++)
     {
@@ -34,21 +33,9 @@ void Game::InitVagueMonstre(){ //test voir le .h
 
 // Initialiser le plateau de jeu
 void Game::InitPlateauJeu(){
-    // TODO : Initialiser le plateau de jeu
 
-}
-
-// Acheter une défense
-void Game::buyDef(typeDef type) {  
-    Defense defense(type);
-    if (defense.getPrix() <= joueur.money) {
-         joueur.money -= defense.getPrix();
-        cout << "Vous avez acheté une " << type << " pour " << defense.getPrix() << " Money" << endl;
-    } else {
-        cout << "Vous n'avez pas assez d'argent pour acheter cette défense" << endl;
-    }
-
-    // TODO: Ajouter la défense au jeu
+    for(int i=0; i<HAUTEUR; i++) for(int j=0; j<LARGEUR/2; j++)
+        defenses[j*2] = Defense(CANON); // Initialisation des defenses
 }
 
 // Placer une défense
@@ -84,6 +71,20 @@ void Game::placerDef(typeDef defense, unsigned int position) {
     defenses[position] = defense_tmp;
     joueur.money -= defense_tmp.getPrix();
     cout << "Vous avez acheté une " << defense_tmp.getType() << " pour " << defense_tmp.getPrix() << " Money" << endl;
+}
+
+
+// Acheter une défense
+void Game::buyDef(typeDef type) {  
+    Defense defense(type);
+    if (defense.getPrix() <= joueur.money) {
+         joueur.money -= defense.getPrix();
+        cout << "Vous avez acheté une " << type << " pour " << defense.getPrix() << " Money" << endl;
+    } else {
+        cout << "Vous n'avez pas assez d'argent pour acheter cette défense" << endl;
+    }
+
+    // TODO: Ajouter la défense au jeu
 }
 
 // vendre une défense

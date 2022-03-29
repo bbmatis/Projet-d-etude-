@@ -1,6 +1,6 @@
 #include "gameTxt.h"
 #include <iostream>
-#include "defense.h"
+#include "game.h"
 
 using namespace std;
 
@@ -93,7 +93,7 @@ void GameTxt::jouer() {
 
     // On demande au joueur de choisir un type de defense
     int typeN;
-    cout << "Quel type de defense voulez vous placer sur la case "<<position<<"?\n 1 : DOUBLECANNON\n 2 : CANNON\n 3 : MORTIER\n";
+    cout << "Quel type de defense voulez vous placer sur la case "<<position<<"?\n 1 : DOUBLECANON\n 2 : CANON\n 3 : MORTIER\n";
     cin >> typeN;
 
     // On convertit le type de defense en typeDef

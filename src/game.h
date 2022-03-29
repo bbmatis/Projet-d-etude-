@@ -34,9 +34,9 @@ class Game {
         void sellDef(Defense defense);
 
     public:
-        vector<Monstre> monstres;
-        vector<Defense> defenses;
-        vector<Projectile> projectiles;
+        std::vector<Monstre> monstres;
+        std::vector<Defense> defenses;
+        std::vector<Projectile> projectiles;
         
         Joueur joueur;
         

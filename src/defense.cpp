@@ -86,7 +86,7 @@ void Defense::upgrade() {
 
 // Attaque le/les monstres autour d'elle même
 void Defense::attackNearby() const {
-    Monstre m;
+    /*Monstre m;
     bool attack = false;
     //si le monstre est entre le milieu de la case et la portée de la defense
     if(((getCentre(case) + getRange()) > m.getPosition())&&(m.getPosition() < getCentre(case))) {
@@ -95,7 +95,7 @@ void Defense::attackNearby() const {
     if(attack == true) {
         unsigned int newhp = m.getHp() - damage;
         m.setHp(newhp);
-    }
+    }*/
 }
 
 
