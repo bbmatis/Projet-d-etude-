@@ -19,6 +19,8 @@ Defense::Defense(typeDef typeDef) {
             damage = 100;
             zoneDamage = true;
             break;
+        default:
+            break;
     }
 }
 

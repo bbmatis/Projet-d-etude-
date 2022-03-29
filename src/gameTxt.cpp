@@ -27,8 +27,4 @@ void GameTxt::afficher(){ //test voir le .h
         cout<<endl;
     }
     
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 66a5b15db994673f636cc3919132822bca0a6acc

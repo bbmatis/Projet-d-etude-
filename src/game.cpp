@@ -50,7 +50,6 @@ void Game::InitPlateauJeu(){ //test voir le .h
     {
         for(int j=0; j<LARGEUR/2; j++)
         {
-            defenses[j] = Defense(RIEN);
             defenses[j*2] = Defense(CANNON); 
         }
     }

@@ -24,8 +24,4 @@ class GameTxt {
         
 };
 
-<<<<<<< HEAD
 #endif
-=======
-#endif
->>>>>>> 66a5b15db994673f636cc3919132822bca0a6acc
