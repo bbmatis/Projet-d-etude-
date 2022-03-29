@@ -22,6 +22,8 @@ Defense::Defense(typeDef typeDef) {
             range = 8;
             zoneDamage = true;
             break;
+        default:
+            break;
     }
 }
 
