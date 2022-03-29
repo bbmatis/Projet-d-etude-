@@ -1,8 +1,8 @@
 class Vecteur2D
 {
-    
-    Vecteur2D x,y;
 
+    Vecteur2D x,y;
+    
 };
 
 Vecteur2D::Vecteur2D() {
