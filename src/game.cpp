@@ -34,8 +34,9 @@ void Game::InitVagueMonstre(){ //test voir le .h
 // Initialiser le plateau de jeu
 void Game::InitPlateauJeu(){
 
-    for(int i=0; i<HAUTEUR; i++) for(int j=0; j<LARGEUR/2; j++)
-        defenses[j*2] = Defense(CANON); // Initialisation des defenses
+    for(int i=0; i<HAUTEUR; i++) 
+        for(int j=0; j<=LARGEUR/2; j++)
+            defenses.insert(defenses.begin() + i, Defense(CANON)); // Initialisation des defenses
 }
 
 // Placer une défense
@@ -71,6 +72,7 @@ void Game::placerDef(typeDef defense, unsigned int position) {
     defenses[position] = defense_tmp;
     joueur.money -= defense_tmp.getPrix();
     cout << "Vous avez acheté une " << defense_tmp.getType() << " pour " << defense_tmp.getPrix() << " Money" << endl;
+    
 }
 
 
