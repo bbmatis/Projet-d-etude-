@@ -8,13 +8,10 @@ enum TypeMonstres {Mob1, Mob2, Mob3};
 class Monstre {
 
     private:
-
-        
         float speed;            /** \param speed Vitesse du monstre **/
         Vecteur2D position;     /** \param position Vecteur position (x;y) du monstre**/
         unsigned int hp;        /** \param hp Nombre de points de vie du monstre**/
      
-
     public:
         //! \fn Constructeur
         //! \param type Type du monstre

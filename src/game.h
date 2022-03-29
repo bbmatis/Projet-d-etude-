@@ -5,6 +5,7 @@
 #include "monstre.h"
 #include "joueur.h"
 #include "vecteur2D.h"
+#include <vector>
 
 #define LARGEUR 25
 #define HAUTEUR 15
@@ -33,11 +34,13 @@ class Game {
         void sellDef(Defense defense);
 
     public:
-        Monstre *monstres;
-        Defense *defenses;
-        Projectile *projectiles;
+        vector<Monstre> monstres;
+        vector<Defense> defenses;
+        vector<Projectile> projectiles;
+        
         Joueur joueur;
         
+
         //! \fn Constructeur
         Game();
         

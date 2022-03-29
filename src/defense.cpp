@@ -1,4 +1,5 @@
 #include "defense.h"
+#include "monstre.h"
 
 Defense::Defense(typeDef typeDef) {
     type = typeDef;
@@ -83,9 +84,18 @@ void Defense::upgrade() {
     // Todo: modifier les valeurs de temps de recharge pourquoi pas
 }
 
-// Attaque le/les montres autour d'elle même
+// Attaque le/les monstres autour d'elle même
 void Defense::attackNearby() const {
-    // TODO : tout mdr
+    Monstre m;
+    bool attack = false;
+    //si le monstre est entre le milieu de la case et la portée de la defense
+    if(((getCentre(case) + getRange()) > m.getPosition())&&(m.getPosition() < getCentre(case))) {
+        attack = true;
+    }
+    if(attack == true) {
+        unsigned int newhp = m.getHp() - damage;
+        m.setHp(newhp);
+    }
 }
 
 

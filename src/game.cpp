@@ -6,15 +6,12 @@ using namespace std;
 Game::Game() {
     score = .0;
     time = .0f;
-    monstres = new Monstre[MAX_MONSTRES];           // Créer un taleau de 200 monstres **/
-    defenses = new Defense[LARGEUR*HAUTEUR];        // Créer un tableau de defense de dimension L * H **/
-    projectiles = new Projectile[MAX_PROJECTILES];  // Créer un tableau de projectile de dimension L * H **/
 }
 
 Game::~Game(){
-    delete [] monstres;
-    delete [] defenses;
-    delete [] projectiles;
+    vector<Monstre>().swap(monstres);
+    vector<Defense>().swap(defenses);
+    vector<Projectile>().swap(projectiles);
     score = 0;
     time = .0f;
 }
@@ -28,6 +25,11 @@ void Game::init() {
 void Game::InitVagueMonstre(){ //test voir le .h
     // TODO : Initialiser les monstres de la vague
 
+     for(int i=1; i<=MAX_MONSTRES/2; i++)
+    {
+       monstres.insert(monstres.begin() + i, Monstre(Mob1));
+       monstres.insert(monstres.begin() + MAX_MONSTRES/2 +1 +i, Monstre(Mob2));
+    }
 }
 
 // Initialiser le plateau de jeu
