@@ -21,18 +21,8 @@ Game::~Game(){
 
 // Initialiser le jeu
 void Game::init() {
-    // TODO
+    InitPlateauJeu();
     
-}
-
-// récupérer le score
-unsigned int Game::getScore() {
-    return score;
-}
-
-// définir le score
-void Game::setScore(unsigned int new_score) {
-    score = new_score;
 }
 
 void Game::InitVagueMonstre(){ //test voir le .h
@@ -44,15 +34,11 @@ void Game::InitVagueMonstre(){ //test voir le .h
     }
 }
 
-void Game::InitPlateauJeu(){ //test voir le .h
+// Initialiser le plateau de jeu
+void Game::InitPlateauJeu(){
 
-    for(int i=0; i<HAUTEUR; i++)
-    {
-        for(int j=0; j<LARGEUR/2; j++)
-        {
-            defenses[j*2] = Defense(CANNON); 
-        }
-    }
+    for(int i=0; i<HAUTEUR; i++) for(int j=0; j<LARGEUR/2; j++)
+        defenses[j*2] = Defense(CANNON); // Initialisation des defenses
 }
 
 // Acheter une défense

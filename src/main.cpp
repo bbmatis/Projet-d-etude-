@@ -6,10 +6,9 @@ using namespace std;
 
 int main (void) {
 
+    // Initialisation du jeu
     Game maGame;
-
     maGame.init();
-    maGame.InitPlateauJeu();
 
     // On créer un GameTxt à partir de maGame
     GameTxt maGameTxt(maGame);
@@ -17,7 +16,5 @@ int main (void) {
     // On affiche le jeu
     maGameTxt.afficher();    
 
-
-    cout<<endl;
     return 0;
 }

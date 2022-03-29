@@ -13,22 +13,21 @@
 // Définition de la stucture Projectile
 struct Projectile
 {
-    unsigned int defenseWhoSendMe; /** \param defenseWhoSendMe identifie de quelle defense vient le projectile **/
-    unsigned int posX, posY; /** \param posX position en x du projectile
-                                 \param posY position en y du projectile **/
-    float vitesse; /** \param vitesse vitesse du projectile **/
+    unsigned int defenseWhoSendMe; // Identifie de quelle defense vient le projectile 
+    unsigned int posX, posY; // Position du projectil
+    float vitesse; // vitesse du projectile
 };
 
 class Game {
     private:
         unsigned int score;
-        Joueur joueur;
         int time;
 
     public:
         Monstre *monstres;
         Defense *defenses;
         Projectile *projectiles;
+        Joueur joueur;
         
         //! \fn Constructeur
         Game();
@@ -38,12 +37,6 @@ class Game {
 
         //! \fn Initialiser le jeu
         void init();
-
-        //! \fn getScore
-        unsigned int getScore();
-
-        //! \fn setScore
-        void setScore(unsigned int new_score);
 
         void InitVagueMonstre(); //test Initialisation d'une vague de monstre différent
 

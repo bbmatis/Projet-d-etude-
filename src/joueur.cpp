@@ -6,6 +6,9 @@ Joueur::Joueur() {
     money = 10;
 }
 
+// Destructeur
+Joueur::~Joueur() {
+}
 
 // Obtenir le nombre de vies du joueur
 unsigned int Joueur::getNbVies() const {
