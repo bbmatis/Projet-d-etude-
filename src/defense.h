@@ -1,4 +1,5 @@
-using namespace std;
+#ifndef DEFENSE_H
+#define DEFENSE_H
 
 
 enum typeDef {RIEN, CANNON, DOUBLECANNON, MORTIER};
@@ -11,6 +12,7 @@ class Defense {
         unsigned int range;
         unsigned int level;
         typeDef type;
+        unsigned int cost;
         //Vecteur2D Position : pour récup la pos d'une def sur le plateau ?
     public:
         //! \fn Constructeur
@@ -72,3 +74,4 @@ class Defense {
         
 };
 
+#endif

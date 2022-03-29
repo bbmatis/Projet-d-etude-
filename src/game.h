@@ -1,6 +1,9 @@
+#ifndef GAME_H
+#define GAME_H
+
 #include "defense.h"
 #include "monstre.h"
-#include "Joueur.h"
+#include "joueur.h"
 
 #define LARGEUR 25
 #define HAUTEUR 15
@@ -46,8 +49,8 @@ class Game {
 
         void InitPlateauJeu(); //test Initialisation du plateau de jeu, rempli de Def et non Null -> affichage texte
 
-        void CasePlateauEstVide(); //Dcp regarde si la case du plateau est une def Null ou non 
-
         //void AddDefPlateau(Vecteur2D PosDef);
 
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef MONSTRE_H
+#define MONSTRE_H
+
 struct Vecteur2D
 {
     
@@ -51,3 +54,5 @@ class Monstre {
 
        
 };
+
+#endif

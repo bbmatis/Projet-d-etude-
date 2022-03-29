@@ -77,3 +77,9 @@ void Defense::upgrade() {
 void Defense::attackNearby() const {
     // TODO : tout mdr
 }
+
+
+// Obtenir le prix de la défense
+unsigned int Defense::getPrix() const {
+    return cost;
+}

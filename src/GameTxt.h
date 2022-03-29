@@ -1,3 +1,6 @@
+#ifndef GAMETXT_H
+#define GAMETXT_H
+
 #include "game.h"
 
 class GameTxt {
@@ -7,15 +10,18 @@ class GameTxt {
 
     public: 
         //! \fn Constructeur
-        GameTxt();
+        //! \param famosoGame Game à partir de la quel on va créer un GameTxt
+        GameTxt(Game famosoGame);
 
         //! \fn Destructeur
         ~GameTxt();
 
         //! \fn afficher le jeu en mode textuel
-        void afficherGame();
+        void afficher();
 
         //! \fn afficher les prix des défenses
         void afficherPrix();
         
 };
+
+#endif
