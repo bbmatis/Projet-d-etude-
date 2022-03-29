@@ -1,6 +1,8 @@
 #include "game.h"
 #include <iostream>
- 
+
+using namespace std;
+
 Game::Game() {
     score = .0;
     time = .0f;
@@ -52,22 +54,5 @@ void Game::InitPlateauJeu(){ //test voir le .h
             defenses[j*2] = Defense(CANNON); 
         }
     }
-}
-
-void Game::CasePlateauEstVide(){ //test voir le .h
-
-    for(int i=0; i<HAUTEUR; i++)
-    {
-        for(int j=0; j<LARGEUR; j++)
-        {
-            if(defenses[j].getType() == RIEN){ //regarde si la case est "Null"
-                cout<<" 0 ";
-            }
-            else 
-                cout<<" 1 ";
-        }
-        cout<<endl;
-    }
-    
 }
 

@@ -1,8 +1,6 @@
 #include "magasin.h"
 #include <iostream>
 
-using namespace std;
-
 // Acheter une défense
 void Magasin::buyDef(typeDef type) {  
     Defense defense(type);

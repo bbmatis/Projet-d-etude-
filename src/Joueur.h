@@ -1,3 +1,6 @@
+#ifndef JOUEUR_H
+#define JOUEUR_H
+
 class Joueur {
 
     private:
@@ -18,3 +21,5 @@ class Joueur {
         void setNbVies(unsigned int newNbVies);
 
 };
+
+#endif

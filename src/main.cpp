@@ -1,5 +1,8 @@
 #include "game.h"
+#include "gameTxt.h"
 #include <iostream>
+
+using namespace std;
 
 int main (void) {
 
@@ -8,11 +11,13 @@ int main (void) {
     maGame.init();
     maGame.InitPlateauJeu();
 
-    maGame.CasePlateauEstVide();
+    // On créer un GameTxt à partir de maGame
+    GameTxt maGameTxt(maGame);
 
-    
+    // On affiche le jeu
+    maGameTxt.afficher();    
+
+
     cout<<endl;
     return 0;
 }
-
-//Dcp pour l'instant (prblm makefile) je compile avec g++ -Wall src/main.cpp src/game.cpp src/monstre.cpp src/defense.cpp pour les tests.
