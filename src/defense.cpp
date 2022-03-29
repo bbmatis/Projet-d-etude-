@@ -9,14 +9,17 @@ Defense::Defense(typeDef typeDef) {
         case CANNON:
             reloadTime = 0.5f;
             damage = 5;
+            range = 5;
             break;
         case DOUBLECANNON:
             reloadTime = 0.25f;
             damage = 5;
+            range = 3;
             break;
         case MORTIER:
             reloadTime = 2.0f;
             damage = 100;
+            range = 8;
             zoneDamage = true;
             break;
     }
@@ -71,8 +74,8 @@ typeDef Defense::getType() const {
 void Defense::upgrade() {
     level++;
     damage += 5;
-    range = 1;
-    // Todo: modifier les valeurs de dégats et de portée et de temps de recharge pourquoi pas
+    range += 1;
+    // Todo: modifier les valeurs de temps de recharge pourquoi pas
 }
 
 // Attaque le/les montres autour d'elle même
