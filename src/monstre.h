@@ -1,12 +1,7 @@
 #ifndef MONSTRE_H
 #define MONSTRE_H
 
-struct Vecteur2D
-{
-    
-    float x,y;
-
-};
+#include "vector2D.h"
 
 enum TypeMonstres {Mob1, Mob2, Mob3};
 
