@@ -18,11 +18,12 @@ void GameTxt::afficher(){ //test voir le .h
     {
         for(int j=0; j<LARGEUR; j++)
         {
-            if(game.defenses[j].getType() == RIEN){ //regarde si la case est "Null"
-                cout<<" 0 ";
-            }
-            else 
-                cout<<" 1 ";
+            // Si e type de la def est rien a.k.a vide
+            if(game.defenses[j].getType() == RIEN) cout<<" V";
+            else if (game.defenses[j].getType() == DOUBLECANNON) cout<<" D";
+            else if (game.defenses[j].getType() == CANNON) cout<<" C";
+            else if (game.defenses[j].getType() == MORTIER) cout<<" M";
+            cout<<":"<<j+i*LARGEUR;
         }
         cout<<endl;
     }
