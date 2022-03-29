@@ -58,17 +58,18 @@ void GameTxt::afficher(){ //test voir le .h
     {
         for(int j=0; j<LARGEUR; j++)
         {
-            cout<<j+i*LARGEUR;
-            if (j+i*LARGEUR < 100) cout<<" ";
-            if (j+i*LARGEUR < 10) cout<<" ";
+            int indice = j+i*LARGEUR;
+            cout<<indice;
+            if (indice < 100) cout<<" ";
+            if (indice < 10) cout<<" ";
             // Si le type de la def est rien a.k.a vide
-            if(game.defenses[j+i*LARGEUR].getType() == RIEN) cout<<" "<<green<<"V"<<def; 
+            if(game.defenses[indice].getType() == RIEN) cout<<" "<<green<<"V"<<def; 
             // Si le type de la def est Double Canon
-            else if (game.defenses[j+i*LARGEUR].getType() == DOUBLECANON) cout<<red<<"DC"<<def;
+            else if (game.defenses[indice].getType() == DOUBLECANON) cout<<red<<"DC"<<def;
             // Si le type de la def est Canon
-            else if (game.defenses[j+i*LARGEUR].getType() == CANON) cout<<" C";
+            else if (game.defenses[indice].getType() == CANON) cout<<" C";
             // Si le type de la def est Mortier
-            else if (game.defenses[j+i*LARGEUR].getType() == MORTIER) cout<<" M";
+            else if (game.defenses[indice].getType() == MORTIER) cout<<" M";
             cout<<"|";
         }
         cout<<endl;
