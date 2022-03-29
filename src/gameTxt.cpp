@@ -19,11 +19,14 @@ void GameTxt::afficher(){ //test voir le .h
         for(int j=0; j<LARGEUR; j++)
         {
             // Si e type de la def est rien a.k.a vide
+            cout<<j+i*LARGEUR;
+            if (j+i*LARGEUR < 100) cout<<" ";
+            if (j+i*LARGEUR < 10) cout<<" ";
             if(game.defenses[j].getType() == RIEN) cout<<" V";
             else if (game.defenses[j].getType() == DOUBLECANNON) cout<<" D";
             else if (game.defenses[j].getType() == CANNON) cout<<" C";
             else if (game.defenses[j].getType() == MORTIER) cout<<" M";
-            cout<<":"<<j+i*LARGEUR;
+            cout<<"|";
         }
         cout<<endl;
     }
