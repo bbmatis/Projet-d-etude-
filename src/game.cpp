@@ -24,19 +24,30 @@ void Game::init() {
 
 void Game::InitVagueMonstre(){ //test voir le .h
 
-     for(int i=1; i<=MAX_MONSTRES/2; i++)
+     for(int i=0; i<MAX_MONSTRES/2; i++)
     {
-       monstres.insert(monstres.begin() + i, Monstre(Mob1));
-       monstres.insert(monstres.begin() + MAX_MONSTRES/2 +1 +i, Monstre(Mob2));
+       monstres.push_back(Monstre(Mob1));
+       
+    }
+    for(int i=MAX_MONSTRES/2; i<MAX_MONSTRES; i++)
+    {
+       monstres.push_back(Monstre(Mob2));
+       
     }
 }
 
 // Initialiser le plateau de jeu
 void Game::InitPlateauJeu(){
 
-    for(int i=0; i<HAUTEUR; i++) 
-        for(int j=0; j<=LARGEUR/2; j++)
-            defenses.insert(defenses.begin() + i, Defense(CANON)); // Initialisation des defenses
+    for(int i=0; i<HAUTEUR; i++){
+
+        for(int j=0; j<LARGEUR; j++) 
+        {
+            defenses.push_back(Defense());
+
+        }
+    
+    }
 }
 
 // Placer une défense
