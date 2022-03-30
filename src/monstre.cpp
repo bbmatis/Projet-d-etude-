@@ -62,3 +62,9 @@ void Monstre::setHp(unsigned int newHp) {
 Vecteur2D Monstre::getPosition() const {
     return position;
 }
+
+//Définie la position du monstre
+void Monstre::setPosition(int new_x, int new_y){
+    position.x = new_x;
+    position.y = new_y;
+}

@@ -126,7 +126,7 @@ void GameTxt::jouer() {
                 cin >> position;
 
                 //Upgrade la défense qui est à la position n°_
-                game.upgradeDef(position);
+                game.upgradeDef(game.defenses[position]);
                 break;
             
             case 3 : 
@@ -135,10 +135,29 @@ void GameTxt::jouer() {
                 cin>>position;
 
                 //Vend la défense qui est à la position n°_
-                game.sellDef(position);
+                game.sellDef(game.defenses[position]);
+                cout<<endl;
                 break;
 
+            case 4 :
+             //Test de la fonction d'attaque de la défense
 
+             game.monstres[1].setPosition(7, 7);
+             int i = 0;
+
+                while(game.monstres[1].getHp() != 0){
+
+                    game.monstres[1].setPosition(7, 7);
+                
+                    game.DefHitMonstre(game.monstres[1], 183, 9, 9);//coord 9, 9 choisit par moi pour test
+
+                    cout<<endl;
+
+                    
+                }
+                
+                break;
+            
 
         }
 

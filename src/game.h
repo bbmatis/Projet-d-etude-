@@ -29,7 +29,8 @@ class Game {
         //! \param type type de défense à acheter
         void buyDef(typeDef type);
 
-        
+        float Distance(int x1, int y1, int x2, int y2);
+               
 
     public:
         std::vector<Monstre> monstres;
@@ -59,11 +60,18 @@ class Game {
 
         //! \fn vendre une défense
         //! \param position position de la défense à vendre
-        void sellDef(unsigned int position);
+        void sellDef(Defense & defense);
 
         //! \fn Améliorer une défense
         //! \param position position de la défense à améliorer
-        void upgradeDef(unsigned int position);
+        void upgradeDef(Defense & defense);
+
+        //! \fn La défense haagrah un monstre
+        //! \param IndiceDuMonstre Indice du monstre qui va se faire bully
+        //! \param Defposition position de la défense qui va attaquer
+        //! \param Defx coord x de la défense à améliorer
+        //! \param Defy coord y de la défense à améliorer
+        void DefHitMonstre(Monstre & monstre, unsigned int Defposition ,int Defx, int Defy);
 
 
 };

@@ -61,10 +61,7 @@ class Defense {
 
         //! \fn Obtenir le type de la défense
         typeDef getType() const;
-
-        //! \fn Attaque le/les montres autour d'elle même
-        void attackNearby() const;
-
+        
         //! \fn Améliorer la défense au niveau supérieur
         void upgrade();
 

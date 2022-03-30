@@ -1,5 +1,6 @@
 #include "game.h"
 #include <iostream>
+#include <math.h>
 
 using namespace std;
 
@@ -23,7 +24,17 @@ void Game::init() {
     
 }
 
-void Game::InitVagueMonstre(){ //test voir le .h
+//retourne la distance entre 2 points
+float Game::Distance(int x1, int y1, int x2, int y2)
+{
+    int xDist = x2 -x1;
+    int yDist = y2 - y1;
+
+    return sqrt(pow(xDist, 2) + pow(yDist, 2));
+}
+
+//Initialise le tableau de monstre (vague)
+void Game::InitVagueMonstre(){ 
 
      for(int i=0; i<MAX_MONSTRES/2; i++)
     {
@@ -37,7 +48,7 @@ void Game::InitVagueMonstre(){ //test voir le .h
     }
 }
 
-// Initialiser le plateau de jeu
+// Initialiser le plateau de jeu (défenses)
 void Game::InitPlateauJeu(){
 
     for(int i=0; i<HAUTEUR; i++){
@@ -102,13 +113,13 @@ void Game::buyDef(typeDef type) {
 }
 
 // vendre une défense 
-void Game::sellDef(unsigned int position) {
+void Game::sellDef(Defense & defense) {
 
-    if(defenses[position].getType() != RIEN) 
+    if(defense.getType() != RIEN) 
     {
-        joueur.money += defenses[position].getPrix()/2; // On lui donne que la moitié de la thune hein
-        cout << "Vous avez vendu une " << defenses[position].getType() << " pour " << defenses[position].getPrix()/2 << " Money" << endl;
-        defenses[position] = Defense();
+        joueur.money += defense.getPrix()/2; // On lui donne que la moitié de la thune hein
+        cout << "Vous avez vendu une " << defense.getType() << " pour " << defense.getPrix()/2 << " Money" << endl;
+        defense = Defense(); //remplace la def par une case vide
     }
     else{
         cout<<"Impossible : La case ne contient aucune défense !\n";
@@ -116,22 +127,43 @@ void Game::sellDef(unsigned int position) {
 
 
 
-    // TODO: Enlever la défense du jeu
 }
 
 // Améliorer une défense au niveau supérieur
-void Game::upgradeDef(unsigned int position) {
-    if (defenses[position].getType() == RIEN){
+void Game::upgradeDef(Defense &defense) {
+    if (defense.getType() == RIEN){
 
         cout<<"Il n'y a pas de défense sur cette case !"<<endl;
     }
-    else if (defenses[position].getPrix()*2 <= joueur.money) { // TODO : Choisir le cout de l'amélioration
-        joueur.money -= defenses[position].getPrix();
-        defenses[position].upgrade();
-        cout << "Vous avez amélioré une " << defenses[position].getType() << " pour " << defenses[position].getPrix() << " Money" << endl;
+    else if (defense.getPrix()*2 <= joueur.money) { // TODO : Choisir le cout de l'amélioration
+        joueur.money -= defense.getPrix();
+        defense.upgrade();
+        cout << "Vous avez amélioré une " << defense.getType() << " pour " << defense.getPrix() << " Money" << endl;
     } 
     else {
         cout << "Vous n'avez pas assez d'argent pour améliorer cette défense" << endl;
     }
+}
+
+//La défense attaque le monstre
+void Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition, int Defx, int Defy){
+
+    //le monstre est dans le rayon d'attaque de la defense
+    if(Distance(monstre.getPosition().x,monstre.getPosition().y, Defx, Defy) < 3)
+    {
+        
+        //Charge la nouvelle vie du monstre en fonction de l'atq de la def 
+        int new_life = monstre.getHp()-defenses[Defposition].getDamage();
+      
+        //Change la vie du monstre
+        monstre.setHp(new_life);
+
+        cout<<"le monstre à été touché, il lui reste : "<<monstre.getHp()<<" hp"<<endl;
+        
+    }
+    //le monstre est en dehors du rayon d'attaque de la defense
+    else
+        cout<<"le monstre n'a pas été touché"<<endl;
+
 }
 

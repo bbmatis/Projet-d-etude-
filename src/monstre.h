@@ -44,6 +44,9 @@ class Monstre {
         //! \fn Obtenir la position du monstre
         Vecteur2D getPosition() const;
 
+        //! \fn Modifie la position du montre
+        void setPosition(int new_x, int new_y);
+
        
 };
 

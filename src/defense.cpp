@@ -84,19 +84,6 @@ void Defense::upgrade() {
     // Todo: modifier les valeurs de temps de recharge pourquoi pas
 }
 
-// Attaque le/les monstres autour d'elle même
-void Defense::attackNearby() const {
-    /*Monstre m;
-    bool attack = false;
-    //si le monstre est entre le milieu de la case et la portée de la defense
-    if(((getCentre(case) + getRange()) > m.getPosition())&&(m.getPosition() < getCentre(case))) {
-        attack = true;
-    }
-    if(attack == true) {
-        unsigned int newhp = m.getHp() - damage;
-        m.setHp(newhp);
-    }*/
-}
 
 
 // Obtenir le prix de la défense
