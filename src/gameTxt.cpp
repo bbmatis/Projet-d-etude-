@@ -69,7 +69,7 @@ void GameTxt::afficher(){ //test voir le .h
             // Si le type de la def est Canon
             else if (game.defenses[indice].getType() == CANON) cout<<" C";
             // Si le type de la def est Mortier
-            else if (game.defenses[indice].getType() == MORTIER) cout<<" M";
+            else if (game.defenses[indice].getType() == MORTIER) cout<<blue<<" M"<<def;
             cout<<"|";
         }
         cout<<endl;
@@ -83,30 +83,71 @@ void GameTxt::afficher(){ //test voir le .h
 // Jouer le jeu en mode textuel
 void GameTxt::jouer() {
 
-    // On affiche le jeu
-    afficher();
+    while(true){
 
-    // On demande au joueur de choisir une position
-    int position;
-    cout << "Dans quel case voulez vous placer une defense ?";
-    cin >> position;
+        // On affiche le jeu
+        afficher();
 
-    // On demande au joueur de choisir un type de defense
-    int typeN;
-    cout << "Quel type de defense voulez vous placer sur la case "<<position<<"?\n 1 : DOUBLECANON\n 2 : CANON\n 3 : MORTIER\n";
-    cin >> typeN;
 
-    // On convertit le type de defense en typeDef
-    typeDef type;
-    if (typeN == 1) type = DOUBLECANON;
-    else if (typeN == 2) type = CANON;
-    else if (typeN == 3) type = MORTIER;
-    else type = RIEN;
 
-    // On demande de placer la defense
-    game.placerDef(type, position);
+        cout << "Que voulez vous faire ? :\n 1 : Ajouter une défense\n 2 : Améliorer une défense\n "
+                "3 : Vendre une défense\n 4 : Lancer la partie\n";
+        int choix;
+        cin >> choix;
 
-    // On affiche le jeu
-    afficher();
+
+        switch(choix)
+        {
+            case 1 :
+                // On demande au joueur de choisir une position
+                int position;
+                cout << "Dans quel case voulez vous placer une defense ?";
+                cin >> position;
+
+                // On demande au joueur de choisir un type de defense
+                int typeN;
+                cout << "Quel type de defense voulez vous placer sur la case "<<position<<"?\n 1 : DOUBLECANON\n 2 : CANON\n 3 : MORTIER\n";
+                cin >> typeN;
+
+                // On convertit le type de defense en typeDef
+                typeDef type;
+                if (typeN == 1) type = DOUBLECANON;
+                else if (typeN == 2) type = CANON;
+                else if (typeN == 3) type = MORTIER;
+                else type = RIEN;
+
+                // On demande de placer la defense
+                game.placerDef(type, position);
+                break;
+
+            case 2 :
+                // On demande au joueur de choisir une position
+                cout << "Donner la position de la défense à améliorer : ";
+                cin >> position;
+
+                //Upgrade la défense qui est à la position n°_
+                game.upgradeDef(position);
+                break;
+            
+            case 3 : 
+
+                cout<< "Donner la position de la défense à vendre : ";
+                cin>>position;
+
+                //Vend la défense qui est à la position n°_
+                game.sellDef(position);
+                break;
+
+
+
+        }
+
+
+
+
+        
+
+
+    }
 
 }

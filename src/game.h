@@ -29,9 +29,7 @@ class Game {
         //! \param type type de défense à acheter
         void buyDef(typeDef type);
 
-        //! \fn vendre une défense
-        //! \param defense défense à vendre
-        void sellDef(Defense defense);
+        
 
     public:
         std::vector<Monstre> monstres;
@@ -59,9 +57,14 @@ class Game {
         //! \param position position de la défense
         void placerDef(typeDef defense, unsigned int position);
 
+        //! \fn vendre une défense
+        //! \param position position de la défense à vendre
+        void sellDef(unsigned int position);
+
         //! \fn Améliorer une défense
-        //! \param defense défense à améliorer
-        void upgradeDef(Defense defense);
+        //! \param position position de la défense à améliorer
+        void upgradeDef(unsigned int position);
+
 
 };
 

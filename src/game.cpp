@@ -19,6 +19,7 @@ Game::~Game(){
 // Initialiser le jeu
 void Game::init() {
     InitPlateauJeu();
+    InitVagueMonstre();
     
 }
 
@@ -100,21 +101,36 @@ void Game::buyDef(typeDef type) {
     // TODO: Ajouter la défense au jeu
 }
 
-// vendre une défense
-void Game::sellDef(Defense defense) {
-    joueur.money += defense.getPrix()/2; // On lui donne que la moitié de la thune hein
-    cout << "Vous avez vendu une " << defense.getType() << " pour " << defense.getPrix() << " Money" << endl;
+// vendre une défense 
+void Game::sellDef(unsigned int position) {
+
+    if(defenses[position].getType() != RIEN) 
+    {
+        joueur.money += defenses[position].getPrix()/2; // On lui donne que la moitié de la thune hein
+        cout << "Vous avez vendu une " << defenses[position].getType() << " pour " << defenses[position].getPrix()/2 << " Money" << endl;
+        defenses[position] = Defense();
+    }
+    else{
+        cout<<"Impossible : La case ne contient aucune défense !\n";
+    }
+
+
 
     // TODO: Enlever la défense du jeu
 }
 
 // Améliorer une défense au niveau supérieur
-void Game::upgradeDef(Defense defense) {
-    if (defense.getPrix()*2 <= joueur.money) { // TODO : Choisir le cout de l'amélioration
-        joueur.money -= defense.getPrix();
-        defense.upgrade();
-        cout << "Vous avez amélioré une " << defense.getType() << " pour " << defense.getPrix() << " Money" << endl;
-    } else {
+void Game::upgradeDef(unsigned int position) {
+    if (defenses[position].getType() == RIEN){
+
+        cout<<"Il n'y a pas de défense sur cette case !"<<endl;
+    }
+    else if (defenses[position].getPrix()*2 <= joueur.money) { // TODO : Choisir le cout de l'amélioration
+        joueur.money -= defenses[position].getPrix();
+        defenses[position].upgrade();
+        cout << "Vous avez amélioré une " << defenses[position].getType() << " pour " << defenses[position].getPrix() << " Money" << endl;
+    } 
+    else {
         cout << "Vous n'avez pas assez d'argent pour améliorer cette défense" << endl;
     }
 }
