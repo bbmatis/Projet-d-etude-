@@ -9,15 +9,9 @@ namespace Color {
     enum Code {
         FG_RED          = 31,
         FG_GREEN        = 32,
-        FG_BLUE         = 34,
-        FG_MAGENTA      = 35,
         FG_CYAN         = 36,
-        BG_RED          = 41,
-        BG_GREEN        = 42,
-        BG_BLUE         = 44,
-        BG_MAGENTA      = 45,
         BG_DEFAULT      = 49,
-        FG_DEFAULT      = 39,
+        FG_DEFAULT      = 39
     };
     class Modifier {
         Code code;
@@ -33,13 +27,7 @@ Color::Modifier def(Color::FG_DEFAULT);
 Color::Modifier bgDef(Color::BG_DEFAULT);
 Color::Modifier red(Color::FG_RED);
 Color::Modifier green(Color::FG_GREEN);
-Color::Modifier blue(Color::FG_BLUE);
-Color::Modifier magenta(Color::FG_MAGENTA);
 Color::Modifier cyan(Color::FG_CYAN);
-Color::Modifier bgRed(Color::BG_RED);
-Color::Modifier bgGreen(Color::BG_GREEN);
-Color::Modifier bgBlue(Color::BG_BLUE);
-Color::Modifier bgMagenta(Color::BG_MAGENTA);
 
 
 
@@ -64,12 +52,12 @@ void GameTxt::afficher(){ //test voir le .h
             if (indice < 10) cout<<" ";
             // Si le type de la def est rien a.k.a vide
             if(game.defenses[indice].getType() == RIEN) cout<<" "<<green<<"V"<<def; 
+            // Si le type de la def est Canon
+            else if (game.defenses[indice].getType() == CANON) cout<<red<<" C"<<def;
             // Si le type de la def est Double Canon
             else if (game.defenses[indice].getType() == DOUBLECANON) cout<<red<<"DC"<<def;
-            // Si le type de la def est Canon
-            else if (game.defenses[indice].getType() == CANON) cout<<" C";
             // Si le type de la def est Mortier
-            else if (game.defenses[indice].getType() == MORTIER) cout<<blue<<" M"<<def;
+            else if (game.defenses[indice].getType() == MORTIER) cout<<red<<" M"<<def;
             cout<<"|";
         }
         cout<<endl;
@@ -95,7 +83,8 @@ void GameTxt::jouer() {
         int choix;
         cin >> choix;
 
-
+        // On déclare une variable pour stocker les retours des fonctions
+        int retour;
         switch(choix)
         {
             case 1 :
@@ -106,18 +95,35 @@ void GameTxt::jouer() {
 
                 // On demande au joueur de choisir un type de defense
                 int typeN;
-                cout << "Quel type de defense voulez vous placer sur la case "<<position<<"?\n 1 : DOUBLECANON\n 2 : CANON\n 3 : MORTIER\n";
+                cout << "Quel type de defense voulez vous placer sur la case "<<position<<"?\n 1 : CANON (50)\n 2 : DOUBLECANON (100)\n 3 : MORTIER (200)\n";
                 cin >> typeN;
 
                 // On convertit le type de defense en typeDef
                 typeDef type;
-                if (typeN == 1) type = DOUBLECANON;
-                else if (typeN == 2) type = CANON;
+                if (typeN == 1) type = CANON;
+                else if (typeN == 2) type = DOUBLECANON;
                 else if (typeN == 3) type = MORTIER;
                 else type = RIEN;
 
                 // On demande de placer la defense
-                game.placerDef(type, position);
+                retour = game.placerDefense(type, position);
+
+                // On regarde si c'est un succès
+                if (retour == 0) cout <<green<< "Vous avez bien placé une defense dans la case "<<position<<" !\n"<<def;
+                else {
+                    // Sinon c'est qu'il y as une erreur
+                    cout << red << "Erreur lors de la création de la defense : " << endl;
+                    // Si le type de defense est invalide
+                    if (retour == -1) cout<< "Le type de defense n'est pas valide."<<endl;
+                    // Si la position est invalide
+                    else if (retour == -2) cout << "La position choisie est invalide."<<endl;
+                    // Si le joueur n'a pas assez d'argent
+                    else if (retour == -3) cout << "Vous n'avez pas assez d'argent pour acheter cette défense."<<endl;
+                    // Si l'erreur n'est pas connue (seems weird :thonk:)
+                    else cout << "Erreur inconnue."<<endl; 
+                    cout << def;
+                }
+
                 break;
 
             case 2 :
@@ -143,7 +149,7 @@ void GameTxt::jouer() {
              //Test de la fonction d'attaque de la défense
 
              game.monstres[1].setPosition(7, 7);
-             int i = 0;
+            //  int i = 0;
 
                 while(game.monstres[1].getHp() != 0){
 
