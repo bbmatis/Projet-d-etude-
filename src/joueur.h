@@ -5,7 +5,7 @@ class Joueur {
 
     private:
         unsigned int nbVies;
-        
+        unsigned int score;
 
     public:
 
@@ -23,6 +23,13 @@ class Joueur {
         //! \fn Modifier le nombre de vies du joueur
         //! \param newNbVies Nouveau nombre de vies
         void setNbVies(unsigned int newNbVies);
+
+        //! \fn Obtenir le score du joueur
+        unsigned int getScore() const;
+
+        //! \fn Modifier le score du joueur
+        //! \param newScore Nouveau score
+        void setScore(unsigned int newScore);
 
 };
 

@@ -186,7 +186,6 @@ void GameTxt::jouer() {
                 
                 break;
             
-            
 
         }
 

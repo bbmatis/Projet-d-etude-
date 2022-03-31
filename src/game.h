@@ -22,7 +22,7 @@ struct Projectile
 
 class Game {
     private:
-        unsigned int score;
+        //unsigned int score;
         int time;
 
         //! \fn Acheter une défense
@@ -76,7 +76,10 @@ class Game {
         //! \param Defy coord y de la défense à améliorer
         void DefHitMonstre(Monstre & monstre, unsigned int Defposition ,int Defx, int Defy);
 
-
+        //! \fn Incrémentation du score
+        //! \brief Permet de gérer le score
+        //! \param score score du joueur
+        void gestionScore(Joueur &joueur);
 };
 
 #endif

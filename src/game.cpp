@@ -1,20 +1,21 @@
 #include "game.h"
 #include <iostream>
 #include <math.h>
+//#include <time.h>
 
 using namespace std;
 
 Game::Game() {
-    score = .0;
-    time = .0f;
+    //score = 0;
+    //time = 0;
 }
 
 Game::~Game(){
     vector<Monstre>().swap(monstres);
     vector<Defense>().swap(defenses);
     vector<Projectile>().swap(projectiles);
-    score = 0;
-    time = .0f;
+    //score = 0;
+    //time = .0f;
 }
 
 // Initialiser le jeu
@@ -135,5 +136,14 @@ void Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition, int Defx, 
     else
         cout<<"le monstre n'a pas été touché"<<endl;
 
+}
+
+// augmente le score en fonction du temps et du nombre de monstres tués 
+void Game::gestionScore(Joueur &joueur) {
+    Monstre monstre;
+    if(monstre.getHp() == 0) {
+        unsigned int newScore = joueur.getScore() + 1;
+        joueur.setScore(newScore);
+    }
 }
 
