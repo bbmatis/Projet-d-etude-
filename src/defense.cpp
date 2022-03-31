@@ -90,3 +90,8 @@ void Defense::upgrade() {
 unsigned int Defense::getPrix() const {
     return prix;
 }
+
+// Obtenir le lvl de la défense
+unsigned int Defense::getLevel() const {
+    return level;
+}

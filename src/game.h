@@ -27,7 +27,6 @@ class Game {
 
         //! \fn Acheter une défense
         //! \param type type de défense à acheter
-        void buyDef(typeDef type);
 
         float Distance(int x1, int y1, int x2, int y2);
                
@@ -58,11 +57,11 @@ class Game {
         //! Retourne 0 si la défense a été placée avec succès, -1 si le type n'est pas valide, -2 si la position n'est pas valide et -3 si le joueur n'a pas assez d'argent.
         //! \param defense défense à placer
         //! \param position position de la défense
-        int placerDefense(typeDef defense, unsigned int position);
+        int buyDefense(typeDef defense, unsigned int position);
 
         //! \fn vendre une défense
         //! \param position position de la défense à vendre
-        void sellDef(Defense & defense);
+        int sellDefense(Defense & defense);
 
         //! \fn Améliorer une défense
         //! \brief Permet d'améliorer une défense.

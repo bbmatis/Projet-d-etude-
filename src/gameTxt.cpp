@@ -91,7 +91,7 @@ void GameTxt::jouer() {
             case 1 :
                 // On demande au joueur de choisir une position
                 int position;
-                cout << "Dans quel case voulez vous placer une defense ?";
+                cout << "Dans quel case voulez vous placer une defense ? ";
                 cin >> position;
 
                 // On demande au joueur de choisir un type de defense
@@ -107,7 +107,7 @@ void GameTxt::jouer() {
                 else type = RIEN;
 
                 // On demande a game de placer la defense
-                retour = game.placerDefense(type, position);
+                retour = game.buyDefense(type, position);
 
                 // On regarde si c'est un succès
                 if (retour == 0) cout <<green<< "Vous avez bien placé une defense dans la case "<<position<<" !\n"<<def;
@@ -154,8 +154,12 @@ void GameTxt::jouer() {
                 cin>>position;
 
                 //Vend la défense qui est à la position n°_
-                game.sellDef(game.defenses[position]);
-                cout<<endl;
+                retour = game.sellDefense(game.defenses[position]);
+
+                // Si la vente est un succès
+                if (retour > 0) cout<<green<<"La défense a été vendue avec succés ! Vous avez récupérer " << retour << " d'argent !"<<def<<endl;
+                else cout<<red<<"Erreur : Il n'y as pas de défense à cette position."<<def<<endl;
+
                 break;
 
             case 4 :

@@ -62,8 +62,8 @@ void Game::InitPlateauJeu(){
     }
 }
 
-// Placer une défense
-int Game::placerDefense(typeDef defense, unsigned int position) {
+// Acheter et placer une défense
+int Game::buyDefense(typeDef defense, unsigned int position) {
 
     // On vérifie que le type de défense est valide
     if (defense == RIEN) return -1;
@@ -85,35 +85,19 @@ int Game::placerDefense(typeDef defense, unsigned int position) {
     return 0;
 }
 
-
-// Acheter une défense
-void Game::buyDef(typeDef type) {  
-    Defense defense(type);
-    if (defense.getPrix() <= joueur.money) {
-         joueur.money -= defense.getPrix();
-        cout << "Vous avez acheté une " << type << " pour " << defense.getPrix() << " Money" << endl;
-    } else {
-        cout << "Vous n'avez pas assez d'argent pour acheter cette défense" << endl;
-    }
-
-    // TODO: Ajouter la défense au jeu
-}
-
 // vendre une défense 
-void Game::sellDef(Defense & defense) {
+int Game::sellDefense(Defense & defense) {
 
-    if(defense.getType() != RIEN) 
-    {
-        joueur.money += defense.getPrix()/2; // On lui donne que la moitié de la thune hein
-        cout << "Vous avez vendu une " << defense.getType() << " pour " << defense.getPrix()/2 << " Money" << endl;
-        defense = Defense(); //remplace la def par une case vide
-    }
-    else{
-        cout<<"Impossible : La case ne contient aucune défense !\n";
-    }
+    // Si la défense est vide
+    if (defense.getType() == RIEN) return -1;
 
+    // On définit le prix de la vente de la défense
+    int prix = defense.getPrix()*defense.getLevel() / 2;
 
-
+    // On vend la défense
+    joueur.money += prix; // On lui donne que la moitié de la thune hein
+    defense = Defense(); //remplace la def par une case vide
+    return prix;
 }
 
 // Améliorer une défense au niveau supérieur
