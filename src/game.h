@@ -54,9 +54,11 @@ class Game {
         void InitPlateauJeu(); //test Initialisation du plateau de jeu, rempli de Def et non Null -> affichage texte
 
         //! \fn Placer une défense
+        //! \brief Permet de placer une défense sur le plateau de jeu.
+        //! Retourne 0 si la défense a été placée avec succès, -1 si le type n'est pas valide, -2 si la position n'est pas valide et -3 si le joueur n'a pas assez d'argent.
         //! \param defense défense à placer
         //! \param position position de la défense
-        void placerDef(typeDef defense, unsigned int position);
+        int placerDefense(typeDef defense, unsigned int position);
 
         //! \fn vendre une défense
         //! \param position position de la défense à vendre

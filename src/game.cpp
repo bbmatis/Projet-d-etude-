@@ -63,39 +63,26 @@ void Game::InitPlateauJeu(){
 }
 
 // Placer une défense
-void Game::placerDef(typeDef defense, unsigned int position) {
+int Game::placerDefense(typeDef defense, unsigned int position) {
+
     // On vérifie que le type de défense est valide
-    if (defense == RIEN) {
-        cout << "Type de défense non valide" << endl;
-        return;
-    }
+    if (defense == RIEN) return -1;
 
-    // On vérifie que la position valide
-    if (position > LARGEUR*HAUTEUR || position <= 0) {
-        cout << "La position " << position << " n'est pas valide" << endl;
-        return;
-    }
+    // On vérifie que la position valide et qu'il n'y a pas déjà une défense sur cette position
+    if (position > LARGEUR*HAUTEUR || position <= 0 || defenses[position].getType() != RIEN) return -2;
 
-    // On vérifie que la position est libre
-    if (defenses[position].getType() != RIEN) {
-        cout << "La position " << position << " est déjà occupée" << endl;
-        return;
-    }
-
-    // On créer la défense
+    // On créer la défense pour obtenir son prix
     Defense defense_tmp(defense);
 
-    // On vérifie que le joueur a assez d'argent
-    if (defense_tmp.getPrix() > joueur.money) {
-        cout << "Vous n'avez pas assez d'argent pour acheter cette défense" << endl;
-        return;
-    }
+    // On vérifie que le joueur à assez d'argent pour acheter la défense
+    if (defense_tmp.getPrix() > joueur.money) return -3;
 
-    // On ajoute la défense au jeu
+    // Tout est ok, on ajoute la défense au plateau de jeu
     defenses[position] = defense_tmp;
     joueur.money -= defense_tmp.getPrix();
-    cout << "Vous avez acheté une " << defense_tmp.getType() << " pour " << defense_tmp.getPrix() << " Money" << endl;
     
+    // On retourne 0 pour indiquer que la défense a été placée
+    return 0;
 }
 
 
