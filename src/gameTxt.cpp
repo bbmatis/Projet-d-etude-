@@ -174,8 +174,14 @@ void GameTxt::jouer() {
 
                     
                 }
+
+                // Je pense faudrait plutôt faire un truc qui boucle sur toutes les défense
+                // Et genre chaque défense look si y'a des énemis dans sa zone de défense
+                // Si oui on lui fait attaquer
+                // Si non on continue
                 
                 break;
+            
             
 
         }
