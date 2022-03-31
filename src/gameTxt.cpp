@@ -76,8 +76,7 @@ void GameTxt::jouer() {
         // On affiche le jeu
         afficher();
 
-
-
+        // On demande au joueur de choisir une action
         cout << "Que voulez vous faire ? :\n 1 : Ajouter une défense\n 2 : Améliorer une défense\n "
                 "3 : Vendre une défense\n 4 : Lancer la partie\n";
         int choix;
@@ -85,6 +84,8 @@ void GameTxt::jouer() {
 
         // On déclare une variable pour stocker les retours des fonctions
         int retour;
+
+        // On fait l'action correspondante au choix du joueur
         switch(choix)
         {
             case 1 :
@@ -105,14 +106,14 @@ void GameTxt::jouer() {
                 else if (typeN == 3) type = MORTIER;
                 else type = RIEN;
 
-                // On demande de placer la defense
+                // On demande a game de placer la defense
                 retour = game.placerDefense(type, position);
 
                 // On regarde si c'est un succès
                 if (retour == 0) cout <<green<< "Vous avez bien placé une defense dans la case "<<position<<" !\n"<<def;
                 else {
                     // Sinon c'est qu'il y as une erreur
-                    cout << red << "Erreur lors de la création de la defense : " << endl;
+                    cout << red << "Erreur : ";
                     // Si le type de defense est invalide
                     if (retour == -1) cout<< "Le type de defense n'est pas valide."<<endl;
                     // Si la position est invalide
@@ -132,7 +133,19 @@ void GameTxt::jouer() {
                 cin >> position;
 
                 //Upgrade la défense qui est à la position n°_
-                game.upgradeDef(game.defenses[position]);
+                retour = game.upgradeDefense(game.defenses[position]);
+
+                // On regarde si c'est un succès
+                if (retour > 0) cout << green << "Vous avez bien amélioré la défense de la case "<<position<<" et cela vous as couté "<<retour<<" d'argent !\n"<<def;
+                else {
+                    // Sinon c'est qu'il y as une erreur
+                    cout << red << "Erreur : ";
+                    // Si la position est invalide
+                    if (retour == -1) cout << "La position choisie est invalide."<<endl;
+                    // Si la défense n'est pas à la position
+                    else cout << "Vous n'avez pas l'argent pour améliorer cette défense. (il vous manque "<<-retour<<" d'argent)"<<endl;
+                    cout << def;
+                }
                 break;
             
             case 3 : 

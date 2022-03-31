@@ -65,8 +65,10 @@ class Game {
         void sellDef(Defense & defense);
 
         //! \fn Améliorer une défense
+        //! \brief Permet d'améliorer une défense.
+        //! Retourne le prix d'amélioration si la défense a bien été améliorer, -1 si la position n'est pas valide, l'argent manquant en négatif si le joueur n'a pas assez d'argent.
         //! \param position position de la défense à améliorer
-        void upgradeDef(Defense & defense);
+        int upgradeDefense(Defense & defense);
 
         //! \fn La défense haagrah un monstre
         //! \param IndiceDuMonstre Indice du monstre qui va se faire bully

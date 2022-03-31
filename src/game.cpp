@@ -117,19 +117,18 @@ void Game::sellDef(Defense & defense) {
 }
 
 // Améliorer une défense au niveau supérieur
-void Game::upgradeDef(Defense &defense) {
-    if (defense.getType() == RIEN){
+int Game::upgradeDefense(Defense &defense) {
+    // On défini le prix de l'amélioration
+    int prix = defense.getPrix() * 2;
+    // Si il n'y a pas de défense sur la case
+    if (defense.getType() == RIEN) return -1;
+    // Si le joueur n'as pas assez d'argent on retourne l'argent manquant en négatif
+    else if (prix > joueur.money) return joueur.money - prix;
 
-        cout<<"Il n'y a pas de défense sur cette case !"<<endl;
-    }
-    else if (defense.getPrix()*2 <= joueur.money) { // TODO : Choisir le cout de l'amélioration
-        joueur.money -= defense.getPrix();
-        defense.upgrade();
-        cout << "Vous avez amélioré une " << defense.getType() << " pour " << defense.getPrix() << " Money" << endl;
-    } 
-    else {
-        cout << "Vous n'avez pas assez d'argent pour améliorer cette défense" << endl;
-    }
+    // Sinon on lui enlève l'argent et on améliore la défense et on retourne le prix de l'amélioration
+    joueur.money -= defense.getPrix()*2;
+    defense.upgrade();
+    return defense.getPrix();
 }
 
 //La défense attaque le monstre
