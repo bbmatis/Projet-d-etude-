@@ -4,30 +4,30 @@
 class Joueur {
 
     private:
-        unsigned int nbVies;
-        unsigned int score;
+        int nbVies;             // nombre de vie du joueur
+        unsigned int score;     // score du joueur
 
     public:
 
-        unsigned int money; /** \param money porte-monnaie du joueur pendant la partie **/
+        unsigned int money; // porte-monnaie du joueur pendant la partie
 
-        //! \fn Constructeur
+        //! \brief Constructeur
         Joueur();
 
-        //! \fn Destructeur
+        //! \brief Destructeur
         ~Joueur();
         
-        //! \fn Obtenir le nombre de vies du joueur
-        unsigned int getNbVies() const;
+        //! \brief Obtenir le nombre de vies du joueur
+        int getNbVies() const;
 
-        //! \fn Modifier le nombre de vies du joueur
+        //! \brief Modifier le nombre de vies du joueur
         //! \param newNbVies Nouveau nombre de vies
-        void setNbVies(unsigned int newNbVies);
+        void setNbVies(int newNbVies);
 
-        //! \fn Obtenir le score du joueur
+        //! \brief Obtenir le score du joueur
         unsigned int getScore() const;
 
-        //! \fn Modifier le score du joueur
+        //! \brief Modifier le score du joueur
         //! \param newScore Nouveau score
         void setScore(unsigned int newScore);
 

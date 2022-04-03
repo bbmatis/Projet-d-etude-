@@ -22,10 +22,10 @@ Monstre::Monstre(TypeMonstres type) {
     }
 }
 
+//constructeur
 Monstre::Monstre(){};
 
 // Destructeur
-
 Monstre::~Monstre() {
 
 }

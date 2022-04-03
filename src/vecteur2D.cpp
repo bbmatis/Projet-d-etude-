@@ -1,9 +1,11 @@
 #include "vecteur2D.h"
+#include <iostream>
 
 // Constructeur
 Vecteur2D::Vecteur2D()
 {
-    x,y = 0;
+    x = 0;
+    y = 0;
 }
 
 // Constructeur avec parametres
@@ -19,37 +21,45 @@ Vecteur2D::~Vecteur2D()
 }
 
 // Operateur +
-Vecteur2D Vecteur2D::operator+(Vecteur2D v)
+Vecteur2D Vecteur2D::operator+(Vecteur2D other_v)
 {
     Vecteur2D res;
-    res.x = x + v.x;
-    res.y = y + v.y;
+    res.x = x + other_v.x;
+    res.y = y + other_v.y;
     return res;
 }
 
 // Operateur -
-Vecteur2D Vecteur2D::operator-(Vecteur2D v)
+Vecteur2D Vecteur2D::operator-(Vecteur2D other_v)
 {
     Vecteur2D res;
-    res.x = x - v.x;
-    res.y = y - v.y;
+    res.x = x - other_v.x;
+    res.y = y - other_v.y;
     return res;
 }
 
 // Operateur *
-Vecteur2D Vecteur2D::operator*(Vecteur2D v)
+Vecteur2D Vecteur2D::operator*(Vecteur2D other_v)
 {
     Vecteur2D res;
-    res.x = x * v.x;
-    res.y = y * v.y;
+    res.x = x * other_v.x;
+    res.y = y * other_v.y;
     return res;
 }
 
 // Operateur /
-Vecteur2D Vecteur2D::operator/(Vecteur2D v)
+Vecteur2D Vecteur2D::operator/(Vecteur2D other_v)
 {
     Vecteur2D res;
-    res.x = x / v.x;
-    res.y = y / v.y;
+    if(other_v.x != 0 && other_v.y != 0)
+    {
+        res.x = x / other_v.x;
+        res.y = y / other_v.y;
+        
+    }
+    else 
+        std::cout<<"impossible d'avoir une valeur null au dénominateur"<<std::endl;
+
     return res;
+        
 }

@@ -5,13 +5,33 @@ class Vecteur2D
 {
     public:
         float x,y;
-        Vecteur2D();
+
+        //! \brief constructeur
+        Vecteur2D(); 
+
+        //! \brief constructeur avec paramètres
+        //! \param x coordonée x
+        //! \param y coordonée y
         Vecteur2D(float x, float y);
+
+        //! \brief destructeur
         ~Vecteur2D();
-        Vecteur2D operator+(Vecteur2D v);
-        Vecteur2D operator-(Vecteur2D v);
-        Vecteur2D operator*(Vecteur2D v);
-        Vecteur2D operator/(Vecteur2D v);
+
+        //! \brief opération d'addition avec un autre vecteur
+        //! \param other_v vecteur n°2
+        Vecteur2D operator+(Vecteur2D other_v);
+
+        //! \brief opération de soustraction avec un autre vecteur
+        //! \param other_v vecteur n°2
+        Vecteur2D operator-(Vecteur2D other_v);
+
+        //! \brief opération de multiplication avec un autre vecteur
+        //! \param other_v vecteur n°2
+        Vecteur2D operator*(Vecteur2D other_v);
+
+        //! \brief opération de division avec un autre vecteur
+        //! \param other_v vecteur n°2
+        Vecteur2D operator/(Vecteur2D other_v);
 };
 
 #endif

@@ -10,19 +10,21 @@ Defense::Defense(typeDef typeDef) {
         case CANON:
             reloadTime = 0.5f;
             damage = 5;
-            range = 5;
+            range = 3;
+            zoneDamage = false;
             prix = 50;
             break;
         case DOUBLECANON:
             reloadTime = 0.25f;
-            damage = 5;
-            range = 3;
+            damage = 10;
+            range = 5;
+            zoneDamage = false;
             prix = 100;
             break;
         case MORTIER:
             reloadTime = 2.0f;
-            damage = 100;
-            range = 8;
+            damage = 25;
+            range = 6;
             zoneDamage = true;
             prix = 200;
             break;

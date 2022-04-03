@@ -6,7 +6,7 @@ struct Scores {
 class menu {
 
     private : 
-        Scores * scores; /** \param scores Tableau contenant les monstres **/
+        Scores * scores; //Tableau contenant les monstres
 
     public : 
         void recupScoreFromFile(); /** \brief récupère le score depuis un fichier externe **/

@@ -6,13 +6,14 @@ enum typeDef {RIEN, CANON, DOUBLECANON, MORTIER};
 
 class Defense {
     private: 
-        float reloadTime;
-        unsigned int damage;
-        bool zoneDamage;
-        unsigned int range;
-        unsigned int level;
-        typeDef type;
-        unsigned int prix;
+        float reloadTime;       // Temps de rechargement entre 2 attaques
+        unsigned int damage;    // Dégats de la défense
+        bool zoneDamage;        // Zone de dégats pour le Mortier
+        unsigned int range;     // Zone d'attaque de la défense
+        unsigned int level;     // Niveau de la défense 
+        typeDef type;           // Type de la défense (situé dans le enum)
+        unsigned int prix;      // Coût d'achat de la défense 
+        
     public:
         //! \fn Constructeur
         //! \param type Type de la défense

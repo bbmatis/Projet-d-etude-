@@ -9,17 +9,17 @@ class GameTxt {
         Game game;
 
     public: 
-        //! \fn Constructeur
+        //! \brief Constructeur
         //! \param famosoGame Game à partir de la quel on va créer un GameTxt
         GameTxt(Game famosoGame);
 
-        //! \fn Destructeur
+        //! \brief Destructeur
         ~GameTxt();
 
-        //! \fn afficher le jeu en mode textuel
+        //! \brief afficher le jeu en mode textuel
         void afficher();
 
-        //! \fn jouer le jeu en mode textuel
+        //! \brief jouer le jeu en mode textuel
         void jouer();
         
 };

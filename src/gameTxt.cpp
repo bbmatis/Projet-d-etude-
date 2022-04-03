@@ -80,7 +80,9 @@ void GameTxt::afficher(){ //test voir le .h
     cout<<"Argent : "<<game.joueur.money<<endl;
     cout<<"Monstres en vie : "<<game.monstres.size()<<endl;
     cout<<"Score : "<<game.joueur.getScore()<<endl;
-    cout<<"Vague : "<<game.joueur.getScore()<<endl;
+    cout<<"Vague : "<<game.vague<<endl;
+    cout<<"NbVie : "<<red<<game.joueur.getNbVies()<<def<<endl;
+    
     
 }
 
@@ -104,7 +106,7 @@ void GameTxt::jouer() {
         if(game.monstres.size() == 0) {
             game.vague++;
             cout<<"Initialisation de la vague N°"<<game.vague<<endl;
-            game.InitVagueMonstre();
+            game.InitVagueMonstre();    //Recréer une nouvelle vague de monstre
         }
 
         // On affiche le jeu en mode textuel
@@ -198,15 +200,15 @@ void GameTxt::jouer() {
 
             case 4 :
 
-                // On gère un tour de mouvement des montres et de l'attaques des défenses sur ces dernières
+                // On gère au tour par tour le mouvement des montres et l'attaques des défenses sur ces derniers
 
                     
                 // On boucle sur les défenses
-                for (int i=0; i < game.defenses.size(); i++) {
+                for (unsigned int i=0; i < game.defenses.size(); i++) {
                     if (game.defenses[i].getType() == RIEN) continue; // Si la case est vide, on passe à la suivante
                     cout<<"Tour de la défense : "<<i<<endl;
 
-                    for (int a = 0; a < game.monstres.size(); a++) {
+                    for (unsigned int a = 0; a < game.monstres.size(); a++) {
                         // Attack de la défense sur monstre a si possible
                         retour = game.DefHitMonstre(game.monstres[a], i);
                         // Si la défense a touché le monstre
@@ -216,8 +218,8 @@ void GameTxt::jouer() {
                     }
                 }
 
-                // On boucle tout les monstres pour faire des tests dessus 
-                for (int i=0; i < game.monstres.size(); i++) {
+                // On boucle tout les monstres 
+                for (unsigned int i=0; i < game.monstres.size(); i++) {
 
                     // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
                     if (game.monstres[i].getPosition().x >= LARGEUR) {
@@ -229,23 +231,24 @@ void GameTxt::jouer() {
                     }
 
                     // On regarde si le monstre n'as plus de vies
-                    if (game.monstres[i].getHp() <= 1) {
+                    if (game.monstres[i].getHp() <= 0) {
                         // On le supprime si c'est le cas
                         game.monstres.erase(game.monstres.begin()+i);
 
-                        // On ajoute un point au joueur
+                        // On ajoute un point au score joueur
                         game.joueur.setScore(game.joueur.getScore() + 1);
 
                         // On ajoute de l'argent au joueur
                         game.joueur.money += 100;
+                        game.nbMonstreTues ++;
                     }
 
-                    // On remet le tableau a la bonne taille
+                    // On remet le tableau à la bonne taille
                     game.monstres.shrink_to_fit();
                 }
 
                 // On fait bouger les monstres
-                for (int i=0; i < game.monstres.size(); i++) {
+                for (unsigned int i=0; i < game.monstres.size(); i++) {
                     game.monstres[i].MoveRight();
                     // On affiche les infos du monstre
                     cout << " > " << game.monstres[i].getHp() << " hp(s) / x: " << game.monstres[i].getPosition().x << " y: " << game.monstres[i].getPosition().y<<endl;
@@ -255,12 +258,12 @@ void GameTxt::jouer() {
             
             break;
         }
-
+        cout<<endl;
     }
 
-    cout<<"Vous n'avez plus de vie, la partie est terminé"<<endl;
+    cout<<red<<"Vous n'avez plus de vie, la partie est terminé"<<def<<endl;
     
     cout<<"Votre score est de : "<<game.joueur.getScore()<<endl;
-    //cout<<"Vous avez tué : "<<game.getnbMonstreTué()<<endl;
+    cout<<"Vous avez tué : "<<game.nbMonstreTues<<endl;
 
 }

@@ -6,33 +6,30 @@
 using namespace std;
 
 Game::Game() {
-    std::vector<Monstre> monstres;
-    std::vector<Defense> defenses;
-    std::vector<Projectile> projectiles;
-    Joueur joueur;
     vague = 0;
+    nbMonstreTues = 0;
 }
 
 Game::~Game(){
-    vector<Monstre>().swap(monstres);
+    vector<Monstre>().swap(monstres);       //remplace le tableau de monstres par un tableau null
     vector<Defense>().swap(defenses);
     vector<Projectile>().swap(projectiles);
 }
 
 // Initialiser le jeu
 void Game::init() {
-    InitPlateauJeu();    
+    InitPlateauJeu();   // Initialise le plateau de jeu
 }
 
 //Initialise le tableau de monstre (vague)
 void Game::InitVagueMonstre(){ 
-    for(int i=0; i<vague*4; i++) {
+    for(unsigned int i=0; i<vague*4; i++) {
         //  Obtenir un monstre aléatoire pour définir la raretée du monstre
         int monstreRarity = rand() % 100;
 
-        if (monstreRarity <= 20 && vague > 5) {
+        if (monstreRarity <= 20 && vague > 5) {         //20% de chance de spawn un mob3 à partir de la vague 6
             monstres.push_back(Monstre(Mob3));
-        } else if (monstreRarity <= 50 && vague > 3) {
+        } else if (monstreRarity <= 50 && vague > 3) {  //50% de chance de spawn un mob2 à partir de la vague 4
             monstres.push_back(Monstre(Mob2));
         } else {
             monstres.push_back(Monstre(Mob1));
@@ -87,7 +84,7 @@ int Game::sellDefense(Defense & defense) {
 // Améliorer une défense au niveau supérieur
 int Game::upgradeDefense(Defense &defense) {
     // On défini le prix de l'amélioration
-    int prix = defense.getPrix() * 2;
+    unsigned int prix = defense.getPrix() * 2;
     // Si il n'y a pas de défense sur la case
     if (defense.getType() == RIEN) return -1;
     // Si le joueur n'as pas assez d'argent on retourne l'argent manquant en négatif
@@ -111,13 +108,14 @@ float Game::Distance(int x1, int y1, int x2, int y2)
 //La défense attaque le monstre
 int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition){
 
-    //le monstre est dans le rayon d'attaque de la defense
-    int Defy = Defposition/25;
-    int Defx = Defposition%25;
+    
+    int Defy = Defposition/25; //transforme la position en i
+    int Defx = Defposition%25; //transforme la position en j
 
+    //le monstre est dans le rayon d'attaque de la defense
     if(abs(Distance(monstre.getPosition().x,monstre.getPosition().y, Defx, Defy)) <= 6){
         
-        //Change la vie du monstre
+        //Change la vie du monstre en fonction des dégats de la défense
         monstre.setHp(monstre.getHp()-defenses[Defposition].getDamage());
         return 1;
     }

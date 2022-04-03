@@ -7,16 +7,16 @@ class GameGraphique {
         Game game;
 
     public:
-        //! \fn Constructeur
+        //! \brief Constructeur
         GameGraphique();
 
-        //! \fn Destructeur
+        //! \brief Destructeur
         ~GameGraphique();
 
-        //! \fn afficher le jeu en mode graphique
+        //! \brief afficher le jeu en mode graphique
         void afficherGame();
 
-        //! \fn afficher les prix des défenses
+        //! \brief afficher les prix des défenses
         void afficherPrix();
 
 };

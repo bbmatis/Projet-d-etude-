@@ -15,65 +15,69 @@
 // Définition de la stucture Projectile
 struct Projectile
 {
-    unsigned int defenseWhoSendMe; // Identifie de quelle defense vient le projectile 
-    Vecteur2D position; // Position du projectil
-    float vitesse; // vitesse du projectile
+    unsigned int defenseWhoSendMe;  // Identifie de quelle défense vient le projectile 
+    Vecteur2D position;             // Position du projectile
+    float vitesse;                  // vitesse du projectile
+    
 };
 
 class Game {
     private:
-        //unsigned int score;
-        int time;
+
+        int time; //temps écoulé
         
-        //! \fn Acheter une défense
-        //! \param x1 type de défense à acheter
+        //! \brief Retourne la distance entre 2 points
+        //! \param x1 position en x du point n°1
+        //! \param y1 position en x du point n°1
+        //! \param x2 position en y du point n°2
+        //! \param y2 position en y du point n°2
         float Distance(int x1, int y1, int x2, int y2);
                
 
     public:
-        std::vector<Monstre> monstres;
-        std::vector<Defense> defenses;
-        std::vector<Projectile> projectiles;
-        unsigned int vague;
+        std::vector<Monstre> monstres;          // Tableau dynamique de monstres
+        std::vector<Defense> defenses;          // Tableau dynamique de défenses
+        std::vector<Projectile> projectiles;    // Tableau dynamique de projectiles
+        unsigned int vague;                     // Indice de vague de monstres 
+        unsigned int nbMonstreTues;             // nombre de monstre tué au cours de la partie
         Joueur joueur;
         
 
-        //! \fn Constructeur
+        //! \brief Constructeur
         Game();
         
-        //! \fn Destructeur
+        //! \brief Destructeur
         ~Game();
 
-        //! \fn Initialiser le jeu
+        //! \brief Initialiser le jeu
         void init();
 
-        void InitVagueMonstre(); //test Initialisation d'une vague de monstre différent
+        //! \brief Initialise des vagues de monstres
+        void InitVagueMonstre(); 
 
-        void InitPlateauJeu(); //test Initialisation du plateau de jeu, rempli de Def et non Null -> affichage texte
+        //! \brief Initialisation du plateau de jeu avec des cases vide (plateau de défenses avec type : RIEN)
+        void InitPlateauJeu(); 
 
-        //! \fn Placer une défense
         //! \brief Permet de placer une défense sur le plateau de jeu.
         //! Retourne 0 si la défense a été placée avec succès, -1 si le type n'est pas valide, -2 si la position n'est pas valide et -3 si le joueur n'a pas assez d'argent.
         //! \param defense défense à placer
         //! \param position position de la défense
         int buyDefense(typeDef defense, unsigned int position);
 
-        //! \fn vendre une défense
-        //! \param position position de la défense à vendre
+        //! \brief vendre une défense
+        //! \param defense défense à vendre
         int sellDefense(Defense & defense);
 
-        //! \fn Améliorer une défense
         //! \brief Permet d'améliorer une défense.
         //! Retourne le prix d'amélioration si la défense a bien été améliorer, -1 si la position n'est pas valide, l'argent manquant en négatif si le joueur n'a pas assez d'argent.
-        //! \param position position de la défense à améliorer
+        //! \param defense défense à améliorer
         int upgradeDefense(Defense & defense);
 
-        //! \fn La défense haagrah un monstre
+        //! \brief retroune si le monstre a été haagrah ou non
         //! \param IndiceDuMonstre Indice du monstre qui va se faire bully
         //! \param Defposition position de la défense qui va attaquer
         //! \param Defx coord x de la défense à améliorer
         //! \param Defy coord y de la défense à améliorer
-        //! \brief retroune si le monstre a été attaqué ou non
         int DefHitMonstre(Monstre & monstre, unsigned int Defposition);
 
        
