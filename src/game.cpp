@@ -8,6 +8,10 @@ using namespace std;
 Game::Game() {
     //score = 0;
     //time = 0;
+    std::vector<Monstre> monstres;
+    std::vector<Defense> defenses;
+    std::vector<Projectile> projectiles;
+    Joueur joueur;
 }
 
 Game::~Game(){
@@ -40,11 +44,15 @@ void Game::InitVagueMonstre(){
      for(int i=0; i<MAX_MONSTRES/2; i++)
     {
        monstres.push_back(Monstre(Mob1));
+       monstres[i].setPosition(0, 7);
+       
        
     }
     for(int i=MAX_MONSTRES/2; i<MAX_MONSTRES; i++)
     {
+    
        monstres.push_back(Monstre(Mob2));
+       monstres[i].setPosition(0, 7);
        
     }
 }
@@ -117,10 +125,12 @@ int Game::upgradeDefense(Defense &defense) {
 }
 
 //La défense attaque le monstre
-void Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition, int Defx, int Defy){
+void Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition){
 
     //le monstre est dans le rayon d'attaque de la defense
-    if(Distance(monstre.getPosition().x,monstre.getPosition().y, Defx, Defy) < 3)
+    int Defx = Defposition/25;
+    int Defy = Defposition%25;
+    if(abs(Distance(monstre.getPosition().x,monstre.getPosition().y, Defx, Defy)) <= 6)
     {
         
         //Charge la nouvelle vie du monstre en fonction de l'atq de la def 

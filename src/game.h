@@ -9,8 +9,9 @@
 
 #define LARGEUR 25
 #define HAUTEUR 15
-#define MAX_MONSTRES 50
+#define MAX_MONSTRES 6
 #define MAX_PROJECTILES 50
+#define TAILLE_CASE 4
 
 // Définition de la stucture Projectile
 struct Projectile
@@ -74,7 +75,7 @@ class Game {
         //! \param Defposition position de la défense qui va attaquer
         //! \param Defx coord x de la défense à améliorer
         //! \param Defy coord y de la défense à améliorer
-        void DefHitMonstre(Monstre & monstre, unsigned int Defposition ,int Defx, int Defy);
+        void DefHitMonstre(Monstre & monstre, unsigned int Defposition);
 
         //! \fn Incrémentation du score
         //! \brief Permet de gérer le score

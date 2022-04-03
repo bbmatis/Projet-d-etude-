@@ -7,15 +7,15 @@ Monstre::Monstre(TypeMonstres type) {
     {
         case Mob1:
             hp = 50;
-            speed = 2;
+            speed = 1;
             break;
         case Mob2:
             hp = 150;
-            speed = 2;
+            speed = 1;
             break;
         case Mob3:
             hp = 50;
-            speed = 2;
+            speed = 1;
             break;
     }
 }

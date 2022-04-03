@@ -1,6 +1,7 @@
 #include "gameTxt.h"
 #include <iostream>
 #include "game.h"
+#include <unistd.h>
 
 using namespace std;
 
@@ -71,11 +72,13 @@ void GameTxt::afficher(){ //test voir le .h
 // Jouer le jeu en mode textuel
 void GameTxt::jouer() {
 
+
     while(true){
 
         // On affiche le jeu
         afficher();
 
+        cout<<"votre score est : "<<game.joueur.getScore()<<endl;
         // On demande au joueur de choisir une action
         cout << "Que voulez vous faire ? :\n 1 : Ajouter une défense\n 2 : Améliorer une défense\n "
                 "3 : Vendre une défense\n 4 : Lancer la partie\n";
@@ -165,19 +168,30 @@ void GameTxt::jouer() {
             case 4 :
              //Test de la fonction d'attaque de la défense
 
-             game.monstres[1].setPosition(7, 7);
-            //  int i = 0;
+             
+            //int def_i = int(position/25);
+            //int def_j = position%25;
+            int i;
+            //TTTTTEEEEEESSSSTTTTT
+                /* while(game.monstres[5].getHp() != 0){ //On lance le "niveau" tant que la vague de monstre n'est pas entierement tué
 
-                while(game.monstres[1].getHp() != 0){
-
-                    game.monstres[1].setPosition(7, 7);
                 
-                    game.DefHitMonstre(game.monstres[1], 183, 9, 9);//coord 9, 9 choisit par moi pour test
-
-                    cout<<endl;
-
+                   for(i=0; i<MAX_MONSTRES; ++i){ //pour tout les monstres
                     
-                }
+
+                        
+                        for(int j = 175; i<=199; i++){
+
+                            game.monstres[i].MoveRight();
+                            game.DefHitMonstre(game.monstres[i], j);
+                            sleep(1);
+                        }
+                    }
+                    
+                } */
+                
+            
+                
 
                 // Je pense faudrait plutôt faire un truc qui boucle sur toutes les défense
                 // Et genre chaque défense look si y'a des énemis dans sa zone de défense
@@ -186,7 +200,7 @@ void GameTxt::jouer() {
                 
                 break;
             
-
+            break;
         }
 
 
