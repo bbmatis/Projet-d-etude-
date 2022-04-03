@@ -42,6 +42,7 @@ Chapitre 4 : Déroulement du projet
 
 Diagramme de Gantt
 
+https://prod.liveshare.vsengsaas.visualstudio.com/join?BBD4C1205099F747E25E2BF9EFEC83AF1E78
 
 
 
