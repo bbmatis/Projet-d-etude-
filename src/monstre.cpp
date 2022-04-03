@@ -2,7 +2,9 @@
 
 // Constructeur
 Monstre::Monstre(TypeMonstres type) {
-    
+    position.x = 0;
+    position.y = 7;
+
     switch (type)
     {
         case Mob1:
@@ -49,12 +51,12 @@ void Monstre::MoveDown() {
 }
 
 // Obtenir la santée du monstre
-unsigned int Monstre::getHp() const {
+int Monstre::getHp() const {
     return hp;
 }
 
 // Définir la santée du monstre
-void Monstre::setHp(unsigned int newHp) {
+void Monstre::setHp(int newHp) {
     hp = newHp;
 }
 
@@ -68,3 +70,4 @@ void Monstre::setPosition(int new_x, int new_y){
     position.x = new_x;
     position.y = new_y;
 }
+

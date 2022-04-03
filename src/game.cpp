@@ -6,69 +6,44 @@
 using namespace std;
 
 Game::Game() {
-    //score = 0;
-    //time = 0;
     std::vector<Monstre> monstres;
     std::vector<Defense> defenses;
     std::vector<Projectile> projectiles;
     Joueur joueur;
+    vague = 0;
 }
 
 Game::~Game(){
     vector<Monstre>().swap(monstres);
     vector<Defense>().swap(defenses);
     vector<Projectile>().swap(projectiles);
-    //score = 0;
-    //time = .0f;
 }
 
 // Initialiser le jeu
 void Game::init() {
-    InitPlateauJeu();
-    InitVagueMonstre();
-    
-}
-
-//retourne la distance entre 2 points
-float Game::Distance(int x1, int y1, int x2, int y2)
-{
-    int xDist = x2 -x1;
-    int yDist = y2 - y1;
-
-    return sqrt(pow(xDist, 2) + pow(yDist, 2));
+    InitPlateauJeu();    
 }
 
 //Initialise le tableau de monstre (vague)
 void Game::InitVagueMonstre(){ 
+    for(int i=0; i<vague*4; i++) {
+        //  Obtenir un monstre aléatoire pour définir la raretée du monstre
+        int monstreRarity = rand() % 100;
 
-     for(int i=0; i<MAX_MONSTRES/2; i++)
-    {
-       monstres.push_back(Monstre(Mob1));
-       monstres[i].setPosition(0, 7);
-       
-       
-    }
-    for(int i=MAX_MONSTRES/2; i<MAX_MONSTRES; i++)
-    {
-    
-       monstres.push_back(Monstre(Mob2));
-       monstres[i].setPosition(0, 7);
-       
+        if (monstreRarity <= 20 && vague > 5) {
+            monstres.push_back(Monstre(Mob3));
+        } else if (monstreRarity <= 50 && vague > 3) {
+            monstres.push_back(Monstre(Mob2));
+        } else {
+            monstres.push_back(Monstre(Mob1));
+        }
     }
 }
 
 // Initialiser le plateau de jeu (défenses)
 void Game::InitPlateauJeu(){
-
-    for(int i=0; i<HAUTEUR; i++){
-
-        for(int j=0; j<LARGEUR; j++) 
-        {
-            defenses.push_back(Defense());
-
-        }
-    
-    }
+    // On créer les cases vides
+    for(int i=0; i<HAUTEUR; i++) for(int j=0; j<LARGEUR; j++) defenses.push_back(Defense());
 }
 
 // Acheter et placer une défense
@@ -124,36 +99,31 @@ int Game::upgradeDefense(Defense &defense) {
     return defense.getPrix();
 }
 
+//retourne la distance entre 2 points
+float Game::Distance(int x1, int y1, int x2, int y2)
+{
+    int xDist = x2 - x1;
+    int yDist = y2 - y1;
+
+    return sqrt(pow(xDist, 2) + pow(yDist, 2));
+}
+
 //La défense attaque le monstre
-void Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition){
+int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition){
 
     //le monstre est dans le rayon d'attaque de la defense
-    int Defx = Defposition/25;
-    int Defy = Defposition%25;
-    if(abs(Distance(monstre.getPosition().x,monstre.getPosition().y, Defx, Defy)) <= 6)
-    {
+    int Defy = Defposition/25;
+    int Defx = Defposition%25;
+
+    if(abs(Distance(monstre.getPosition().x,monstre.getPosition().y, Defx, Defy)) <= 6){
         
-        //Charge la nouvelle vie du monstre en fonction de l'atq de la def 
-        int new_life = monstre.getHp()-defenses[Defposition].getDamage();
-      
         //Change la vie du monstre
-        monstre.setHp(new_life);
-
-        cout<<"le monstre à été touché, il lui reste : "<<monstre.getHp()<<" hp"<<endl;
-        
+        monstre.setHp(monstre.getHp()-defenses[Defposition].getDamage());
+        return 1;
     }
-    //le monstre est en dehors du rayon d'attaque de la defense
-    else
-        cout<<"le monstre n'a pas été touché"<<endl;
 
+    return 0;
 }
 
-// augmente le score en fonction du temps et du nombre de monstres tués 
-void Game::gestionScore(Joueur &joueur) {
-    Monstre monstre;
-    if(monstre.getHp() == 0) {
-        unsigned int newScore = joueur.getScore() + 1;
-        joueur.setScore(newScore);
-    }
-}
+
 

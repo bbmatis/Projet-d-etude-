@@ -9,7 +9,6 @@
 
 #define LARGEUR 25
 #define HAUTEUR 15
-#define MAX_MONSTRES 6
 #define MAX_PROJECTILES 50
 #define TAILLE_CASE 4
 
@@ -25,10 +24,9 @@ class Game {
     private:
         //unsigned int score;
         int time;
-
+        
         //! \fn Acheter une défense
-        //! \param type type de défense à acheter
-
+        //! \param x1 type de défense à acheter
         float Distance(int x1, int y1, int x2, int y2);
                
 
@@ -36,7 +34,7 @@ class Game {
         std::vector<Monstre> monstres;
         std::vector<Defense> defenses;
         std::vector<Projectile> projectiles;
-        
+        unsigned int vague;
         Joueur joueur;
         
 
@@ -75,12 +73,10 @@ class Game {
         //! \param Defposition position de la défense qui va attaquer
         //! \param Defx coord x de la défense à améliorer
         //! \param Defy coord y de la défense à améliorer
-        void DefHitMonstre(Monstre & monstre, unsigned int Defposition);
+        //! \brief retroune si le monstre a été attaqué ou non
+        int DefHitMonstre(Monstre & monstre, unsigned int Defposition);
 
-        //! \fn Incrémentation du score
-        //! \brief Permet de gérer le score
-        //! \param score score du joueur
-        void gestionScore(Joueur &joueur);
+       
 };
 
 #endif

@@ -5,7 +5,7 @@
 Joueur::Joueur() {
     nbVies = 3;
     money = 200;
-    score = clock();
+    score = 0;
 }
 
 // Destructeur

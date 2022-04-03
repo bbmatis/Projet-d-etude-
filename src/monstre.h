@@ -10,9 +10,9 @@ class Monstre {
     private:
         float speed;            /** \param speed Vitesse du monstre **/
         Vecteur2D position;     /** \param position Vecteur position (x;y) du monstre**/
-        unsigned int hp;        /** \param hp Nombre de points de vie du monstre**/
-     
+        int hp;        /** \param hp Nombre de points de vie du monstre**/
     public:
+
         //! \fn Constructeur
         //! \param type Type du monstre
         Monstre(TypeMonstres type);
@@ -36,10 +36,10 @@ class Monstre {
         void MoveDown();
 
         //! \fn Obtenir la santée du monstre
-        unsigned int getHp() const;
+        int getHp() const;
 
         //! \fn Modifier la santée du monstre
-        void setHp(unsigned int newHp);
+        void setHp(int newHp);
 
         //! \fn Obtenir la position du monstre
         Vecteur2D getPosition() const;

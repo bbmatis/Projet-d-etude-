@@ -11,6 +11,7 @@ namespace Color {
         FG_RED          = 31,
         FG_GREEN        = 32,
         FG_CYAN         = 36,
+        BG_RED          = 41,
         BG_DEFAULT      = 49,
         FG_DEFAULT      = 39
     };
@@ -27,6 +28,7 @@ namespace Color {
 Color::Modifier def(Color::FG_DEFAULT);
 Color::Modifier bgDef(Color::BG_DEFAULT);
 Color::Modifier red(Color::FG_RED);
+Color::Modifier bgRed(Color::BG_RED);
 Color::Modifier green(Color::FG_GREEN);
 Color::Modifier cyan(Color::FG_CYAN);
 
@@ -42,11 +44,20 @@ GameTxt::~GameTxt() {}
 
 // Afficher le jeu en mode textuel
 void GameTxt::afficher(){ //test voir le .h
+    int posXMonstre = 0;
+    int posYMonstre = 0;
+    if (game.monstres.size() != 0){
+        // Position des monstres (les monstres ont tous la même position en mode texte)
+
+        posXMonstre = game.monstres[0].getPosition().x;
+        posYMonstre = game.monstres[0].getPosition().y;
+    }
 
     for(int i=0; i<HAUTEUR; i++)
     {
         for(int j=0; j<LARGEUR; j++)
         {
+            if (posXMonstre == j && posYMonstre == i) cout << bgRed;
             int indice = j+i*LARGEUR;
             cout<<indice;
             if (indice < 100) cout<<" ";
@@ -60,28 +71,48 @@ void GameTxt::afficher(){ //test voir le .h
             // Si le type de la def est Mortier
             else if (game.defenses[indice].getType() == MORTIER) cout<<red<<" M"<<def;
             cout<<"|";
+            if (posXMonstre == j && posYMonstre == i) cout << bgDef;
         }
         cout<<endl;
     }
 
     // On affiche l'argent du joueur
     cout<<"Argent : "<<game.joueur.money<<endl;
+    cout<<"Monstres en vie : "<<game.monstres.size()<<endl;
+    cout<<"Score : "<<game.joueur.getScore()<<endl;
+    cout<<"Vague : "<<game.joueur.getScore()<<endl;
     
 }
 
 // Jouer le jeu en mode textuel
 void GameTxt::jouer() {
 
+   /*  On défini des defenses de bases pour les tests
+    Defense d1(DOUBLECANON);
+    Defense d2(DOUBLECANON);
+    Defense d3(DOUBLECANON);
+    Defense d4(DOUBLECANON);
 
-    while(true){
+    game.defenses[58] = d1;
+    game.defenses[197] = d2;
+    game.defenses[80] = d3;
+    game.defenses[210] = d4; */
 
-        // On affiche le jeu
+    while(game.joueur.getNbVies() > 0){ // Tant que le joueur a des vies
+
+        // On regarde si la vague est terminée
+        if(game.monstres.size() == 0) {
+            game.vague++;
+            cout<<"Initialisation de la vague N°"<<game.vague<<endl;
+            game.InitVagueMonstre();
+        }
+
+        // On affiche le jeu en mode textuel
         afficher();
 
-        cout<<"votre score est : "<<game.joueur.getScore()<<endl;
         // On demande au joueur de choisir une action
         cout << "Que voulez vous faire ? :\n 1 : Ajouter une défense\n 2 : Améliorer une défense\n "
-                "3 : Vendre une défense\n 4 : Lancer la partie\n";
+                "3 : Vendre une défense\n 4 : Jouer le prochain tour\n";
         int choix;
         cin >> choix;
 
@@ -166,49 +197,70 @@ void GameTxt::jouer() {
                 break;
 
             case 4 :
-             //Test de la fonction d'attaque de la défense
 
-             
-            //int def_i = int(position/25);
-            //int def_j = position%25;
-            int i;
-            //TTTTTEEEEEESSSSTTTTT
-                /* while(game.monstres[5].getHp() != 0){ //On lance le "niveau" tant que la vague de monstre n'est pas entierement tué
+                // On gère un tour de mouvement des montres et de l'attaques des défenses sur ces dernières
 
-                
-                   for(i=0; i<MAX_MONSTRES; ++i){ //pour tout les monstres
                     
+                // On boucle sur les défenses
+                for (int i=0; i < game.defenses.size(); i++) {
+                    if (game.defenses[i].getType() == RIEN) continue; // Si la case est vide, on passe à la suivante
+                    cout<<"Tour de la défense : "<<i<<endl;
 
-                        
-                        for(int j = 175; i<=199; i++){
-
-                            game.monstres[i].MoveRight();
-                            game.DefHitMonstre(game.monstres[i], j);
-                            sleep(1);
+                    for (int a = 0; a < game.monstres.size(); a++) {
+                        // Attack de la défense sur monstre a si possible
+                        retour = game.DefHitMonstre(game.monstres[a], i);
+                        // Si la défense a touché le monstre
+                        if (retour == 1) {
+                            cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;
                         }
                     }
-                    
-                } */
-                
-            
-                
+                }
 
-                // Je pense faudrait plutôt faire un truc qui boucle sur toutes les défense
-                // Et genre chaque défense look si y'a des énemis dans sa zone de défense
-                // Si oui on lui fait attaquer
-                // Si non on continue
-                
+                // On boucle tout les monstres pour faire des tests dessus 
+                for (int i=0; i < game.monstres.size(); i++) {
+
+                    // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
+                    if (game.monstres[i].getPosition().x >= LARGEUR) {
+                        // On le supprime si c'est le cas
+                        game.monstres.erase(game.monstres.begin()+i);
+
+                        // Et on enlève une vie au joueur
+                        game.joueur.setNbVies(game.joueur.getNbVies() - 1);
+                    }
+
+                    // On regarde si le monstre n'as plus de vies
+                    if (game.monstres[i].getHp() <= 1) {
+                        // On le supprime si c'est le cas
+                        game.monstres.erase(game.monstres.begin()+i);
+
+                        // On ajoute un point au joueur
+                        game.joueur.setScore(game.joueur.getScore() + 1);
+
+                        // On ajoute de l'argent au joueur
+                        game.joueur.money += 100;
+                    }
+
+                    // On remet le tableau a la bonne taille
+                    game.monstres.shrink_to_fit();
+                }
+
+                // On fait bouger les monstres
+                for (int i=0; i < game.monstres.size(); i++) {
+                    game.monstres[i].MoveRight();
+                    // On affiche les infos du monstre
+                    cout << " > " << game.monstres[i].getHp() << " hp(s) / x: " << game.monstres[i].getPosition().x << " y: " << game.monstres[i].getPosition().y<<endl;
+                }
+            
                 break;
             
             break;
         }
 
-
-
-
-        
-
-
     }
+
+    cout<<"Vous n'avez plus de vie, la partie est terminé"<<endl;
+    
+    cout<<"Votre score est de : "<<game.joueur.getScore()<<endl;
+    //cout<<"Vous avez tué : "<<game.getnbMonstreTué()<<endl;
 
 }
