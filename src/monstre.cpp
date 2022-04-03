@@ -12,11 +12,11 @@ Monstre::Monstre(TypeMonstres type) {
             speed = 1;
             break;
         case Mob2:
-            hp = 150;
+            hp = 100;
             speed = 1;
             break;
         case Mob3:
-            hp = 50;
+            hp = 150;
             speed = 1;
             break;
     }

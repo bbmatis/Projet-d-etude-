@@ -2,6 +2,8 @@
 #include <iostream>
 #include "game.h"
 #include <unistd.h>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
@@ -89,6 +91,7 @@ void GameTxt::afficher(){ //test voir le .h
 // Jouer le jeu en mode textuel
 void GameTxt::jouer() {
 
+     srand(time(NULL));
    /*  On défini des defenses de bases pour les tests
     Defense d1(DOUBLECANON);
     Defense d2(DOUBLECANON);
@@ -202,56 +205,59 @@ void GameTxt::jouer() {
 
                 // On gère au tour par tour le mouvement des montres et l'attaques des défenses sur ces derniers
 
-                    
-                // On boucle sur les défenses
-                for (unsigned int i=0; i < game.defenses.size(); i++) {
-                    if (game.defenses[i].getType() == RIEN) continue; // Si la case est vide, on passe à la suivante
-                    cout<<"Tour de la défense : "<<i<<endl;
+                while(game.monstres.size() != 0){   
+                    // On boucle sur les défenses
+                    for (unsigned int i=0; i < game.defenses.size(); i++) {
+                        if (game.defenses[i].getType() == RIEN) continue; // Si la case est vide, on passe à la suivante
+                        cout<<"Tour de la défense : "<<i<<endl;
 
-                    for (unsigned int a = 0; a < game.monstres.size(); a++) {
-                        // Attack de la défense sur monstre a si possible
-                        retour = game.DefHitMonstre(game.monstres[a], i);
-                        // Si la défense a touché le monstre
-                        if (retour == 1) {
-                            cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;
+                        for (unsigned int a = 0; a < game.monstres.size(); a++) {
+                            // Attack de la défense sur monstre a si possible
+                            retour = game.DefHitMonstre(game.monstres[a], i);
+                            // Si la défense a touché le monstre
+                            if (retour == 1) {
+                                cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;
+                            }
                         }
                     }
-                }
 
-                // On boucle tout les monstres 
-                for (unsigned int i=0; i < game.monstres.size(); i++) {
+                    // On boucle tout les monstres 
+                    for (unsigned int i=0; i < game.monstres.size(); i++) {
 
-                    // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
-                    if (game.monstres[i].getPosition().x >= LARGEUR) {
-                        // On le supprime si c'est le cas
-                        game.monstres.erase(game.monstres.begin()+i);
+                        // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
+                        if (game.monstres[i].getPosition().x >= LARGEUR) {
+                            // On le supprime si c'est le cas
+                            game.monstres.erase(game.monstres.begin()+i);
 
-                        // Et on enlève une vie au joueur
-                        game.joueur.setNbVies(game.joueur.getNbVies() - 1);
+                            // Et on enlève une vie au joueur
+                            game.joueur.setNbVies(game.joueur.getNbVies() - 1);
+                        }
+
+                        // On regarde si le monstre n'as plus de vies
+                        if (game.monstres[i].getHp() <= 0) {
+                            // On le supprime si c'est le cas
+                            game.monstres.erase(game.monstres.begin()+i);
+
+                            // On ajoute un point au score joueur
+                            game.joueur.setScore(game.joueur.getScore() + 1);
+
+                            // On ajoute de l'argent au joueur
+                            game.joueur.money += 100;
+                            game.nbMonstreTues ++;
+                        }
+
+                        // On remet le tableau à la bonne taille
+                        game.monstres.shrink_to_fit();
                     }
 
-                    // On regarde si le monstre n'as plus de vies
-                    if (game.monstres[i].getHp() <= 0) {
-                        // On le supprime si c'est le cas
-                        game.monstres.erase(game.monstres.begin()+i);
-
-                        // On ajoute un point au score joueur
-                        game.joueur.setScore(game.joueur.getScore() + 1);
-
-                        // On ajoute de l'argent au joueur
-                        game.joueur.money += 100;
-                        game.nbMonstreTues ++;
+                    // On fait bouger les monstres
+                    for (unsigned int i=0; i < game.monstres.size(); i++) {
+                        game.monstres[i].MoveRight();
+                        // On affiche les infos du monstre
+                        cout << "monstre # "<<i<<" > " << game.monstres[i].getHp() << " hp(s) / x: " << game.monstres[i].getPosition().x << " y: " << game.monstres[i].getPosition().y<<endl;
                     }
-
-                    // On remet le tableau à la bonne taille
-                    game.monstres.shrink_to_fit();
-                }
-
-                // On fait bouger les monstres
-                for (unsigned int i=0; i < game.monstres.size(); i++) {
-                    game.monstres[i].MoveRight();
-                    // On affiche les infos du monstre
-                    cout << " > " << game.monstres[i].getHp() << " hp(s) / x: " << game.monstres[i].getPosition().x << " y: " << game.monstres[i].getPosition().y<<endl;
+                    this_thread::sleep_for(chrono::milliseconds(500)); //met le jeu en pause pdt 0.5 seconde pour mieux voir 
+                    afficher(); //réaffiche le plateau pour voir les monstres avancer
                 }
             
                 break;

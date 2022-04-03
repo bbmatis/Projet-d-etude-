@@ -1,7 +1,8 @@
 #include "game.h"
 #include <iostream>
 #include <math.h>
-//#include <time.h>
+#include <time.h>
+
 
 using namespace std;
 
@@ -27,9 +28,9 @@ void Game::InitVagueMonstre(){
         //  Obtenir un monstre aléatoire pour définir la raretée du monstre
         int monstreRarity = rand() % 100;
 
-        if (monstreRarity <= 20 && vague > 5) {         //20% de chance de spawn un mob3 à partir de la vague 6
+        if (monstreRarity <= 20 && vague > 4) {         //20% de chance de spawn un mob3 à partir de la vague 6
             monstres.push_back(Monstre(Mob3));
-        } else if (monstreRarity <= 50 && vague > 3) {  //50% de chance de spawn un mob2 à partir de la vague 4
+        } else if (monstreRarity <= 50 && vague > 2) {  //50% de chance de spawn un mob2 à partir de la vague 4
             monstres.push_back(Monstre(Mob2));
         } else {
             monstres.push_back(Monstre(Mob1));
@@ -113,7 +114,7 @@ int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition){
     int Defx = Defposition%25; //transforme la position en j
 
     //le monstre est dans le rayon d'attaque de la defense
-    if(abs(Distance(monstre.getPosition().x,monstre.getPosition().y, Defx, Defy)) <= 6){
+    if(abs(Distance(monstre.getPosition().x,monstre.getPosition().y, Defx, Defy)) <= defenses[Defposition].getRange()){
         
         //Change la vie du monstre en fonction des dégats de la défense
         monstre.setHp(monstre.getHp()-defenses[Defposition].getDamage());
