@@ -205,7 +205,7 @@ void GameTxt::jouer() {
 
                 // On gère au tour par tour le mouvement des montres et l'attaques des défenses sur ces derniers
 
-                while(game.monstres.size() != 0){   
+                while(game.monstres.size() > 0){   
                     // On boucle sur les défenses
                     for (unsigned int i=0; i < game.defenses.size(); i++) {
                         if (game.defenses[i].getType() == RIEN) continue; // Si la case est vide, on passe à la suivante
@@ -221,6 +221,8 @@ void GameTxt::jouer() {
                         }
                     }
 
+                    
+
                     // On boucle tout les monstres 
                     for (unsigned int i=0; i < game.monstres.size(); i++) {
 
@@ -234,7 +236,7 @@ void GameTxt::jouer() {
                         }
 
                         // On regarde si le monstre n'as plus de vies
-                        if (game.monstres[i].getHp() <= 0) {
+                        if (game.monstres[i].getHp() < 1) {
                             // On le supprime si c'est le cas
                             game.monstres.erase(game.monstres.begin()+i);
 
@@ -252,10 +254,16 @@ void GameTxt::jouer() {
 
                     // On fait bouger les monstres
                     for (unsigned int i=0; i < game.monstres.size(); i++) {
-                        game.monstres[i].MoveRight();
-                        // On affiche les infos du monstre
-                        cout << "monstre # "<<i<<" > " << game.monstres[i].getHp() << " hp(s) / x: " << game.monstres[i].getPosition().x << " y: " << game.monstres[i].getPosition().y<<endl;
+                        
+                        if(game.monstres[i].getHp() <= 0) continue;
+                        else
+                        {
+                            cout << "monstre # "<<i<<" > " << game.monstres[i].getHp() << " hp(s) / x: " << game.monstres[i].getPosition().x << " y: " << game.monstres[i].getPosition().y<<endl;
+                            // On affiche les infos du monstre
+                            game.monstres[i].MoveRight();
+                        }
                     }
+
                     this_thread::sleep_for(chrono::milliseconds(500)); //met le jeu en pause pdt 0.5 seconde pour mieux voir 
                     afficher(); //réaffiche le plateau pour voir les monstres avancer
                 }
