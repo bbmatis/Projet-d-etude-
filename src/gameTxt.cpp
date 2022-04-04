@@ -48,7 +48,7 @@ GameTxt::~GameTxt() {}
 void GameTxt::afficher(){ //test voir le .h
     int posXMonstre = 0;
     int posYMonstre = 0;
-    if (game.monstres.size() != 0){
+    if (game.monstres.size() > 0){
         // Position des monstres (les monstres ont tous la même position en mode texte)
 
         posXMonstre = game.monstres[0].getPosition().x;
@@ -59,7 +59,7 @@ void GameTxt::afficher(){ //test voir le .h
     {
         for(int j=0; j<LARGEUR; j++)
         {
-            if (posXMonstre == j && posYMonstre == i) cout << bgRed;
+            if (posXMonstre == j && posYMonstre == i && game.monstres.size() > 0) cout << bgRed;
             int indice = j+i*LARGEUR;
             cout<<indice;
             if (indice < 100) cout<<" ";
@@ -73,7 +73,7 @@ void GameTxt::afficher(){ //test voir le .h
             // Si le type de la def est Mortier
             else if (game.defenses[indice].getType() == MORTIER) cout<<red<<" M"<<def;
             cout<<"|";
-            if (posXMonstre == j && posYMonstre == i) cout << bgDef;
+            if (posXMonstre == j && posYMonstre == i && game.monstres.size() > 0) cout << bgDef;
         }
         cout<<endl;
     }
@@ -103,17 +103,20 @@ void GameTxt::jouer() {
     game.defenses[80] = d3;
     game.defenses[210] = d4; */
 
+    // On affiche le jeu en mode textuel
+    afficher();
+
     while(game.joueur.getNbVies() > 0){ // Tant que le joueur a des vies
 
         // On regarde si la vague est terminée
         if(game.monstres.size() == 0) {
             game.vague++;
-            cout<<"Initialisation de la vague N°"<<game.vague<<endl;
             game.InitVagueMonstre();    //Recréer une nouvelle vague de monstre
         }
 
-        // On affiche le jeu en mode textuel
-        afficher();
+        cout<<"====================================="<<endl;
+        cout<<"Vague en approche : Vague N°"<<game.vague<<" ( "<<game.vague*4<<" monstres)"<<endl;
+
 
         // On demande au joueur de choisir une action
         cout << "Que voulez vous faire ? :\n 1 : Ajouter une défense\n 2 : Améliorer une défense\n "
@@ -272,6 +275,8 @@ void GameTxt::jouer() {
             
             break;
         }
+        afficher(); // afficher le plateau de jeu
+
         cout<<endl;
     }
 
