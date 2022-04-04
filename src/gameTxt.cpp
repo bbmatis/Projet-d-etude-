@@ -267,8 +267,8 @@ void GameTxt::jouer() {
                         }
                     }
 
-                    this_thread::sleep_for(chrono::milliseconds(500)); //met le jeu en pause pdt 0.5 seconde pour mieux voir 
                     afficher(); //réaffiche le plateau pour voir les monstres avancer
+                    this_thread::sleep_for(chrono::milliseconds(500)); //met le jeu en pause pdt 0.5 seconde pour mieux voir 
                 }
             
                 break;
