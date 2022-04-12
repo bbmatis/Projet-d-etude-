@@ -3,7 +3,7 @@
 
 #include "game.h"
 #include "menu.h"
-#include <SDL2.h/SDL.h>  
+#include <SDL.h>  
 
 class GameGraphique {
 
@@ -11,14 +11,14 @@ class GameGraphique {
         Game game;
         unsigned int dimx, dimy; //!! Dimentions X et Y de l'image
         SDL_Window * window; //! Fenêtre SDL
-        SDL_Renderer * renderer //! Renderer SDL
-        void afficherInit() //! Initialise SDL
+        SDL_Renderer * renderer; //! Renderer SDL
+        void afficherInit(); //! Initialise SDL
         void afficherBoucle();  //! Boucle d'affichage de l'image
         void afficherDetruit(); //! Déinitialise SDL
 
     public:
         //! \brief Constructeur
-        GameGraphique(Game famosoGame);
+        GameGraphique();
 
         //! \brief Destructeur
         ~GameGraphique();

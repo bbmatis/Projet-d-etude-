@@ -65,9 +65,6 @@ class Defense {
         
         //! \fn Améliorer la défense au niveau supérieur
         void upgrade();
-
-
-
         
 };
 
