@@ -2,8 +2,8 @@ CC=g++ -g -Wall
 
 all: bin/main
 
-bin/main : obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o
-	$(CC) obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/vecteur2D.o -o bin/test
+bin/main : obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/gameGraphique.o
+	$(CC) obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/gameGraphique.o obj/vecteur2D.o -o bin/test
 
 obj/main.o : src/main.cpp
 	$(CC) -c src/main.cpp -o obj/main.o
@@ -22,6 +22,9 @@ obj/joueur.o : src/joueur.cpp src/joueur.h
 
 obj/gameTxt.o : src/gameTxt.cpp src/gameTxt.h
 	$(CC) -c src/gameTxt.cpp -o obj/gameTxt.o
+
+obj/gameGraphique.o : src/gameGraphique.cpp src/gameGraphique.h
+	$(CC) -c src/gameGraphique.cpp -o obj/gameGraphique.o
 
 obj/vecteur2D.o : src/vecteur2D.cpp src/vecteur2D.h
 	$(CC) -c src/vecteur2D.cpp -o obj/vecteur2D.o
