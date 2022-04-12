@@ -28,16 +28,9 @@ void GameGraphique::afficherInit() {
 
 }
 
-void GameGraphique::afficherBoucle() {
-    SDL_Rect rectangle;
+void GameGraphique::afficherBoucle() {  
     SDL_SetRenderDrawColor(renderer,155,155,155,255);
     SDL_RenderClear(renderer);
-    for(unsigned int x=0;x<dimx;x++){
-        for(unsigned int y=0;y<dimy;y++){
-            SDL_RenderFillRects(renderer,&rectangle,1);
-        }
-    }
-
     SDL_RenderPresent(renderer);
 }
 
@@ -54,9 +47,9 @@ void GameGraphique::afficher(){
 
     while(display){
         afficherBoucle();
-        SDL_Renderer * renderer;
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Choisir la couleur noir  
-        SDL_RenderClear(renderer); // Colorier en noir toutes la fenêtre 
+        while (SDL_PollEvent(&events)){
+            if (events.type == SDL_QUIT) display = false;
+        }
     }
 
     afficherDetruit();
