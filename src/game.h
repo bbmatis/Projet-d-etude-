@@ -33,16 +33,15 @@ class Game {
         //! \param y2 position en y du point n°2
         float Distance(int x1, int y1, int x2, int y2);
                
-
     public:
         std::vector<Monstre> monstres;          // Tableau dynamique de monstres
         std::vector<Defense> defenses;          // Tableau dynamique de défenses
         std::vector<Projectile> projectiles;    // Tableau dynamique de projectiles
+        int distances[LARGEUR*HAUTEUR];         // Tableau de distances entre les défenses et les monstress
         unsigned int vague;                     // Indice de vague de monstres 
         unsigned int nbMonstreTues;             // nombre de monstre tué au cours de la partie
         Joueur joueur;
         
-
         //! \brief Constructeur
         Game();
         
@@ -80,7 +79,6 @@ class Game {
         //! \param Defy coord y de la défense à améliorer
         int DefHitMonstre(Monstre & monstre, unsigned int Defposition);
 
-       
 };
 
 #endif
