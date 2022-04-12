@@ -6,21 +6,26 @@
 
 using namespace std;
 
-int main (void) {
-/*
+int main (int argc, char *argv[]) {
+
     // Initialisation du jeu
     Game maGame;
     maGame.init();
 
-    // On créer un GameTxt à partir de maGame
-    GameTxt maGameTxt(maGame);
+    // On regarde si un argument est passé en paramètre
+    // Si oui et si c'est -t ou --txt, on lance le jeu en mode texte
+    // Sinon, on lance le jeu en mode graphique
 
-    // On lance le jeu
-    maGameTxt.jouer();  */
+    if (argc == 2 && (strcmp(argv[1], "-t") == 0 || strcmp(argv[1], "--txt") == 0)) {
+        // On créer un GameTxt à partir de maGame
+        GameTxt maGameTxt(maGame);
 
-    GameGraphique theGame;
-    theGame.afficher();
-      
+        // Et on lance le jeu en mode texte
+        maGameTxt.jouer(); 
+    } else {
+        GameGraphique theGame;
+        theGame.afficher();
+    } 
 
     return 0;
 }
