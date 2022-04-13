@@ -10,13 +10,16 @@ class GameGraphique {
     private: 
         Game game;
         unsigned int dimx, dimy; //!! Dimentions X et Y de l'image
-        SDL_Window * window; //! Fenêtre SDL
-        SDL_Renderer * renderer; //! Renderer SDL
-        void afficherInit(); //! Initialise SDL
-        void afficherBoucle();  //! Boucle d'affichage de l'image
-        void afficherDetruit(); //! Déinitialise SDL
+        
 
     public:
+
+        SDL_Window * window;
+        SDL_Renderer * renderer;
+
+        std::vector<SDL_Rect> rectangles;
+        SDL_Rect rect;
+        
         //! \brief Constructeur
         GameGraphique();
 
@@ -42,6 +45,11 @@ class GameGraphique {
 
         //! \brief Afficher l'image dans une fenêtre SDL2
         void afficher();
+
+        void afficherInit(); //! Initialise SDL
+        void afficherBoucle();  //! Boucle d'affichage de l'image
+        void afficherDetruit(); //! Déinitialise SDL
+        void afficherErreurs();
 
 };
 

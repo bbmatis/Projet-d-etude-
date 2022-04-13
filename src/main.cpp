@@ -19,8 +19,9 @@ int main (void) {
     maGameTxt.jouer();  */
 
     GameGraphique theGame;
+    
     theGame.afficher();
-      
 
-    return 0;
+    return EXIT_SUCCESS;
+    
 }
