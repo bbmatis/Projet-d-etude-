@@ -4,10 +4,11 @@
 #include <unistd.h>
 #include <chrono>
 #include <thread>
+#include <ctime>
+#include <ostream>
 
 using namespace std;
 
-#include <ostream>
 namespace Color {
     enum Code {
         FG_RED          = 31,
@@ -92,6 +93,8 @@ void GameTxt::afficher(){ //test voir le .h
 void GameTxt::jouer() {
 
      srand(time(NULL));
+     clock_t t_time;
+    
    /*  On défini des defenses de bases pour les tests
     Defense d1(DOUBLECANON);
     Defense d2(DOUBLECANON);
@@ -114,6 +117,7 @@ void GameTxt::jouer() {
             game.InitVagueMonstre();    //Recréer une nouvelle vague de monstre
         }
 
+    
         cout<<"====================================="<<endl;
         cout<<"Vague en approche : Vague N°"<<game.vague<<" ( "<<game.vague*4<<" monstres)"<<endl;
 
@@ -126,6 +130,8 @@ void GameTxt::jouer() {
 
         // On déclare une variable pour stocker les retours des fonctions
         int retour;
+
+        
 
         // On fait l'action correspondante au choix du joueur
         switch(choix)
