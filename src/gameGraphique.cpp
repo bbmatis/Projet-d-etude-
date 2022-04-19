@@ -1,16 +1,7 @@
 #include "gameGraphique.h"
 #include <iostream>
 
-<<<<<<< HEAD
 GameGraphique::GameGraphique() {}
-
-GameGraphique::~GameGraphique() {}
-
-=======
-
-
-GameGraphique::GameGraphique() {
-}
 
 GameGraphique::~GameGraphique() {}
 
@@ -18,7 +9,6 @@ void GameGraphique::afficherConsole(){
     
 }
 
->>>>>>> 3fde3db83d931c1ca0440ede39311b5bc3efda5b
 void GameGraphique::afficherInit() {
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -106,11 +96,4 @@ void GameGraphique::afficher(){
   }
 
     afficherDetruit();
-<<<<<<< HEAD
 }
-=======
-
-    
-    
-  }
->>>>>>> 3fde3db83d931c1ca0440ede39311b5bc3efda5b
