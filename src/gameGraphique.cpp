@@ -1,14 +1,9 @@
 #include "gameGraphique.h"
 #include <iostream>
 
-GameGraphique::GameGraphique() {
-}
+GameGraphique::GameGraphique() {}
 
 GameGraphique::~GameGraphique() {}
-
-void GameGraphique::afficherConsole(){
-    int SDL_RenderDrawRect(SDL_Renderer * renderer,const SDL_Rect* rectangle);
-}
 
 void GameGraphique::afficherInit() {
 
@@ -53,4 +48,4 @@ void GameGraphique::afficher(){
     }
 
     afficherDetruit();
-  }
+}

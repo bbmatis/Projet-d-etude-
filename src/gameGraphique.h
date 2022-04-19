@@ -10,13 +10,13 @@ class GameGraphique {
     private: 
         Game game;
         unsigned int dimx, dimy; //!! Dimentions X et Y de l'image
+
+    public:
         SDL_Window * window; //! Fenêtre SDL
         SDL_Renderer * renderer; //! Renderer SDL
         void afficherInit(); //! Initialise SDL
         void afficherBoucle();  //! Boucle d'affichage de l'image
         void afficherDetruit(); //! Déinitialise SDL
-
-    public:
         //! \brief Constructeur
         GameGraphique();
 
