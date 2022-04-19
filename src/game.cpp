@@ -42,6 +42,8 @@ void Game::InitVagueMonstre(){
 void Game::InitPlateauJeu(){
     // On créer les cases vides
     for(int i=0; i<HAUTEUR; i++) for(int j=0; j<LARGEUR; j++) defenses.push_back(Defense());
+    // On met les distances des cases à 404 car on ne sait pas encore quelles défenses sont à quelle distance
+    for(int i=0; i<HAUTEUR; i++) for(int j=0; j<LARGEUR; j++) distances[i*LARGEUR+j] = 404;
 }
 
 // Acheter et placer une défense
@@ -124,5 +126,108 @@ int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition){
     return 0;
 }
 
+// Tester une case pour savoir si on peut la visiter ou non
+int Game::getDistance(unsigned int from, unsigned int to, vector<bool> &visited, vector<int> &toVisit) {
+    cout << "getDistance(" << from << "," << to <<")" << endl;
 
+    // On teste si la case est valide
+    if (to < 0 || to >= LARGEUR*HAUTEUR) return 403;
+
+    // debug : on affiche si la case est déjà visitée
+    // cout << "visited[" << to << "] = " << visited[to] << endl;
+
+    // On teste si la case est visitée
+    if (visited[to]) return distances[to];
+
+    // On teste si la case est occupée
+    if (defenses[to].getType() != RIEN) return 403;
+
+    // On teste si la case est accessible
+    int fromX = from % 25;
+    int fromY = from / 25;
+    int toX = to % 25;
+    int toY = to / 25;
+
+    if (fromX != toX && fromY != toY) return 403;
+
+    // on teste si la case n'est pas déjà dans la liste à visiter
+    for (unsigned int i = 0; i < toVisit.size(); i++) {
+        if (toVisit[i] == to) return 403;
+    }
+
+    // Sinon on retourne true
+    return distances[to];
+}
+
+// Mettre a jour le tableu des distances des case par rapport a la case de sortie
+void Game::updateDistances() {
+    int caseDeSortie = 174;
+    
+    // On initialise un tableau des case déjà visitées
+    vector<bool> visited(LARGEUR*HAUTEUR, false);
+
+    // On initialise un tableau des cases a visiter
+    vector<int> toVisit;
+
+    // On ajoute la case de sortie à la liste des cases à visiter
+    toVisit.push_back(caseDeSortie);
+
+    // On met a 0 la distance de la case de sortie
+    distances[caseDeSortie] = 0;
+
+    // On marque la case comme visitée
+    visited[caseDeSortie] = true;
+    unsigned int compter = 0;
+    
+    // On parcours les cases à visiter
+    while (!toVisit.empty() && compter < 500) {
+        compter++;
+        // On récupère la case à visiter
+        int position = toVisit.back();
+        int tmp[4];
+
+        // On retire la case à visiter de la liste
+        toVisit.pop_back();
+
+        // On marque la case comme visitée
+        visited[position] = true;
+
+        // debug : on affiche la case à visiter
+        cout << "Traitement de la case : " << position << " | Dans la pile : "<< toVisit.size()<< endl;
+
+        // On ajoute les cases adjacentes à la case à visiter
+        // Dans la liste des cases à visiter si elles sont accessibles
+        tmp[0] = getDistance(position, position + 1, visited, toVisit);
+        cout << "tmp[0] = " << tmp[0] << endl;
+        if (tmp[0] != 403 && tmp[0] == 404) toVisit.push_back(position + 1);
+        tmp[1] = getDistance(position, position - 1, visited, toVisit);
+        cout << "tmp[1] = " << tmp[1] << endl;
+        if (tmp[1] != 403 && tmp[1] == 404) toVisit.push_back(position - 1);
+        tmp[2] = getDistance(position, position - LARGEUR, visited, toVisit);
+        cout << "tmp[2] = " << tmp[2] << endl;
+        if (tmp[2] != 403 && tmp[2] == 404) toVisit.push_back(position - LARGEUR);
+        tmp[3] = getDistance(position, position + LARGEUR, visited, toVisit);
+        cout << "tmp[3] = " << tmp[3] << endl;
+        if (tmp[3] != 403 && tmp[3] == 404) toVisit.push_back(position + LARGEUR);
+
+        // On met à jour la distance de la case
+        if (position != caseDeSortie) distances[position] = min(tmp[0], min(tmp[1], min(tmp[2], tmp[3])));
+        distances[position]++;
+
+        // debug : afficher le nombre de cases à visiter
+        // cout << "Cases à visité : " << toVisit.size()<< endl;
+        // cout << "Cases visitées : " << compter << endl;
+    
+        // debug : affichage des cases à visiter
+        // for (unsigned int i = 0; i < toVisit.size(); i++) {
+        //     cout << " Case : " <<  toVisit[i] << endl;
+        // }
+
+        // on met a jour la distance de la case traitée
+        // avec la distance de la case voisine la plus proche de la case de sortie
+        // et on ajoute la case à la liste des cases à visiter
+
+    }
+    cout << "Nombre de cases visitées : " << compter << endl;
+}
 

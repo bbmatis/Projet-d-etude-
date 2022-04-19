@@ -78,6 +78,20 @@ void GameTxt::afficher(){ //test voir le .h
         }
         cout<<endl;
     }
+    // On affiche un tableau avec les distances des cases par rapport a la sortie
+    for(int i=0; i<HAUTEUR; i++)
+    {
+        for(int j=0; j<LARGEUR; j++)
+        {
+            if (posXMonstre == j && posYMonstre == i && game.monstres.size() > 0) cout << bgRed;
+            int indice = j+i*LARGEUR;
+            if (game.distances[indice] < 100) cout<<" ";
+            if (game.distances[indice] < 10) cout<<" ";
+            // On affiche la distance de la case par rapport a la sortie
+            cout<<game.distances[indice]<<"|";
+        }
+        cout<<endl;
+    }
 
     // On affiche l'argent du joueur
     cout<<"Argent : "<<game.joueur.money<<endl;
@@ -91,6 +105,7 @@ void GameTxt::afficher(){ //test voir le .h
 
 // Jouer le jeu en mode textuel
 void GameTxt::jouer() {
+    game.updateDistances();
 
      srand(time(NULL));
      clock_t t_time;

@@ -12,6 +12,8 @@
 #define MAX_PROJECTILES 50
 #define TAILLE_CASE 4
 
+using namespace std;
+
 // Définition de la stucture Projectile
 struct Projectile
 {
@@ -78,6 +80,18 @@ class Game {
         //! \param Defx coord x de la défense à améliorer
         //! \param Defy coord y de la défense à améliorer
         int DefHitMonstre(Monstre & monstre, unsigned int Defposition);
+
+        //! \brief calcule la distance de chaques case par rapport à la case d'arrivée
+        //! Et met à jour le tableau distances
+        void updateDistances();
+
+        //! \brief Récupère la distance qui sépare une case de l'arrivée tout en testant si elle est accessible
+        //! \param from indice de la case de départ
+        //! \param to indice de la case à tester
+        //! \param visited tableau de booléens qui indique si une case a déjà été visitée
+        //! \param toVisit tableau d'indices de cases à visiter
+        //! \return la distance si la case est accessible, 403 sinon (forbidden case)    
+        int getDistance(unsigned int from, unsigned int to, vector<bool> & visited, vector<int> & toVisit);
 
 };
 
