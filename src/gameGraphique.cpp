@@ -135,7 +135,8 @@ void GameGraphique::afficherInit() {
     }
 
     im_monstre.loadFromFile("Golem.png", renderer);
-    im_defense.loadFromFile("dirt.png", renderer);
+    im_defenseDC.loadFromFile("DoubleCanon.png", renderer);
+    im_defenseRI.loadFromFile("dirt.png", renderer);
     for(int i = 0; i<game.monstres.size(); i++) game.monstres[i].setPosition(0, 400);
 
     
@@ -158,7 +159,11 @@ void GameGraphique::afficherBoucle() {
     SDL_RenderClear(renderer);
 
 
-    game.defenses[186] = Defense(CANON); // TEST 
+    game.defenses[186] = Defense(DOUBLECANON); // TEST
+    game.defenses[99] = Defense(DOUBLECANON); // TEST 
+    game.defenses[254] = Defense(DOUBLECANON); // TEST 
+    game.defenses[260] = Defense(DOUBLECANON); // TEST 
+    game.defenses[130] = Defense(DOUBLECANON); // TEST 
 
     for(int j=0; j<game.defenses.size(); j++)
     {
@@ -166,11 +171,11 @@ void GameGraphique::afficherBoucle() {
         int Defx = j%25; //transforme la position en j
         if(game.defenses[j].getType() == RIEN)
         {
-            im_defense.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
+            im_defenseRI.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
         }
-        if(game.defenses[j].getType() == CANON)
+        if(game.defenses[j].getType() == DOUBLECANON)
         {
-            im_monstre.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
+            im_defenseDC.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
         }
     }
 

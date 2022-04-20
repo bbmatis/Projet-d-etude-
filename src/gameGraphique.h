@@ -44,7 +44,8 @@ class GameGraphique {
         
 
         Image im_monstre;
-        Image im_defense;
+        Image im_defenseDC;
+        Image im_defenseRI;
 
     public:
             
