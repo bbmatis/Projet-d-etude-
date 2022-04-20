@@ -7,7 +7,7 @@
 using namespace std;
 
 Game::Game() {
-    vague = 0;
+    vague = 1;
     nbMonstreTues = 0;
 }
 
@@ -20,6 +20,7 @@ Game::~Game(){
 // Initialiser le jeu
 void Game::init() {
     InitPlateauJeu();   // Initialise le plateau de jeu
+    InitVagueMonstre();
 }
 
 //Initialise le tableau de monstre (vague)

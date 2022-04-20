@@ -1,4 +1,4 @@
-SDL2=`sdl2-config --cflags --libs` -lSDL2
+SDL2=`sdl2-config --cflags --libs` -lSDL2 -lSDL2_image
 CC=g++ -g -Wall
 
 all: bin/main

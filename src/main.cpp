@@ -23,8 +23,9 @@ int main (int argc, char *argv[]) {
         // Et on lance le jeu en mode texte
         maGameTxt.jouer(); 
     } else {
-        GameGraphique theGame;
-        theGame.afficher();
+        
+        GameGraphique GameGraphique(maGame);
+        GameGraphique.afficher();
     } 
 
     return EXIT_SUCCESS;
