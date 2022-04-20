@@ -135,7 +135,10 @@ void GameGraphique::afficherInit() {
     }
 
     im_monstre.loadFromFile("Golem.png", renderer);
-    game.monstres[2].setPosition(0, 400);
+    im_defense.loadFromFile("dirt.png", renderer);
+    for(int i = 0; i<game.monstres.size(); i++) game.monstres[i].setPosition(0, 400);
+
+    
 
 
 }
@@ -154,34 +157,38 @@ void GameGraphique::afficherBoucle() {
     SDL_SetRenderDrawColor(renderer, 0, 15, 155, 255);
     SDL_RenderClear(renderer);
 
-    
-  
 
-    for(int i = 0; i<15; i++)
+    game.defenses[186] = Defense(CANON); // TEST 
+
+    for(int j=0; j<game.defenses.size(); j++)
     {
-      for(int j=0; j<25; j++){
-        SDL_SetRenderDrawColor(renderer,i*j*5+50,i*j*5,i*j*2, 155);
-        rectangles[j+i*25].h = 35;
-        rectangles[j+i*25].w = 35;
-        rectangles[j+i*25].x = j*37+40;
-        rectangles[j+i*25].y = i*37+122.5; 
-
-        SDL_RenderFillRect(renderer, &rectangles[j+i*25]);
-      }
-    }
-    if(game.monstres[2].getPosition().x == DimWindowX){
-      game.monstres[2].setPosition(0, 400);
+        int Defy = j/25; //transforme la position en i
+        int Defx = j%25; //transforme la position en j
+        if(game.defenses[j].getType() == RIEN)
+        {
+            im_defense.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
+        }
+        if(game.defenses[j].getType() == CANON)
+        {
+            im_monstre.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
+        }
     }
 
-    im_monstre.draw(renderer,game.monstres[2].getPosition().x,game.monstres[2].getPosition().y, 45, 45);
-    game.monstres[2].MoveRight();
-  
+    for(int i = 0; i<4; i++)
+    {
 
-   
+        if(game.monstres[i].getPosition().x == DimWindowX){
+            game.monstres[i].setPosition(0, 400);
+        }
 
+        im_monstre.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 45, 45);
+        game.monstres[i].MoveRight();
+        game.monstres[i%2].MoveUp(); //debug pour voir si il s'affiche bien plusieurs monstres 
+    }
+            
     SDL_RenderPresent(renderer);
 
-
+    
 
 }
 

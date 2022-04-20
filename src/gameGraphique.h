@@ -3,10 +3,10 @@
 
 #include "game.h"
 #include "menu.h"
-#include <SDL.h>  
-#include <SDL_ttf.h>
-#include <SDL_image.h>
-#include <SDL_mixer.h>
+#include <SDL2/SDL.h>  
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 
 #define DimWindowX 1000
 #define DimWindowY 800
