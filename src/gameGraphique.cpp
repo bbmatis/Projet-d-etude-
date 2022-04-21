@@ -123,21 +123,34 @@ void GameGraphique::afficherInit() {
     }
 
     renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
-    SDL_Rect rect;
+ 
+    im_monstre.loadFromFile("img/Golem.png", renderer);
+    im_defenseDC.loadFromFile("img/DoubleCanon.png", renderer);
+    im_defenseRI.loadFromFile("img/dirt.png", renderer);
+    im_hearts.loadFromFile("img/Coeur_Complet.png", renderer);
+    im_hearts2.loadFromFile("img/Coeur-1.png",renderer);
+    im_Money.loadFromFile("img/Money.png", renderer);
+    im_shop.loadFromFile("img/Shop.png",renderer);
+    im_Sell.loadFromFile("img/Sell.png",renderer);
 
-    for(int i = 0; i<15; i++)
-    {
-      for(int j=0; j<25; j++){
-        
-        rectangles.push_back(rect);
-  
-      }
-    }
+    for(unsigned int i = 0; i<game.monstres.size(); i++) game.monstres[i].setPosition(0, DimWindowY/2);
 
-    im_monstre.loadFromFile("Golem.png", renderer);
-    im_defenseDC.loadFromFile("DoubleCanon.png", renderer);
-    im_defenseRI.loadFromFile("dirt.png", renderer);
-    for(int i = 0; i<game.monstres.size(); i++) game.monstres[i].setPosition(0, 400);
+    SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);
+    SDL_RenderClear(renderer);
+
+    
+
+    game.defenses[186] = Defense(DOUBLECANON); // TEST
+    game.defenses[99] = Defense(DOUBLECANON); // TEST 
+    game.defenses[254] = Defense(DOUBLECANON); // TEST 
+    game.defenses[260] = Defense(CANON); // TEST 
+    game.defenses[130] = Defense(DOUBLECANON); // TEST 
+
+    
+
+    // Dessine le plateau de jeu une premiere fois 
+
+    AffichagePateau();
 
     
 
@@ -151,21 +164,9 @@ void GameGraphique::afficherDetruit() {
     SDL_Quit();
 }
 
+void GameGraphique::AffichagePateau(){
 
-void GameGraphique::afficherBoucle() {  
-
-    
-    SDL_SetRenderDrawColor(renderer, 0, 15, 155, 255);
-    SDL_RenderClear(renderer);
-
-
-    game.defenses[186] = Defense(DOUBLECANON); // TEST
-    game.defenses[99] = Defense(DOUBLECANON); // TEST 
-    game.defenses[254] = Defense(DOUBLECANON); // TEST 
-    game.defenses[260] = Defense(DOUBLECANON); // TEST 
-    game.defenses[130] = Defense(DOUBLECANON); // TEST 
-
-    for(int j=0; j<game.defenses.size(); j++)
+    for(unsigned int j=0; j<game.defenses.size(); j++)
     {
         int Defy = j/25; //transforme la position en i
         int Defx = j%25; //transforme la position en j
@@ -177,24 +178,48 @@ void GameGraphique::afficherBoucle() {
         {
             im_defenseDC.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
         }
-    }
-
-    for(int i = 0; i<4; i++)
-    {
-
-        if(game.monstres[i].getPosition().x == DimWindowX){
-            game.monstres[i].setPosition(0, 400);
+        if(game.defenses[j].getType() == CANON)
+        {
+            //faut trouver une image 
         }
-
-        im_monstre.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 45, 45);
-        game.monstres[i].MoveRight();
-        game.monstres[i%2].MoveUp(); //debug pour voir si il s'affiche bien plusieurs monstres 
+        if(game.defenses[j].getType() == MORTIER)
+        {
+            //pareil
+        }
     }
-            
-    SDL_RenderPresent(renderer);
 
-    
+    for(unsigned int i =0; i<game.monstres.size(); i++)
+    {
+        im_monstre.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 45, 45);
+    }
 
+    im_Money.draw(renderer,50, 50, 50, 50);
+    //TODO Afficher textuel à côté
+
+    // Gère le système d'affichage de vie
+
+    if(game.joueur.getNbVies() == 3) im_hearts.draw(renderer,DimWindowX-200, DimWindowY-100, 180, 60);
+    if(game.joueur.getNbVies() < 3) im_hearts2.draw(renderer, DimWindowX-200, DimWindowY -100, 180, 60);
+    //TODO Faire pour chaques vie du joueur
+}
+
+//Affiche le menu pour les choix
+void GameGraphique::AfficherMenuChoix(){
+
+
+    im_shop.draw(renderer,300, 700, 100, 100);//acheter une défense
+    im_Sell.draw(renderer,400, 700, 70, 70);//Vendre une défenses
+                                            //AMéliorer une défense
+
+} 
+
+void GameGraphique::afficherBoucle() {  
+
+    SDL_RenderClear(renderer);
+
+    AffichagePateau();
+
+ 
 }
 
 
@@ -204,17 +229,54 @@ void GameGraphique::afficherBoucle() {
 void GameGraphique::afficher(){
 
     bool display=true;
+
     SDL_Event events;
     afficherInit();
 
     while(display){
-        afficherBoucle();
         
-
         while (SDL_PollEvent(&events)){
             if (events.type == SDL_QUIT) display = false;
+
+            if(events.type == SDL_MOUSEBUTTONDOWN)
+            {
+               
+                for(unsigned int i=0; i<game.defenses.size(); i++)
+                {
+                    int Defy = i/25; //transforme la position en i
+                    int Defx = i%25; //transforme la position en j
+                    //si on enfonce le bouton gauche de la souris et que la souris se trouve dans l'une des cases 
+                    if(events.button.button == SDL_BUTTON_LEFT && events.button.x > Defx*37+40 && events.button.x < Defx*37+40 + 35 &&  events.button.y > Defy*37+122 && events.button.y < Defy*37+122 +35)
+                    {
+                        
+                        AfficherMenuChoix(); //Affiche le menu des choix à effectuer(upgrade, sell, buy)
+                                             //Ne s'affiche pas pour l'instant
+                        
+                        cout<<"Case :"<<i<<" enfoncé"<<endl;
            
+                        
+                    }
+                    
+                }
+
+                if(events.button.button == SDL_BUTTON_LEFT)
+                {
+                 
+                    //TODO lancer la vagaue de monstre
+                
+                }
+                
+                
+            }
+            
+            
         }
+
+        afficherBoucle();
+       SDL_RenderPresent(renderer);
+     
+     
+        
 
   }
 

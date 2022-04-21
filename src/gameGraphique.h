@@ -11,6 +11,7 @@
 #define DimWindowX 1000
 #define DimWindowY 800
 
+// ===== Image ===== //
 
 class Image {
 
@@ -30,7 +31,7 @@ public:
     void setSurface(SDL_Surface * surf);
 };
 
-
+// ===== GameGraphique ===== //
 
 class GameGraphique {
 
@@ -41,11 +42,18 @@ class GameGraphique {
         SDL_Renderer * renderer; //! Renderer SDL
         std::vector<SDL_Rect> rectangles;
         SDL_Rect rect;  
+        int retour;
+        int choix;
         
 
         Image im_monstre;
         Image im_defenseDC;
         Image im_defenseRI;
+        Image im_hearts;
+        Image im_hearts2;
+        Image im_shop;
+        Image im_Money;
+        Image im_Sell;
 
     public:
             
@@ -79,6 +87,8 @@ class GameGraphique {
         void afficher();
 
         void afficherInit(); //! Initialise SDL
+        void AffichagePateau(); //Iinitialise l'affichage du plateau de def
+        void AfficherMenuChoix(); //Affiche le menu pour les choix
         void afficherBoucle();  //! Boucle d'affichage de l'image
         void afficherDetruit(); //! Déinitialise SDL
         void afficherErreurs();
