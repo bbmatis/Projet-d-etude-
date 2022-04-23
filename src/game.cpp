@@ -54,7 +54,7 @@ int Game::buyDefense(typeDef defense, unsigned int position) {
     if (defense == RIEN) return -1;
 
     // On vérifie que la position valide et qu'il n'y a pas déjà une défense sur cette position
-    if (position > LARGEUR*HAUTEUR || position <= 0 || defenses[position].getType() != RIEN) return -2;
+    if (position > LARGEUR*HAUTEUR || position < 0 || defenses[position].getType() != RIEN) return -2;
 
     // On créer la défense pour obtenir son prix
     Defense defense_tmp(defense);

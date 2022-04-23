@@ -122,13 +122,24 @@ void GameGraphique::afficherInit() {
         exit(1);
     }
 
+    if(TTF_Init < 0)
+    {
+        cout <<"Erreur lors de l'initialisation de TTF" <<TTF_GetError()<<endl;
+        SDL_Quit();
+        exit(1);
+    }
+
     renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
  
     im_monstre.loadFromFile("img/Golem.png", renderer);
-    im_defenseDC.loadFromFile("img/DoubleCanon.png", renderer);
-    im_defenseRI.loadFromFile("img/dirt.png", renderer);
+    im_defenseCANON.loadFromFile("img/CANON.png",renderer);
+    im_defenseDOUBLECANON.loadFromFile("img/DoubleCanon.png", renderer);
+    im_defenseMORTIER.loadFromFile("img/Mortier.png", renderer);
+    im_defenseRIEN.loadFromFile("img/dirt.png", renderer);
     im_hearts.loadFromFile("img/Coeur_Complet.png", renderer);
-    im_hearts2.loadFromFile("img/Coeur-1.png",renderer);
+    im_hearts1.loadFromFile("img/Coeur-1.png",renderer);
+    im_hearts2.loadFromFile("img/Coeur-2.png",renderer);
+    im_hearts3.loadFromFile("img/Coeur-3.png", renderer);
     im_Money.loadFromFile("img/Money.png", renderer);
     im_shop.loadFromFile("img/Shop.png",renderer);
     im_Sell.loadFromFile("img/Sell.png",renderer);
@@ -160,7 +171,7 @@ void GameGraphique::afficherDetruit() {
     
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
-    std::vector<SDL_Rect>().swap(rectangles);
+    
     SDL_Quit();
 }
 
@@ -172,19 +183,19 @@ void GameGraphique::AffichagePateau(){
         int Defx = j%25; //transforme la position en j
         if(game.defenses[j].getType() == RIEN)
         {
-            im_defenseRI.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
+            im_defenseRIEN.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
         }
         if(game.defenses[j].getType() == DOUBLECANON)
         {
-            im_defenseDC.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
+            im_defenseDOUBLECANON.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
         }
         if(game.defenses[j].getType() == CANON)
         {
-            //faut trouver une image 
+            im_defenseCANON.draw(renderer,Defx*37+40, Defy*37+122.5, 35, 35);
         }
         if(game.defenses[j].getType() == MORTIER)
         {
-            //pareil
+            im_defenseMORTIER.draw(renderer,Defx*37+40, Defy*37+122.5, 35, 35);
         }
     }
 
@@ -198,8 +209,10 @@ void GameGraphique::AffichagePateau(){
 
     // Gère le système d'affichage de vie
 
-    if(game.joueur.getNbVies() == 3) im_hearts.draw(renderer,DimWindowX-200, DimWindowY-100, 180, 60);
-    if(game.joueur.getNbVies() < 3) im_hearts2.draw(renderer, DimWindowX-200, DimWindowY -100, 180, 60);
+    if(game.joueur.getNbVies() == 3) im_hearts.draw(renderer, DimWindowX-200, DimWindowY-100, 180, 60);
+    if(game.joueur.getNbVies() == 2) im_hearts1.draw(renderer,DimWindowX-200, DimWindowY-100, 180, 60);
+    if(game.joueur.getNbVies() == 1) im_hearts2.draw(renderer,DimWindowX-200, DimWindowY-100, 180, 60);
+    if(game.joueur.getNbVies() <  1) im_hearts3.draw(renderer,DimWindowX-200, DimWindowY-100, 180, 60);
     //TODO Faire pour chaques vie du joueur
 }
 
@@ -229,15 +242,22 @@ void GameGraphique::afficherBoucle() {
 void GameGraphique::afficher(){
 
     bool display=true;
+    int xMouse, yMouse;
 
     SDL_Event events;
     afficherInit();
 
     while(display){
-        
-        while (SDL_PollEvent(&events)){
+         afficherBoucle();
+
+        SDL_WaitEvent(&events);
+            
             if (events.type == SDL_QUIT) display = false;
 
+            if(events.type == SDL_MOUSEMOTION)
+            {
+                SDL_GetMouseState(&xMouse, &yMouse);
+            }
             if(events.type == SDL_MOUSEBUTTONDOWN)
             {
                
@@ -246,33 +266,101 @@ void GameGraphique::afficher(){
                     int Defy = i/25; //transforme la position en i
                     int Defx = i%25; //transforme la position en j
                     //si on enfonce le bouton gauche de la souris et que la souris se trouve dans l'une des cases 
-                    if(events.button.button == SDL_BUTTON_LEFT && events.button.x > Defx*37+40 && events.button.x < Defx*37+40 + 35 &&  events.button.y > Defy*37+122 && events.button.y < Defy*37+122 +35)
+                    if(xMouse > Defx*37+40 && xMouse < Defx*37+40 + 35 &&  yMouse > Defy*37+122 && yMouse < Defy*37+122 +35)
                     {
+                        //cout<<"case :"<<i<<endl;
+                       
+                        if(events.button.button == SDL_BUTTON_LEFT)
+                        {
+                  
+                            cout<<"Case :"<<i<<" enfoncé"<<endl;
+                            
+                            AfficherMenuChoix(); //Affiche le menu des choix à effectuer(upgrade, sell, buy)
+                                             //Ne s'affiche correctement pas pour l'instant
+                         
+                        }
                         
-                        AfficherMenuChoix(); //Affiche le menu des choix à effectuer(upgrade, sell, buy)
-                                             //Ne s'affiche pas pour l'instant
-                        
-                        cout<<"Case :"<<i<<" enfoncé"<<endl;
-           
+            
                         
                     }
                     
                 }
 
-                if(events.button.button == SDL_BUTTON_LEFT)
+                //Pour l'instant bouton souris droit mais imaginer un bouton "play" pour lancé la vague de monstre
+                if(events.button.button == SDL_BUTTON_RIGHT)
                 {
                  
                     //TODO lancer la vagaue de monstre
-                
+                    cout<<"bouton souris droit enfoncé :"<<endl;
+
+                    cout<<game.joueur.getNbVies()<<endl;
+
+                    game.joueur.setNbVies(game.joueur.getNbVies()-1);
                 }
                 
                 
             }
-            
-            
-        }
 
-        afficherBoucle();
+            //TEST Fonction event avec le clavier => si on est dans une case et qu'on appuie sur une des touches ca achète une défense
+            if(events.type == SDL_KEYDOWN)
+            {
+                for(unsigned int i=0; i<game.defenses.size(); i++)
+                {
+                    int Defy = i/25; //transforme la position en i
+                    int Defx = i%25; //transforme la position en j
+                    //si on enfonce le bouton gauche de la souris et que la souris se trouve dans l'une des cases 
+                    if(xMouse > Defx*37+40 && xMouse < Defx*37+40 + 35 &&  yMouse > Defy*37+122 && yMouse < Defy*37+122 +35)
+                    {
+                        //cout<<"case :"<<i<<endl;
+                       if(game.defenses[i].getType() == RIEN)
+                       {
+
+                            if(events.key.keysym.sym == SDLK_c)
+                            {
+                                game.buyDefense(CANON, i);
+                                cout<<"la defense :"<<i<<" à bien été changé en =>" <<game.defenses[i].getType()<<endl; //debug 
+                            }
+                            if(events.key.keysym.sym == SDLK_d)
+                            {
+                                game.buyDefense(DOUBLECANON, i);
+                                cout<<"la defense :"<<i<<" à bien été changé en =>" <<game.defenses[i].getType()<<endl; //debug 
+                            }
+                            if(events.key.keysym.sym == SDLK_m)
+                            {
+                                game.buyDefense(MORTIER, i);
+                                cout<<"la defense :"<<i<<" à bien été changé en =>" <<game.defenses[i].getType()<<endl; //debug 
+                            }
+                       }
+                       else cout<<"tu peux pas pd"<<endl;
+                       
+                        
+                    }
+                    
+                    
+                }
+                
+                
+            }
+            //Test fonction 
+            if(events.key.keysym.sym == SDLK_SPACE)
+            {
+                //Pour l'instant touche space  mais imaginer un bouton "play" pour lancé la vague de monstre
+                SDL_WaitEvent(&events);//permet que l'action ne se realise pas 15 fois en même temps 
+                //TODO lancer la vagaue de monstre
+                cout<<"touche space droit enfoncé :"<<endl;
+
+                game.monstres[2].MoveRight();
+
+                
+                
+            }
+        
+
+            
+
+        
+
+       
        SDL_RenderPresent(renderer);
      
      

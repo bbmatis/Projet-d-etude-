@@ -40,17 +40,20 @@ class GameGraphique {
         unsigned int dimx, dimy; //!! Dimentions X et Y de l'image
         SDL_Window * window; //! Fenêtre SDL
         SDL_Renderer * renderer; //! Renderer SDL
-        std::vector<SDL_Rect> rectangles;
-        SDL_Rect rect;  
+        
         int retour;
         int choix;
         
 
         Image im_monstre;
-        Image im_defenseDC;
-        Image im_defenseRI;
+        Image im_defenseDOUBLECANON;
+        Image im_defenseCANON;
+        Image im_defenseMORTIER;
+        Image im_defenseRIEN;
         Image im_hearts;
+        Image im_hearts1;
         Image im_hearts2;
+        Image im_hearts3;
         Image im_shop;
         Image im_Money;
         Image im_Sell;
