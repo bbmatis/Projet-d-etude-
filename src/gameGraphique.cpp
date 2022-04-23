@@ -129,6 +129,14 @@ void GameGraphique::afficherInit() {
         exit(1);
     }
 
+        
+
+    game.defenses[186] = Defense(DOUBLECANON); // TEST
+    game.defenses[99] = Defense(MORTIER); // TEST 
+    game.defenses[254] = Defense(DOUBLECANON); // TEST 
+    game.defenses[260] = Defense(CANON); // TEST 
+    game.defenses[130] = Defense(DOUBLECANON); // TEST 
+
     renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
  
     im_monstre.loadFromFile("img/Golem.png", renderer);
@@ -149,13 +157,7 @@ void GameGraphique::afficherInit() {
     SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);
     SDL_RenderClear(renderer);
 
-    
 
-    game.defenses[186] = Defense(DOUBLECANON); // TEST
-    game.defenses[99] = Defense(DOUBLECANON); // TEST 
-    game.defenses[254] = Defense(DOUBLECANON); // TEST 
-    game.defenses[260] = Defense(CANON); // TEST 
-    game.defenses[130] = Defense(DOUBLECANON); // TEST 
 
     
 
@@ -185,15 +187,15 @@ void GameGraphique::AffichagePateau(){
         {
             im_defenseRIEN.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
         }
-        if(game.defenses[j].getType() == DOUBLECANON)
+        else if(game.defenses[j].getType() == DOUBLECANON)
         {
             im_defenseDOUBLECANON.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
         }
-        if(game.defenses[j].getType() == CANON)
+        else if(game.defenses[j].getType() == CANON)
         {
             im_defenseCANON.draw(renderer,Defx*37+40, Defy*37+122.5, 35, 35);
         }
-        if(game.defenses[j].getType() == MORTIER)
+        else if(game.defenses[j].getType() == MORTIER)
         {
             im_defenseMORTIER.draw(renderer,Defx*37+40, Defy*37+122.5, 35, 35);
         }
@@ -228,7 +230,7 @@ void GameGraphique::AfficherMenuChoix(){
 
 void GameGraphique::afficherBoucle() {  
 
-    SDL_RenderClear(renderer);
+    
 
     AffichagePateau();
 
@@ -269,6 +271,7 @@ void GameGraphique::afficher(){
                     if(xMouse > Defx*37+40 && xMouse < Defx*37+40 + 35 &&  yMouse > Defy*37+122 && yMouse < Defy*37+122 +35)
                     {
                         //cout<<"case :"<<i<<endl;
+                     
                        
                         if(events.button.button == SDL_BUTTON_LEFT)
                         {
@@ -277,19 +280,12 @@ void GameGraphique::afficher(){
                             
                             AfficherMenuChoix(); //Affiche le menu des choix à effectuer(upgrade, sell, buy)
                                              //Ne s'affiche correctement pas pour l'instant
-                         
-                        }
-                        
-            
-                        
+                        }                
                     }
-                    
                 }
-
                 //Pour l'instant bouton souris droit mais imaginer un bouton "play" pour lancé la vague de monstre
                 if(events.button.button == SDL_BUTTON_RIGHT)
                 {
-                 
                     //TODO lancer la vagaue de monstre
                     cout<<"bouton souris droit enfoncé :"<<endl;
 
@@ -297,8 +293,6 @@ void GameGraphique::afficher(){
 
                     game.joueur.setNbVies(game.joueur.getNbVies()-1);
                 }
-                
-                
             }
 
             //TEST Fonction event avec le clavier => si on est dans une case et qu'on appuie sur une des touches ca achète une défense
@@ -331,15 +325,9 @@ void GameGraphique::afficher(){
                                 cout<<"la defense :"<<i<<" à bien été changé en =>" <<game.defenses[i].getType()<<endl; //debug 
                             }
                        }
-                       else cout<<"tu peux pas pd"<<endl;
-                       
-                        
+                       else cout<<"tu peux pas pd"<<endl;       
                     }
-                    
-                    
                 }
-                
-                
             }
             //Test fonction 
             if(events.key.keysym.sym == SDLK_SPACE)
@@ -349,23 +337,14 @@ void GameGraphique::afficher(){
                 //TODO lancer la vagaue de monstre
                 cout<<"touche space droit enfoncé :"<<endl;
 
-                game.monstres[2].MoveRight();
-
-                
-                
+                game.monstres[2].MoveRight();   
             }
-        
-
-            
-
-        
-
-       
        SDL_RenderPresent(renderer);
-     
-     
-        
 
+       //clear quand on le veut -> garder affiché les choix pour les défenses ?
+       bool clear = true;
+       if(clear != true ) SDL_RenderClear(renderer);
+     
   }
 
     afficherDetruit();
