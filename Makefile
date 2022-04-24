@@ -1,10 +1,10 @@
-SDL2=`sdl2-config --cflags --libs` -lSDL2 -lSDL2_image
+SDL2=`sdl2-config --cflags --libs` -lSDL2 -lSDL2_image -lSDL2_ttf
 CC=g++ -g -Wall
 
 all: bin/main
 
-bin/main : obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/gameGraphique.o
-	$(CC) obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/gameGraphique.o obj/vecteur2D.o -o bin/test $(SDL2)
+bin/main : obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/gameGraphique.o obj/Image.o obj/Menu.o
+	$(CC) obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/gameGraphique.o obj/vecteur2D.o obj/Image.o obj/Menu.o -o bin/test $(SDL2)
 
 obj/main.o : src/main.cpp
 	$(CC) -c src/main.cpp -o obj/main.o $(SDL2)
@@ -29,6 +29,12 @@ obj/gameGraphique.o : src/gameGraphique.cpp src/gameGraphique.h
 
 obj/vecteur2D.o : src/vecteur2D.cpp src/vecteur2D.h
 	$(CC) -c src/vecteur2D.cpp -o obj/vecteur2D.o $(SDL2)
+
+obj/Image.o : src/Image.cpp src/Image.h
+	$(CC) -c src/Image.cpp -o obj/Image.o $(SDL2)
+
+obj/Menu.o : src/Menu.cpp src/Menu.h
+	$(CC) -c src/Menu.cpp -o obj/Menu.o $(SDL2)	
 
 
 
