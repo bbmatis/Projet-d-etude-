@@ -11,6 +11,7 @@ class Monstre {
         float speed;            // Vitesse du monstre
         Vecteur2D position;     // Vecteur position (x;y) du monstre
         int hp;                 // Nombre de points de vie du monstre
+        TypeMonstres type;
     public:
 
         //! \brief Constructeur
@@ -49,6 +50,8 @@ class Monstre {
         //! \param new_x nouvelle position en x
         //! \param new_y nouvelle position en y
         void setPosition(int new_x, int new_y);
+
+        TypeMonstres getType() const;
 
 
 };

@@ -15,6 +15,7 @@ int  temps () {
 
 GameGraphique::GameGraphique(Game theGame) {
   game = theGame;
+  
 }
 
 GameGraphique::~GameGraphique() {
@@ -71,7 +72,9 @@ void GameGraphique::afficherInit() {
 
     renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
  
-    im_monstre.loadFromFile("img/Golem.png", renderer);
+    im_monstre1.loadFromFile("img/Squelette.png", renderer);
+    im_monstre2.loadFromFile("img/monstre2.png",renderer);
+    im_monstre3.loadFromFile("img/Golem.png", renderer);
     im_defenseCANON.loadFromFile("img/CANON.png",renderer);
     im_defenseDOUBLECANON.loadFromFile("img/DoubleCanon.png", renderer);
     im_defenseMORTIER.loadFromFile("img/Mortier.png", renderer);
@@ -84,7 +87,7 @@ void GameGraphique::afficherInit() {
     im_shop.loadFromFile("img/Shop.png",renderer);
     im_Sell.loadFromFile("img/Sell.png",renderer);
 
-    for(unsigned int i = 0; i<game.monstres.size(); i++) game.monstres[i].setPosition(0, DimWindowY/2);
+    
 
     SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);
     SDL_RenderClear(renderer);
@@ -126,9 +129,26 @@ void GameGraphique::AffichagePateau(){
         }
     }
 
+    
+
+    
+
     for(unsigned int i =0; i<game.monstres.size(); i++)
     {
-        im_monstre.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 45, 45);
+       
+        if(game.monstres[i].getType() == Mob1){
+    
+            im_monstre1.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 45, 45);
+    
+        }
+        if(game.monstres[i].getType() == Mob2){
+
+            im_monstre2.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 45, 45);
+        } 
+        if(game.monstres[i].getType() == Mob3){
+
+            im_monstre3.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 45, 45);
+        } 
     }
 
     //affichage de la money
@@ -212,6 +232,7 @@ void GameGraphique::afficher(){
 
     while(display){
          afficherBoucle();
+         touchemonstre = false;
 
         while(SDL_PollEvent(&events)){
 
@@ -337,13 +358,22 @@ void GameGraphique::afficher(){
                             // Si la défense a touché le monstre
                             if (retour == 1) {
                                 cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;
+                                touchemonstre = true;
+                                if(touchemonstre = true) {
+                                    //im_monstre1.loadFromFile("img/Golem_Hit.png", renderer);
+                                    //im_monstre1.loadFromFile("img/Golem.png", renderer);
+                                }
+                                
+                                
                             }
+                            
                         }
                     }
 
            // On boucle tout les monstres 
                     for (unsigned int i=0; i < game.monstres.size(); i++) {
                         game.monstres[i].MoveRight();
+                        
                         // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
                         if (game.monstres[i].getPosition().x >= DimWindowX) {
                             // On le supprime si c'est le cas
@@ -371,10 +401,12 @@ void GameGraphique::afficher(){
                     }
            
         }
-        if(game.monstres.size() < 1)
-           {
-               lancervague = true;
-           }
+        if(game.monstres.size() == 0) {
+            lancervague = true;
+            game.vague++;
+            game.InitVagueMonstre();    //Recréer une nouvelle vague de monstre
+        }
+
 
         if(AfficherMenuChoixBool) AfficherMenuChoix();
 

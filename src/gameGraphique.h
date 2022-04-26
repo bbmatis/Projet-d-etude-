@@ -33,10 +33,13 @@ class GameGraphique {
         SDL_Color Couleur_Texte2;
         
         int retour;
+        bool touchemonstre = true;
         int choix;
         
 
-        Image im_monstre;
+        Image im_monstre1;
+        Image im_monstre2;
+        Image im_monstre3;
         Image im_defenseDOUBLECANON;
         Image im_defenseCANON;
         Image im_defenseMORTIER;

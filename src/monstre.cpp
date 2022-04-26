@@ -1,9 +1,10 @@
 #include "monstre.h"
 
 // Constructeur
-Monstre::Monstre(TypeMonstres type) {
+Monstre::Monstre(TypeMonstres typeMonstre) {
+    type = typeMonstre;
     position.x = 0;
-    position.y = 7;
+    position.y = 400;
 
     switch (type)
     {
@@ -13,11 +14,11 @@ Monstre::Monstre(TypeMonstres type) {
             break;
         case Mob2:
             hp = 100;
-            speed = 1;
+            speed = 1.2;
             break;
         case Mob3:
             hp = 150;
-            speed = 1;
+            speed = 0.9;
             break;
     }
 }
@@ -69,5 +70,9 @@ Vecteur2D Monstre::getPosition() const {
 void Monstre::setPosition(int new_x, int new_y){
     position.x = new_x;
     position.y = new_y;
+}
+
+TypeMonstres Monstre::getType() const{
+    return type;
 }
 
