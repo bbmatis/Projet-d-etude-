@@ -197,10 +197,13 @@ void GameGraphique::afficherBoucle() {
     //AfficherMessageErreur(-2);
 }
 
-/* void GameGraphique::afficher(){
+//Affichage avec le menu de départ 
+
+void GameGraphique::afficher(){
 
     bool display=true;
     bool lancervague=true;
+    bool AfficherMenuChoixBool=false;
     bool clear = false;
     int xMouse, yMouse;
 
@@ -210,7 +213,7 @@ void GameGraphique::afficherBoucle() {
     while(display){
          afficherBoucle();
 
-        if(SDL_PollEvent(&events)){
+        while(SDL_PollEvent(&events)){
 
         
             
@@ -219,6 +222,7 @@ void GameGraphique::afficherBoucle() {
             if(events.type == SDL_MOUSEMOTION)
             {
                 SDL_GetMouseState(&xMouse, &yMouse);
+
             }
             if(events.type == SDL_MOUSEBUTTONDOWN)
             {
@@ -238,25 +242,12 @@ void GameGraphique::afficherBoucle() {
                   
                             cout<<"Case :"<<i<<" enfoncé"<<endl;
                             
-                            AfficherMenuChoix(); //Affiche le menu des choix à effectuer(upgrade, sell, buy)
-                                             //Ne s'affiche correctement pas pour l'instant
-
-                     
-                            //SDL_RenderCopy(renderer,im_hearts3.getTexture(), NULL, NULL);
+                            AfficherMenuChoixBool = true; //Affiche le menu des choix à effectuer(upgrade, sell, buy)
+               
                         }                
                     }
                 }
-                //Pour l'instant bouton souris droit mais imaginer un bouton "play" pour lancé la vague de monstre
-                if(events.button.button == SDL_BUTTON_RIGHT)
-                {
-                    //TODO lancer la vagaue de monstre
-                    cout<<"bouton souris droit enfoncé :"<<endl;
-
-                   
-
-                    cout<<game.joueur.getNbVies()<<endl;
-
-                }
+                
             }
 
             //TEST Fonction event avec le clavier => si on est dans une case et qu'on appuie sur une des touches ca achète une défense
@@ -269,64 +260,115 @@ void GameGraphique::afficherBoucle() {
                     //si on enfonce le bouton gauche de la souris et que la souris se trouve dans l'une des cases 
                     if(xMouse > Defx*37+40 && xMouse < Defx*37+40 + 35 &&  yMouse > Defy*37+122 && yMouse < Defy*37+122 +35)
                     {
-                        //cout<<"case :"<<i<<endl;
-                       if(game.defenses[i].getType() == RIEN)
-                       {
+                        //cout<<"case :"<<i<<endl;     
+                            switch(events.key.keysym.sym){
+                            case SDLK_c :
+                            
+                                retour = game.buyDefense(CANON, i);
+                                if (retour == -1) cout<< "Le type de defense n'est pas valide."<<endl;
+                                // Si la position est invalide
+                                else if (retour == -2) cout << "La position choisie est invalide."<<endl;
+                                // Si le joueur n'a pas assez d'argent
+                                else if (retour == -3) cout << "Vous n'avez pas assez d'argent pour acheter cette défense."<<endl;
+                            
+                                break;
 
-                            if(events.key.keysym.sym == SDLK_c)
-                            {
-                                game.buyDefense(CANON, i);
-                                cout<<"la defense :"<<i<<" à bien été changé en =>" <<game.defenses[i].getType()<<endl; //debug 
+                            case SDLK_d :
+                            
+                                retour = game.buyDefense(DOUBLECANON, i);
+                                if (retour == -1) cout<< "Le type de defense n'est pas valide."<<endl;
+                                // Si la position est invalide
+                                else if (retour == -2) cout << "La position choisie est invalide."<<endl;
+                                // Si le joueur n'a pas assez d'argent
+                                else if (retour == -3) cout << "Vous n'avez pas assez d'argent pour acheter cette défense."<<endl;
+                            
+                                break;
+
+                            case SDLK_m :
+                            
+                                retour = game.buyDefense(MORTIER, i);
+                                if (retour == -1) cout<< "Le type de defense n'est pas valide."<<endl;
+                                // Si la position est invalide
+                                else if (retour == -2) cout << "La position choisie est invalide."<<endl;
+                                // Si le joueur n'a pas assez d'argent
+                                else if (retour == -3) cout << "Vous n'avez pas assez d'argent pour acheter cette défense."<<endl;
+                            break;
+
+                            case SDLK_s : 
+
+                                retour = game.sellDefense(game.defenses[i]);
+                                break;
+
+                            default: break;
                             }
-                            if(events.key.keysym.sym == SDLK_d)
-                            {
-                                game.buyDefense(DOUBLECANON, i);
-                                cout<<"la defense :"<<i<<" à bien été changé en =>" <<game.defenses[i].getType()<<endl; //debug 
-                            }
-                            if(events.key.keysym.sym == SDLK_m)
-                            {
-                                game.buyDefense(MORTIER, i);
-                                cout<<"la defense :"<<i<<" à bien été changé en =>" <<game.defenses[i].getType()<<endl; //debug 
-                            }
-                       }
-                       else cout<<"tu peux pas pd"<<endl;       
+                       
+                    
                     }
                 }
-            }
-            //Test fonction 
+                //Test fonction 
             if(events.key.keysym.sym == SDLK_SPACE)
             {
-                //Pour l'instant touche space  mais imaginer un bouton "play" pour lancé la vague de monstre
-                SDL_WaitEvent(&events);//permet que l'action ne se realise pas 15 fois en même temps 
-                //TODO lancer la vagaue de monstre
-                cout<<"touche space droit enfoncé :"<<endl;
+                SDL_WaitEvent(&events);
 
                  lancervague = false;
-                 SDL_WaitEvent(&events);
+                 //Pour l'instant touche space  mais imaginer un bouton "play" pour lancé la vague de monstre
+                SDL_WaitEvent(&events);//permet que l'action ne se realise pas 15 fois en même temps 
+                //TODO lancer la vagaue de monstre
 
             }
+            }
+            
        
     
         }
 
 
 
-        if(lancervague != true){
+        if(lancervague != true){ //Lancer vague
 
-           for(int i=0; i<game.monstres.size(); i++)
-           {
-               game.monstres[i].MoveRight();
-               // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
+                 // On boucle sur les défenses
+                    for (unsigned int i=0; i < game.defenses.size(); i++) {
+                        if (game.defenses[i].getType() == RIEN) continue; // Si la case est vide, on passe à la suivante
+                        cout<<"Tour de la défense : "<<i<<endl;
+
+                        for (unsigned int a = 0; a < game.monstres.size(); a++) {
+                            // Attack de la défense sur monstre a si possible
+                            retour = game.DefHitMonstre(game.monstres[a], i, 1);
+                            // Si la défense a touché le monstre
+                            if (retour == 1) {
+                                cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;
+                            }
+                        }
+                    }
+
+           // On boucle tout les monstres 
+                    for (unsigned int i=0; i < game.monstres.size(); i++) {
+                        game.monstres[i].MoveRight();
+                        // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
                         if (game.monstres[i].getPosition().x >= DimWindowX) {
                             // On le supprime si c'est le cas
                             game.monstres.erase(game.monstres.begin()+i);
 
                             // Et on enlève une vie au joueur
                             game.joueur.setNbVies(game.joueur.getNbVies() - 1);
-
-                            
                         }
-           }
+
+                        // On regarde si le monstre n'as plus de vies
+                        if (game.monstres[i].getHp() < 1) {
+                            // On le supprime si c'est le cas
+                            game.monstres.erase(game.monstres.begin()+i);
+
+                            // On ajoute un point au score joueur
+                            game.joueur.setScore(game.joueur.getScore() + 1);
+
+                            // On ajoute de l'argent au joueur
+                            game.joueur.money += 100;
+                            game.nbMonstreTues ++;
+                        }
+
+                        // On remet le tableau à la bonne taille
+                        game.monstres.shrink_to_fit();
+                    }
            
         }
         if(game.monstres.size() < 1)
@@ -334,8 +376,9 @@ void GameGraphique::afficherBoucle() {
                lancervague = true;
            }
 
-        
-        
+        if(AfficherMenuChoixBool) AfficherMenuChoix();
+
+
         SDL_RenderPresent(renderer);
        
        //clear quand on le veut -> garder affiché les choix pour les défenses ?
@@ -344,51 +387,4 @@ void GameGraphique::afficherBoucle() {
      
   }
 
-}   */
-
-
-//Affichage avec le menu de départ 
-
-void GameGraphique::afficher(){
-
-    bool display;
-    bool displayMenu = true;
-    int xMouse, yMouse;
-
-    SDL_Event events;
- 
-    while(display){
-         
-
-        SDL_WaitEvent(&events);
-            
-            if (events.type == SDL_QUIT) display = false;
-
-            if(events.type == SDL_MOUSEMOTION)
-            {
-                SDL_GetMouseState(&xMouse, &yMouse);
-            }
-            if(events.type == SDL_MOUSEBUTTONDOWN)
-            {
-                
-                if(events.button.button == SDL_BUTTON_LEFT && xMouse < 200 && yMouse > 600)
-                {
-                    cout<<"Touchew"<<endl;
-                    displayMenu = false;
-                }
-            }
-            
-            if(displayMenu == true) {
-                menu.MenuInit();
-                menu.MenuAfficher();
-            }
-            else afficherBoucle();
-        SDL_RenderPresent(renderer);
-
-       //clear quand on le veut -> garder affiché les choix pour les défenses ?
-       bool clear = true;
-       if(clear != true ) SDL_RenderClear(renderer);
-     
-  }
-
-}  
+}    

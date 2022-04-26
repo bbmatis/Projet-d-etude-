@@ -78,20 +78,6 @@ void GameTxt::afficher(){ //test voir le .h
         }
         cout<<endl;
     }
-    // On affiche un tableau avec les distances des cases par rapport a la sortie
-    for(int i=0; i<HAUTEUR; i++)
-    {
-        for(int j=0; j<LARGEUR; j++)
-        {
-            if (posXMonstre == j && posYMonstre == i && game.monstres.size() > 0) cout << bgRed;
-            int indice = j+i*LARGEUR;
-            if (game.distances[indice] < 100) cout<<" ";
-            if (game.distances[indice] < 10) cout<<" ";
-            // On affiche la distance de la case par rapport a la sortie
-            cout<<game.distances[indice]<<"|";
-        }
-        cout<<endl;
-    }
 
     // On affiche l'argent du joueur
     cout<<"Argent : "<<game.joueur.money<<endl;
@@ -100,6 +86,17 @@ void GameTxt::afficher(){ //test voir le .h
     cout<<"Vague : "<<game.vague<<endl;
     cout<<"NbVie : "<<red<<game.joueur.getNbVies()<<def<<endl;
     
+    // On affiche un tableau avec les distances des cases par rapport a la sortie
+    for(int i=0; i<HAUTEUR; i++) {
+        for(int j=0; j<LARGEUR; j++) {
+            int indice = j+i*LARGEUR;
+            if (game.distances[indice] < 100) cout<<" ";
+            if (game.distances[indice] < 10) cout<<" ";
+            // On affiche la distance de la case par rapport a la sortie
+            cout<<game.distances[indice]<<"|";
+        }
+        cout<<endl;
+    }
     
 }
 
@@ -131,7 +128,6 @@ void GameTxt::jouer() {
             game.vague++;
             game.InitVagueMonstre();    //Recréer une nouvelle vague de monstre
         }
-
     
         cout<<"====================================="<<endl;
         cout<<"Vague en approche : Vague N°"<<game.vague<<" ( "<<game.vague*4<<" monstres)"<<endl;
@@ -237,7 +233,7 @@ void GameTxt::jouer() {
 
                         for (unsigned int a = 0; a < game.monstres.size(); a++) {
                             // Attack de la défense sur monstre a si possible
-                            retour = game.DefHitMonstre(game.monstres[a], i);
+                            retour = game.DefHitMonstre(game.monstres[a], i, 0);
                             // Si la défense a touché le monstre
                             if (retour == 1) {
                                 cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;

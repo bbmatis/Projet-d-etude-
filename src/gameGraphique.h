@@ -41,7 +41,6 @@ class GameGraphique {
         Image im_defenseCANON;
         Image im_defenseMORTIER;
         Image im_defenseRIEN;
-        vector<Image>im_defenseRIENTab;
         Image im_hearts;
         Image im_hearts1;
         Image im_hearts2;

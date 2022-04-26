@@ -79,7 +79,7 @@ class Game {
         //! \param Defposition position de la défense qui va attaquer
         //! \param Defx coord x de la défense à améliorer
         //! \param Defy coord y de la défense à améliorer
-        int DefHitMonstre(Monstre & monstre, unsigned int Defposition);
+        int DefHitMonstre(Monstre & monstre, unsigned int Defposition, int mode);
 
         //! \brief calcule la distance de chaques case par rapport à la case d'arrivée
         //! Et met à jour le tableau distances
@@ -90,8 +90,8 @@ class Game {
         //! \param to indice de la case à tester
         //! \param visited tableau de booléens qui indique si une case a déjà été visitée
         //! \param toVisit tableau d'indices de cases à visiter
-        //! \return la distance si la case est accessible, 403 sinon (forbidden case)    
-        int getDistance(unsigned int from, unsigned int to, vector<bool> & visited, vector<int> & toVisit);
+        //! \return true si possible et false sinon
+        bool canVisit(unsigned int from, unsigned int to, vector<bool> & visited, vector<int> & toVisit);
 
 };
 
