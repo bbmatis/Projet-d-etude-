@@ -24,6 +24,7 @@ class GameGraphique {
         unsigned int dimx, dimy; //!! Dimentions X et Y de l'image
         SDL_Window * window; //! Fenêtre SDL
         SDL_Renderer * renderer; //! Renderer SDL
+        Menu menu;
         
         
         int retour;

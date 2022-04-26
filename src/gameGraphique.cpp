@@ -159,6 +159,8 @@ void GameGraphique::afficherBoucle() {
 void GameGraphique::afficher(){
 
     bool display=true;
+    bool lancervague=true;
+    bool clear = false;
     int xMouse, yMouse;
 
     SDL_Event events;
@@ -167,9 +169,11 @@ void GameGraphique::afficher(){
     while(display){
          afficherBoucle();
 
-        SDL_WaitEvent(&events);
+        if(SDL_PollEvent(&events)){
+
+        
             
-            if (events.type == SDL_QUIT) display = false;
+            if(events.type == SDL_QUIT) display = false;
 
             if(events.type == SDL_MOUSEMOTION)
             {
@@ -207,9 +211,10 @@ void GameGraphique::afficher(){
                     //TODO lancer la vagaue de monstre
                     cout<<"bouton souris droit enfoncé :"<<endl;
 
+                   
+
                     cout<<game.joueur.getNbVies()<<endl;
 
-                    game.joueur.setNbVies(game.joueur.getNbVies()-1);
                 }
             }
 
@@ -255,17 +260,50 @@ void GameGraphique::afficher(){
                 //TODO lancer la vagaue de monstre
                 cout<<"touche space droit enfoncé :"<<endl;
 
-                game.monstres[2].MoveRight();   
-            }
-       SDL_RenderPresent(renderer);
+                 lancervague = false;
+                 SDL_WaitEvent(&events);
 
+            }
+       
+    
+        }
+
+
+
+        if(lancervague != true){
+
+           for(int i=0; i<game.monstres.size(); i++)
+           {
+               game.monstres[i].MoveRight();
+               // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
+                        if (game.monstres[i].getPosition().x >= DimWindowX) {
+                            // On le supprime si c'est le cas
+                            game.monstres.erase(game.monstres.begin()+i);
+
+                            // Et on enlève une vie au joueur
+                            game.joueur.setNbVies(game.joueur.getNbVies() - 1);
+
+                            
+                        }
+           }
+           
+        }
+        if(game.monstres.size() < 1)
+           {
+               lancervague = true;
+           }
+
+        
+        
+        SDL_RenderPresent(renderer);
+       
        //clear quand on le veut -> garder affiché les choix pour les défenses ?
-       bool clear = false;
+      
        if(clear != true ) SDL_RenderClear(renderer);
      
   }
 
-} 
+}  
 
 
 //Affichage avec le menu de départ 
@@ -310,4 +348,4 @@ void GameGraphique::afficher(){
      
   }
 
-} */
+}  */

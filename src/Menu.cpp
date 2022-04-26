@@ -10,9 +10,9 @@ void Menu::recupScoreFromFile(){} /** \brief récupère le score depuis un fichi
 
 void Menu::trieScore(){} /** \brief trie les scores **/
 
+Menu::Menu(){}
 
-
-Menu::Menu(){
+void Menu::MenuInit(){
 
    
     // Initialisation de la SDL
@@ -56,6 +56,7 @@ Menu::Menu(){
 
 void Menu::MenuAfficher(){
 
+    MenuInit();
     	//Remplir l'écran de blanc
     
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
