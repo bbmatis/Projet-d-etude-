@@ -79,7 +79,7 @@ class Game {
         //! \param Defposition position de la défense qui va attaquer
         //! \param Defx coord x de la défense à améliorer
         //! \param Defy coord y de la défense à améliorer
-        int DefHitMonstre(Monstre & monstre, unsigned int Defposition);
+        int DefHitMonstre(Monstre & monstre, unsigned int Defposition, int mode);
 
         //! \brief calcule la distance de chaques case par rapport à la case d'arrivée
         //! Et met à jour le tableau distances

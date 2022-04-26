@@ -10,7 +10,7 @@ Defense::Defense(typeDef typeDef) {
         case CANON:
             reloadTime = 0.5f;
             damage = 5;
-            range = 3;
+            range = 5;
             zoneDamage = false;
             prix = 50;
             break;

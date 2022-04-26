@@ -26,8 +26,8 @@ class Menu {
         
         
         TTF_Font * font;
-        Image font_jouer;
-        Image font_options;
+        Image font_im;
+        //Image font_options;
         Image font_scores;
         SDL_Color font_color;
    

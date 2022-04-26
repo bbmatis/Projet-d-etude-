@@ -10,9 +10,9 @@ void Menu::recupScoreFromFile(){} /** \brief récupère le score depuis un fichi
 
 void Menu::trieScore(){} /** \brief trie les scores **/
 
-Menu::Menu(){}
 
-void Menu::MenuInit(){
+
+Menu::Menu(){
 
    
     // Initialisation de la SDL
@@ -47,33 +47,31 @@ void Menu::MenuInit(){
             SDL_Quit(); 
             exit(1);
 	}
+	font_color.r = 50;font_color.g = 50;font_color.b = 255;
+	font_im.setSurface(TTF_RenderText_Solid(font,"Jouer",font_color));
+	font_im.loadFromCurrentSurface(renderer);
 
-     //Remplir l'écran de blanc
-
-	font_color.r = 80;font_color.g = 50;font_color.b = 255;
-	font_jouer.setSurface(TTF_RenderText_Solid(font,"Jouer",font_color));
-	font_jouer.loadFromCurrentSurface(renderer);
-
-    font_color.r = 50;font_color.g = 250;font_color.b = 255;
-    font_options.setSurface(TTF_RenderText_Solid(font,"Options",font_color));
-	font_options.loadFromCurrentSurface(renderer);
-
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_RenderClear(renderer);
 
 }
 
 void Menu::MenuAfficher(){
 
-    // Ecrire un titre par dessus
-    SDL_Rect positionJouer;
-    positionJouer.x = 270; positionJouer.y = 49; positionJouer.w = 100; positionJouer.h = 30;
-    SDL_RenderCopy(renderer,font_jouer.getTexture(),nullptr,&positionJouer);
+    	//Remplir l'écran de blanc
+    
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    
 
-    // options
-    SDL_Rect positionOptions;
-    positionOptions.x = 270; positionOptions.y = 249; positionOptions.w = 100; positionOptions.h = 30;
-    SDL_RenderCopy(renderer,font_options.getTexture(),nullptr,&positionOptions); 
+    // Ecrire un titre par dessus
+    SDL_Rect positionTitre;
+    positionTitre.x = 270;positionTitre.y = 49;positionTitre.w = 100;positionTitre.h = 30;
+    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTitre);
+
+    SDL_RenderPresent(renderer);
+
+       //clear quand on le veut -> garder affiché les choix pour les défenses ?
+       bool clear = false;
+       if(clear != true ) SDL_RenderClear(renderer);
+
 
 }
 
@@ -83,8 +81,6 @@ void Menu::MenuBoucle(){
 
     SDL_Event events;
 
-    MenuInit();
-
     while(display){
 
         SDL_WaitEvent(&events);
@@ -93,11 +89,11 @@ void Menu::MenuBoucle(){
 
                     
         MenuAfficher();
-        SDL_RenderPresent(renderer);
+       SDL_RenderPresent(renderer);
 
-        //clear quand on le veut -> garder affiché les choix pour les défenses ?
-        bool clear = true;
-        if(clear != true ) SDL_RenderClear(renderer);
+       //clear quand on le veut -> garder affiché les choix pour les défenses ?
+       bool clear = false;
+       if(clear != true ) SDL_RenderClear(renderer);
     }
      
   }
