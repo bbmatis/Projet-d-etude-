@@ -22,15 +22,27 @@ class GameGraphique {
     private: 
         Game game;
         Menu menu;
-        unsigned int dimx, dimy; //!! Dimentions X et Y de l'image
+        unsigned int dimx, dimy; //! Dimentions X et Y de l'image
         SDL_Window * window; //! Fenêtre SDL
         SDL_Renderer * renderer; //! Renderer SDL
 
         TTF_Font * font;
-        Image font_im;
-        Image font_im2;
-        SDL_Color Couleur_Texte;
+
+        //! Image Money
+        Image font_im; 
+        SDL_Color Couleur_Texte; 
+
+        //! Affichage messages d'erreurs
+        Image font_im2; 
         SDL_Color Couleur_Texte2;
+
+        //! Affichage menu
+        Image font_jouer;
+        Image font_option;
+        Image font_score;
+        SDL_Color font_colorJ;
+        SDL_Color font_colorO;
+        SDL_Color font_colorS;
         
         int retour;
         bool touchemonstre = true;

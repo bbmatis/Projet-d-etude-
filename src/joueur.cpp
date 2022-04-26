@@ -4,7 +4,7 @@
 // Constructeur
 Joueur::Joueur() {
     nbVies = 3;
-    money = 20000;
+    money = 200;
     score = 0;
 }
 

@@ -5,10 +5,11 @@
 #include <sstream>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <chrono>
 #include <thread>
 
-int  temps () {
+int temps() {
     return int(SDL_GetTicks()) / CLOCKS_PER_SEC;  // conversion des ms en secondes en divisant par 1000
 }
 
@@ -100,9 +101,6 @@ void GameGraphique::afficherInit() {
 
     AffichagePateau();
 
-    
-
-
 }
 
 void GameGraphique::AffichagePateau(){
@@ -185,9 +183,9 @@ void GameGraphique::AfficherMenuChoix(){
 
 void GameGraphique::AfficherMessageErreur(int nbErr) {
 
-    string err1 = "Le type de defense n'est pas valide";
-    string err2 = "La position choisie est invalide";
-    string err3 = "Vous n'avez pas assez d'argent pour acheter cette défense";
+    string err1 = "Le type de defense n'est pas valide !";
+    string err2 = "La position choisie est invalide !";
+    string err3 = "Vous n'avez pas assez d'argent pour acheter cette defense !";
     string err = "";
 
     if(nbErr == -1) {
@@ -225,6 +223,7 @@ void GameGraphique::afficher(){
     bool lancervague=true;
     bool AfficherMenuChoixBool=false;
     bool clear = false;
+    bool affichermsg = false;
     int xMouse, yMouse;
 
     SDL_Event events;
@@ -285,34 +284,38 @@ void GameGraphique::afficher(){
                             switch(events.key.keysym.sym){
                             case SDLK_c :
                             
-                                retour = game.buyDefense(CANON, i);
-                                if (retour == -1) cout<< "Le type de defense n'est pas valide."<<endl;
+                                retour = game.buyDefense(CANON, i);  
+                                if (retour == -1) {
+                                    SDL_WaitEvent(&events); 
+                                    affichermsg = true;  
+                                    SDL_WaitEvent(&events); 
+                                }                         
                                 // Si la position est invalide
-                                else if (retour == -2) cout << "La position choisie est invalide."<<endl;
+                                else if (retour == -2) AfficherMessageErreur(retour);
                                 // Si le joueur n'a pas assez d'argent
-                                else if (retour == -3) cout << "Vous n'avez pas assez d'argent pour acheter cette défense."<<endl;
+                                else if (retour == -3) AfficherMessageErreur(retour);
                             
                                 break;
 
                             case SDLK_d :
                             
                                 retour = game.buyDefense(DOUBLECANON, i);
-                                if (retour == -1) cout<< "Le type de defense n'est pas valide."<<endl;
+                                if (retour == -1) AfficherMessageErreur(retour);
                                 // Si la position est invalide
-                                else if (retour == -2) cout << "La position choisie est invalide."<<endl;
+                                else if (retour == -2) AfficherMessageErreur(retour);
                                 // Si le joueur n'a pas assez d'argent
-                                else if (retour == -3) cout << "Vous n'avez pas assez d'argent pour acheter cette défense."<<endl;
+                                else if (retour == -3) AfficherMessageErreur(retour);
                             
                                 break;
 
                             case SDLK_m :
                             
                                 retour = game.buyDefense(MORTIER, i);
-                                if (retour == -1) cout<< "Le type de defense n'est pas valide."<<endl;
+                                if (retour == -1) AfficherMessageErreur(retour);
                                 // Si la position est invalide
-                                else if (retour == -2) cout << "La position choisie est invalide."<<endl;
+                                else if (retour == -2) AfficherMessageErreur(retour);
                                 // Si le joueur n'a pas assez d'argent
-                                else if (retour == -3) cout << "Vous n'avez pas assez d'argent pour acheter cette défense."<<endl;
+                                else if (retour == -3) AfficherMessageErreur(retour);
                             break;
 
                             case SDLK_s : 
@@ -326,6 +329,12 @@ void GameGraphique::afficher(){
                     
                     }
                 }
+
+            if(affichermsg) {
+                AfficherMessageErreur(retour);
+                sleep(5);
+            }
+
                 //Test fonction 
             if(events.key.keysym.sym == SDLK_SPACE)
             {
@@ -340,7 +349,7 @@ void GameGraphique::afficher(){
             }
             
        
-    
+  
         }
 
 
