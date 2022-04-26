@@ -36,8 +36,6 @@ obj/Image.o : src/Image.cpp src/Image.h
 obj/Menu.o : src/Menu.cpp src/Menu.h
 	$(CC) -c src/Menu.cpp -o obj/Menu.o $(SDL2)	
 
-
-
 clean : 
 	rm obj/*.o
 	rm bin/*
