@@ -24,19 +24,16 @@ class GameGraphique {
         unsigned int dimx, dimy; //!! Dimentions X et Y de l'image
         SDL_Window * window; //! Fenêtre SDL
         SDL_Renderer * renderer; //! Renderer SDL
-        Menu menu;
-        
         
         int retour;
         int choix;
         
-
         Image im_monstre;
         Image im_defenseDOUBLECANON;
         Image im_defenseCANON;
         Image im_defenseMORTIER;
         Image im_defenseRIEN;
-        vector<Image>im_defenseRIENTab;
+        // vector<Image>im_defenseRIENTab;
         Image im_hearts;
         Image im_hearts1;
         Image im_hearts2;
