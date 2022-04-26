@@ -4,7 +4,12 @@ using namespace std;
 
 
 
-Menu::~Menu(){}
+Menu::~Menu(){
+    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(renderer);
+    
+    SDL_Quit();
+}
 
 void Menu::recupScoreFromFile(){} /** \brief récupère le score depuis un fichier externe **/
 
@@ -22,7 +27,7 @@ void Menu::MenuInit(){
         exit(1);
     }
 
-    if (TTF_Init() != 0) {
+    if (TTF_Init() < 0) {
         cout << "Erreur lors de l'initialisation de SDL_ttf : " << TTF_GetError() << endl;
         SDL_Quit();
         exit(1);
@@ -48,16 +53,7 @@ void Menu::MenuInit(){
             exit(1);
 	}
 
-     //Remplir l'écran de blanc
-
-	font_color.r = 80;font_color.g = 50;font_color.b = 255;
-	font_jouer.setSurface(TTF_RenderText_Solid(font,"Jouer",font_color));
-	font_jouer.loadFromCurrentSurface(renderer);
-
-    font_color.r = 50;font_color.g = 250;font_color.b = 255;
-    font_options.setSurface(TTF_RenderText_Solid(font,"Options",font_color));
-	font_options.loadFromCurrentSurface(renderer);
-
+    //Remplir l'écran de blanc
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderClear(renderer);
 
@@ -65,19 +61,26 @@ void Menu::MenuInit(){
 
 void Menu::MenuAfficher(){
 
+    font_color.r = 80;font_color.g = 50;font_color.b = 255;
+	font_im.setSurface(TTF_RenderText_Solid(font,"Jouer",font_color));
+	font_im.loadFromCurrentSurface(renderer);
     // Ecrire un titre par dessus
-    SDL_Rect positionJouer;
-    positionJouer.x = 270; positionJouer.y = 49; positionJouer.w = 100; positionJouer.h = 30;
-    SDL_RenderCopy(renderer,font_jouer.getTexture(),nullptr,&positionJouer);
+    SDL_Rect position;
+    position.x = 270; position.y = 49; position.w = 100; position.h = 30;
+    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&position);
 
+
+    font_color2.r = 50;font_color2.g = 250;font_color2.b = 255;
+    font_im2.setSurface(TTF_RenderText_Solid(font,"Options",font_color2));
+	font_im2.loadFromCurrentSurface(renderer);
     // options
-    SDL_Rect positionOptions;
-    positionOptions.x = 270; positionOptions.y = 249; positionOptions.w = 100; positionOptions.h = 30;
-    SDL_RenderCopy(renderer,font_options.getTexture(),nullptr,&positionOptions); 
+    SDL_Rect position2;
+    position2.x = 270; position2.y = 249; position2.w = 100; position2.h = 30;
+    SDL_RenderCopy(renderer,font_im2.getTexture(),nullptr,&position2); 
 
 }
 
-void Menu::MenuBoucle(){
+/* void Menu::MenuBoucle(){
     bool display=true;
     int xMouse, yMouse;
 
@@ -100,7 +103,7 @@ void Menu::MenuBoucle(){
         if(clear != true ) SDL_RenderClear(renderer);
     }
      
-  }
+  } */
 
 
 

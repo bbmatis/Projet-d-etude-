@@ -2,6 +2,8 @@
 
 #include <cassert>
 #include <iostream>
+#include <sstream>
+#include <string.h>
 #include <stdlib.h>
 #include <chrono>
 #include <thread>
@@ -44,14 +46,22 @@ void GameGraphique::afficherInit() {
         exit(1);
     }
 
-    if(TTF_Init < 0)
+    if(TTF_Init() < 0)
     {
         cout <<"Erreur lors de l'initialisation de TTF" <<TTF_GetError()<<endl;
         SDL_Quit();
         exit(1);
     }
 
-        
+    // FONTS
+    font = TTF_OpenFont("img/arial.ttf",50);
+    if (font == nullptr)
+        font = TTF_OpenFont("img/arial.ttf",50);
+    if (font == nullptr) {
+            cout << "Failed to load img/Arial.ttf SDL_TTF Error: " << TTF_GetError() << endl; 
+            SDL_Quit(); 
+            exit(1);
+	}
 
     game.defenses[186] = Defense(DOUBLECANON); // TEST
     game.defenses[99] = Defense(MORTIER); // TEST 
@@ -121,8 +131,20 @@ void GameGraphique::AffichagePateau(){
         im_monstre.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 45, 45);
     }
 
+    //affichage de la money
     im_Money.draw(renderer,50, 50, 50, 50);
-    //TODO Afficher textuel à côté
+
+    ostringstream ss;
+    ss<<game.joueur.money;
+    string moula(ss.str());
+
+    Couleur_Texte.r = 50; Couleur_Texte.g = 50; Couleur_Texte.b = 255;
+    font_im.setSurface(TTF_RenderText_Solid(font,moula.c_str(),Couleur_Texte));
+    font_im.loadFromCurrentSurface(renderer);
+
+    SDL_Rect positionJouer;
+    positionJouer.x = 170; positionJouer.y = 50; positionJouer.w = 100; positionJouer.h = 50;
+    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionJouer);
 
     // Gère le système d'affichage de vie
 
@@ -136,27 +158,46 @@ void GameGraphique::AffichagePateau(){
 //Affiche le menu pour les choix
 void GameGraphique::AfficherMenuChoix(){
 
-
     im_shop.draw(renderer,300, 700, 100, 100);//acheter une défense
     im_Sell.draw(renderer,400, 700, 70, 70);//Vendre une défenses
-                                            //AMéliorer une défense
+                                            //Améliorer une défense
+}
 
-} 
+void GameGraphique::AfficherMessageErreur(int nbErr) {
 
-void GameGraphique::afficherBoucle() {  
+    string err1 = "Le type de defense n'est pas valide";
+    string err2 = "La position choisie est invalide";
+    string err3 = "Vous n'avez pas assez d'argent pour acheter cette défense";
+    string err = "";
 
-    
-    
-    AffichagePateau();
+    if(nbErr == -1) {
+        err = err1;
+    }
+    if(nbErr == -2) {
+        err = err2;
+    }
+    if(nbErr == -3) {
+        err = err3;
+    }
 
- 
+    Couleur_Texte2.r = 250; Couleur_Texte2.g = 50; Couleur_Texte2.b = 55;
+    font_im2.setSurface(TTF_RenderText_Solid(font,err.c_str(),Couleur_Texte2));
+    font_im2.loadFromCurrentSurface(renderer);
+
+    SDL_Rect positionJouer2;
+    positionJouer2.x = 470; positionJouer2.y = 50; positionJouer2.w = 300; positionJouer2.h = 50;
+    SDL_RenderCopy(renderer,font_im2.getTexture(),nullptr,&positionJouer2);
+
 }
 
 
+void GameGraphique::afficherBoucle() {  
 
+    AffichagePateau();
+    //AfficherMessageErreur(-2);
+}
 
-
-/*void GameGraphique::afficher(){
+/* void GameGraphique::afficher(){
 
     bool display=true;
     bool lancervague=true;
@@ -303,12 +344,12 @@ void GameGraphique::afficherBoucle() {
      
   }
 
-}  
+}   */
 
 
 //Affichage avec le menu de départ 
 
-*/ void GameGraphique::afficher(){
+void GameGraphique::afficher(){
 
     bool display;
     bool displayMenu = true;
@@ -316,7 +357,6 @@ void GameGraphique::afficherBoucle() {
 
     SDL_Event events;
  
-
     while(display){
          
 
@@ -338,14 +378,17 @@ void GameGraphique::afficherBoucle() {
                 }
             }
             
-            if(displayMenu == true) menu.MenuAfficher();
+            if(displayMenu == true) {
+                menu.MenuInit();
+                menu.MenuAfficher();
+            }
             else afficherBoucle();
-       SDL_RenderPresent(renderer);
+        SDL_RenderPresent(renderer);
 
        //clear quand on le veut -> garder affiché les choix pour les défenses ?
-       bool clear = false;
+       bool clear = true;
        if(clear != true ) SDL_RenderClear(renderer);
      
   }
 
-} 
+}  
