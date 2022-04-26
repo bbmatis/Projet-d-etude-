@@ -27,22 +27,22 @@ class Game {
     private:
 
         int time; //temps écoulé
-        
         //! \brief Retourne la distance entre 2 points
         //! \param x1 position en x du point n°1
         //! \param y1 position en x du point n°1
         //! \param x2 position en y du point n°2
         //! \param y2 position en y du point n°2
         float Distance(int x1, int y1, int x2, int y2);
-               
     public:
         std::vector<Monstre> monstres;          // Tableau dynamique de monstres
         std::vector<Defense> defenses;          // Tableau dynamique de défenses
         std::vector<Projectile> projectiles;    // Tableau dynamique de projectiles
-        int distances[LARGEUR*HAUTEUR];         // Tableau de distances entre les défenses et les monstress
+        unsigned int distances[LARGEUR*HAUTEUR];         // Tableau de distances entre les défenses et les monstress
         unsigned int vague;                     // Indice de vague de monstres 
         unsigned int nbMonstreTues;             // nombre de monstre tué au cours de la partie
         Joueur joueur;
+        int caseEntree;
+        int caseSortie;
         
         //! \brief Constructeur
         Game();
@@ -81,9 +81,19 @@ class Game {
         //! \param Defy coord y de la défense à améliorer
         int DefHitMonstre(Monstre & monstre, unsigned int Defposition);
 
-        //! \brief calcule la distance de chaques case par rapport à la case d'arrivée
-        //! Et met à jour le tableau distances
-        void updateDistances();
+        //! \brief Met à jour les distances des cases par rapport a l'arrivé
+        //! \return true si mit a jour avec succès, false sinon
+        bool updateDistances();
+
+        //! \brief calcule les distances et retourne un tableau de distances
+        //! \return tableau de distances
+        unsigned int* getDistances();
+
+        //! \brief Détermine si la case est accessible ou non
+        //! \param from position de départ
+        //! \param to position d'arrivée
+        //! \return true si la case est accessible, false sinon
+        bool isAccessibleCase(unsigned int from, unsigned int to);
 
         //! \brief Récupère la distance qui sépare une case de l'arrivée tout en testant si elle est accessible
         //! \param from indice de la case de départ
@@ -91,7 +101,12 @@ class Game {
         //! \param visited tableau de booléens qui indique si une case a déjà été visitée
         //! \param toVisit tableau d'indices de cases à visiter
         //! \return true si possible et false sinon
-        bool canVisit(unsigned int from, unsigned int to, vector<bool> & visited, vector<int> & toVisit);
+        bool canVisitCase(unsigned int from, unsigned int to, vector<bool> & visited, vector<int> & toVisit);
+
+        //! \brief Récupèrer la distance d'une case
+        //! \param position la case demander
+        //! \return la position de la case (404) si la case n'existe pas
+        unsigned int getCaseDistance(unsigned int position, unsigned int tmpDistances[]);
 
 };
 

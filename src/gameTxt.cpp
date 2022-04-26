@@ -102,21 +102,19 @@ void GameTxt::afficher(){ //test voir le .h
 
 // Jouer le jeu en mode textuel
 void GameTxt::jouer() {
-    game.updateDistances();
-
-     srand(time(NULL));
-     clock_t t_time;
+    srand(time(NULL));
+    clock_t t_time;
     
-   /*  On défini des defenses de bases pour les tests
+    // On défini des defenses de bases pour les tests
     Defense d1(DOUBLECANON);
     Defense d2(DOUBLECANON);
     Defense d3(DOUBLECANON);
-    Defense d4(DOUBLECANON);
 
-    game.defenses[58] = d1;
-    game.defenses[197] = d2;
-    game.defenses[80] = d3;
-    game.defenses[210] = d4; */
+    game.defenses[174] = d1;
+    game.defenses[198] = d2;
+    game.defenses[224] = d3;
+
+    game.updateDistances();
 
     // On affiche le jeu en mode textuel
     afficher();

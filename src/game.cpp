@@ -9,6 +9,8 @@ using namespace std;
 Game::Game() {
     vague = 1;
     nbMonstreTues = 0;
+    caseEntree = 175;
+    caseSortie = 199;
 }
 
 Game::~Game(){
@@ -127,48 +129,53 @@ int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition){
     return 0;
 }
 
-
-
-// Tester une case pour savoir si on peut la visiter ou non
-bool Game::canVisit(unsigned int from, unsigned int to, vector<bool> &visited, vector<int> &toVisit) {
-    // cout << "getDistance(" << from << "," << to <<")" << endl;
-
-    // On teste si la case est valide
+// Détermine si une casse est accessible depuis une position donnée
+bool Game::isAccessibleCase(unsigned int from, unsigned int to) {
+   // On teste si la case est valide
     if (to < 0 || to >= LARGEUR*HAUTEUR) return false;
     if (from < 0 || from >= LARGEUR*HAUTEUR) return false;
 
-    // On teste si la case est visitée
-    if (visited[to]) return distances[to];
-
-    // On teste si la case est occupée
-    if (defenses[to].getType() != RIEN) return false;
-
-    // On teste si la case est accessible
+    // On vérifie si la case est accessible de là d'ou on vient
     int fromX = from % LARGEUR;
     int fromY = from / LARGEUR;
     int toX = to % LARGEUR;
     int toY = to / LARGEUR;
 
-    if (abs(fromX - toX) > 1 || abs(fromY - toY) > 1) return 403;
+    if (abs(fromX - toX) > 1 || abs(fromY - toY) > 1) return false;
 
-    // On débug en affichant les coordonnées de la case d'ou on vient et vers ou on vas
-    if (to == 200) {
-        cout<< "From : " << from << " (" << fromX << "," << fromY << ")" << endl;
-        cout<< "To : " << to << " (" << toX << "," << toY << ")" << endl;
-    }
-    
+    return true;
+}
+
+// Tester une case pour savoir si on peut la visiter ou non
+bool Game::canVisitCase(unsigned int from, unsigned int to, vector<bool> &visited, vector<int> &toVisit) {
+    // cout << "getDistance(" << from << "," << to <<")" << endl;
+
+    // On teste si la case est visitée
+    if (visited[to]) return false;
+
+    // On teste si la case est occupée
+    if (defenses[to].getType() != RIEN) return false;
+
     // on teste si la case n'est pas déjà dans la liste à visiter
-    for (unsigned int i = 0; i < toVisit.size(); i++) {
-        if (toVisit[i] == to) return false;
-    }
+    for (unsigned int i = 0; i < toVisit.size(); i++) if (toVisit[i] == to) return false;
 
     // Sinon on retourne true
     return true;
 }
 
+// récupère la distance d'une case
+unsigned int Game::getCaseDistance(unsigned int position, unsigned int tmpDistances[]) {
+    if (position < 0 || position > LARGEUR*HAUTEUR) return 404;
+    return tmpDistances[position];
+}
+
+
 // Mettre a jour le tableu des distances des case par rapport a la case de sortie
-void Game::updateDistances() {
-    int caseDeSortie = 199;
+unsigned int * Game::getDistances() {
+    static unsigned int tmpDistances[LARGEUR*HAUTEUR];
+    for (unsigned int i = 0; i < LARGEUR*HAUTEUR; i++) tmpDistances[i] = 404;
+
+    int caseDeSortie = caseSortie;
     
     // On initialise un tableau des case déjà visitées
     vector<bool> visited(LARGEUR*HAUTEUR, false);
@@ -179,19 +186,18 @@ void Game::updateDistances() {
     // On ajoute la case de sortie à la liste des cases à visiter
     toVisit.push_back(caseDeSortie);
 
-    // On met a 0 la distance de la case de sortie
-    distances[caseDeSortie] = 0;
+    // On met à 0 la distance de la case de sortie
+    tmpDistances[caseDeSortie] = 0;
 
     // On marque la case comme visitée
     visited[caseDeSortie] = true;
     unsigned int compter = 0;
     
-    // On parcours les cases à visiter
-    while (!toVisit.empty() && compter < 5) {
-        compter++;
+    // On parcours les cases à visiter le compter < 400 c'est au casou un bug
+    while (!toVisit.empty() && compter < 400) {
         // On récupère l'élément en bas de pile 
         int position = toVisit.front();
-        int tmp[4];
+        int tmp[4] = {404, 404, 404, 404};
 
         // On retire l'élément en bas de pile
         toVisit.erase(toVisit.begin());
@@ -199,49 +205,44 @@ void Game::updateDistances() {
         // On marque la case comme visitée
         visited[position] = true;
 
-        if (compter == 1) {
-            cout << "Position : " << position << endl;
+        // On regarde les cases adjacentes
+        if (isAccessibleCase(position, position - 1)) { // On regarde la case à gauche
+            tmp[0] = getCaseDistance(position - 1, tmpDistances);
+            if (canVisitCase(position, position - 1, visited, toVisit)) toVisit.push_back(position - 1);
+        }
+        
+        if (isAccessibleCase(position, position + 1)) { // On regarde la case a droite
+            tmp[1] = getCaseDistance(position + 1, tmpDistances);
+            if (canVisitCase(position, position + 1, visited, toVisit)) toVisit.push_back(position + 1);
         }
 
-        // debug : on affiche la case à visiter
-        // cout << "Traitement de la case : " << position << " | Dans la pile : "<< toVisit.size()<< endl;
+        if (isAccessibleCase(position, position - LARGEUR)) { // On regarde la case en haut
+            tmp[2] = getCaseDistance(position - LARGEUR, tmpDistances);
+            if (canVisitCase(position, position - LARGEUR, visited, toVisit)) toVisit.push_back(position - LARGEUR);
+        }
 
-        // On ajoute les cases adjacentes à la case à visiter
-        // Dans la liste des cases à visiter si elles sont accessibles
-        tmp[0] = distances[position + 1];
-        //cout << "tmp[0] = " << tmp[0] << endl;
-        if (canVisit(position, position + 1, visited, toVisit)) toVisit.push_back(position + 1);
+        if (isAccessibleCase(position, position + LARGEUR)) { // On regarde la case en bas
+            tmp[3] = getCaseDistance(position + LARGEUR, tmpDistances);
+            if (canVisitCase(position, position + LARGEUR, visited, toVisit)) toVisit.push_back(position + LARGEUR);
+        }
 
-        tmp[1] = distances[position - 1];
-        //cout << "tmp[1] = " << tmp[1] << endl;
-        if (canVisit(position, position - 1, visited, toVisit)) toVisit.push_back(position - 1);
-
-        tmp[2] = distances[position + LARGEUR];
-        //cout << "tmp[2] = " << tmp[2] << endl;
-        if (canVisit(position, position - LARGEUR, visited, toVisit)) toVisit.push_back(position - LARGEUR);
-
-        tmp[3] = distances[position - LARGEUR];
-        //cout << "tmp[3] = " << tmp[3] << endl;
-        if (canVisit(position, position + LARGEUR, visited, toVisit)) toVisit.push_back(position + LARGEUR);
-
-        // On met à jour la distance de la case
-        if (position != caseDeSortie) distances[position] = min(tmp[0], min(tmp[1], min(tmp[2], tmp[3])));
-        distances[position]++;
-
-        // debug : afficher le nombre de cases à visiter
-        // cout << "Cases à visité : " << toVisit.size()<< endl;
-        // cout << "Cases visitées : " << compter << endl;
-    
-        // debug : affichage des cases à visiter
-        // for (unsigned int i = 0; i < toVisit.size(); i++) {
-        //     cout << " Case : " <<  toVisit[i] << endl;
-        // }
-
-        // on met a jour la distance de la case traitée
-        // avec la distance de la case voisine la plus proche de la case de sortie
-        // et on ajoute la case à la liste des cases à visiter
-
+        // On met à jour la distance de la case avec la distance de la case la plus proche
+        if (position != caseDeSortie) tmpDistances[position] = min(tmp[0], min(tmp[1], min(tmp[2], tmp[3])));
+        tmpDistances[position]++; // Du coup on l'incrémente de 1
+        compter++; // On incrémente le compteur de sécurité
     }
-    cout << "Nombre de cases visitées : " << compter << endl;
+    return tmpDistances;
+}
+
+// Mettre a jour les distances
+
+bool Game::updateDistances() {
+    unsigned int *tmpDistances = getDistances();
+    if (tmpDistances[175] == 404) {
+        cout << "L'arrivée est inaccessible" << endl;
+        return false;
+    }
+    for (unsigned int i = 0; i < LARGEUR*HAUTEUR; i++) distances[i] = tmpDistances[i];
+    return true;
 }
 
