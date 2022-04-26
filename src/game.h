@@ -90,8 +90,8 @@ class Game {
         //! \param to indice de la case à tester
         //! \param visited tableau de booléens qui indique si une case a déjà été visitée
         //! \param toVisit tableau d'indices de cases à visiter
-        //! \return la distance si la case est accessible, 403 sinon (forbidden case)    
-        int getDistance(unsigned int from, unsigned int to, vector<bool> & visited, vector<int> & toVisit);
+        //! \return true si possible et false sinon
+        bool canVisit(unsigned int from, unsigned int to, vector<bool> & visited, vector<int> & toVisit);
 
 };
 

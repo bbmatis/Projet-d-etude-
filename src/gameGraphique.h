@@ -25,12 +25,9 @@ class GameGraphique {
         SDL_Window * window; //! Fenêtre SDL
         SDL_Renderer * renderer; //! Renderer SDL
         
-        
-        
         int retour;
         int choix;
         
-
         Image im_monstre;
         Image im_defenseDOUBLECANON;
         Image im_defenseCANON;
