@@ -5,6 +5,7 @@
 #include "Menu.h"
 #include "Image.h"
 
+#include <stdlib.h>
 #include <SDL2/SDL.h>  
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
@@ -24,16 +25,22 @@ class GameGraphique {
         unsigned int dimx, dimy; //!! Dimentions X et Y de l'image
         SDL_Window * window; //! Fenêtre SDL
         SDL_Renderer * renderer; //! Renderer SDL
+
+        TTF_Font * font;
+        Image font_im;
+        Image font_im2;
+        SDL_Color Couleur_Texte;
+        SDL_Color Couleur_Texte2;
         
         int retour;
         int choix;
         
+
         Image im_monstre;
         Image im_defenseDOUBLECANON;
         Image im_defenseCANON;
         Image im_defenseMORTIER;
         Image im_defenseRIEN;
-        // vector<Image>im_defenseRIENTab;
         Image im_hearts;
         Image im_hearts1;
         Image im_hearts2;
@@ -44,8 +51,6 @@ class GameGraphique {
 
     public:
         
-
-
         //! \brief Constructeur
         GameGraphique(Game theGame);
 
@@ -68,6 +73,9 @@ class GameGraphique {
 
         //! \brief Afficher l'image de la console
         void afficherConsole();
+
+        //! \brief Afficher les erreurs 
+        void AfficherMessageErreur(int nbErr);
 
         //! \brief Afficher l'image dans une fenêtre SDL2
         void afficher();
