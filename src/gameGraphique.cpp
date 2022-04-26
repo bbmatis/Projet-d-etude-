@@ -156,7 +156,7 @@ void GameGraphique::afficherBoucle() {
 
 
 
-void GameGraphique::afficher(){
+/*void GameGraphique::afficher(){
 
     bool display=true;
     int xMouse, yMouse;
@@ -270,7 +270,7 @@ void GameGraphique::afficher(){
 
 //Affichage avec le menu de départ 
 
-/* void GameGraphique::afficher(){
+*/ void GameGraphique::afficher(){
 
     bool display;
     bool displayMenu = true;
@@ -310,4 +310,4 @@ void GameGraphique::afficher(){
      
   }
 
-} */
+} 
