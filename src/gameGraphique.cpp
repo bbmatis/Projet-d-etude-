@@ -165,7 +165,7 @@ void GameGraphique::AfficherMessageErreur(int nbErr) {
 
     string err1 = "Le type de defense n'est pas valide !";
     string err2 = "La position choisie est invalide !";
-    string err3 = "Vous n'avez pas assez d'argent pour acheter cette défense !";
+    string err3 = "Vous n'avez pas assez d'argent pour acheter cette defense !";
     string err = "";
 
     if(nbErr == -1) {
@@ -203,6 +203,7 @@ void GameGraphique::afficher(){
     bool lancervague=true;
     bool AfficherMenuChoixBool=false;
     bool clear = false;
+    bool affichermsg = false;
     int xMouse, yMouse;
 
     SDL_Event events;
@@ -263,7 +264,11 @@ void GameGraphique::afficher(){
                             case SDLK_c :
                             
                                 retour = game.buyDefense(CANON, i);  
-                                if (retour == -1) AfficherMessageErreur(retour);                           
+                                if (retour == -1) {
+                                    SDL_WaitEvent(&events); 
+                                    affichermsg = true;  
+                                    SDL_WaitEvent(&events); 
+                                }                         
                                 // Si la position est invalide
                                 else if (retour == -2) AfficherMessageErreur(retour);
                                 // Si le joueur n'a pas assez d'argent
@@ -303,6 +308,12 @@ void GameGraphique::afficher(){
                     
                     }
                 }
+
+            if(affichermsg) {
+                AfficherMessageErreur(retour);
+                sleep(5);
+            }
+
                 //Test fonction 
             if(events.key.keysym.sym == SDLK_SPACE)
             {
@@ -317,7 +328,7 @@ void GameGraphique::afficher(){
             }
             
        
-    
+  
         }
 
 
