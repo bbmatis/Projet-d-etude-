@@ -9,10 +9,6 @@
 #include <chrono>
 #include <thread>
 
-int temps() {
-    return int(SDL_GetTicks()) / CLOCKS_PER_SEC;  // conversion des ms en secondes en divisant par 1000
-}
-
 
 GameGraphique::GameGraphique(Game theGame) {
   game = theGame;
@@ -20,19 +16,65 @@ GameGraphique::GameGraphique(Game theGame) {
 }
 
 GameGraphique::~GameGraphique() {
+
+    SDL_DestroyTexture(im_Money.getTexture());
+    SDL_DestroyTexture(im_defenseCANON.getTexture());
+    SDL_DestroyTexture(im_defenseDOUBLECANON.getTexture());
+    SDL_DestroyTexture(im_defenseMORTIER.getTexture());
+    SDL_DestroyTexture(im_defenseRIEN.getTexture());
+    SDL_DestroyTexture(im_shop.getTexture());
+    SDL_DestroyTexture(im_Sell.getTexture());
+    SDL_DestroyTexture(im_Upgrade.getTexture());
+    SDL_DestroyTexture(im_monstre1.getTexture());
+    SDL_DestroyTexture(im_monstre2.getTexture());
+    SDL_DestroyTexture(im_monstre3.getTexture());
+    SDL_DestroyTexture(im_hearts.getTexture());
+    SDL_DestroyTexture(im_hearts1.getTexture());
+    SDL_DestroyTexture(im_hearts2.getTexture());
+    SDL_DestroyTexture(im_hearts3.getTexture());
     
     
+    TTF_CloseFont(font);
+    TTF_Quit();
+
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
+    
     
     SDL_Quit();
 }
 
+//Affiche du texte selon l'entrée 
+void GameGraphique::AfficherTexte(string Msg, string MsgWithValeur, float Valeur, int x, int y, int w, int h, int r, int g, int b){
 
-void GameGraphique::afficherConsole(){
+    if(Msg == ""){
+
+        ostringstream Val;
+        Val<<Valeur;
+        string val(MsgWithValeur + Val.str());
+
+        Couleur_Texte.r = r; Couleur_Texte.g = g; Couleur_Texte.b = b;
+        font_im.setSurface(TTF_RenderText_Solid(font,val.c_str(),Couleur_Texte));
+        font_im.loadFromCurrentSurface(renderer);
+
+        SDL_Rect RectVal;
+        RectVal.x = x; RectVal.y = y; RectVal.w = w; RectVal.h = h;
+        SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&RectVal);
+    }
+    else
+    {
+        Couleur_Texte.r = r; Couleur_Texte.g = g; Couleur_Texte.b = b;
+        font_im.setSurface(TTF_RenderText_Solid(font,Msg.c_str(),Couleur_Texte));
+        font_im.loadFromCurrentSurface(renderer);
+
+        SDL_Rect RectMsg;
+        RectMsg.x = x; RectMsg.y = y; RectMsg.w = w; RectMsg.h = h;
+        SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&RectMsg);
+    }
     
 }
 
+//Initialise SDL TTF FONT Window Render + Elements du jeu (Image...)
 void GameGraphique::afficherInit() {
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -105,6 +147,7 @@ void GameGraphique::afficherInit() {
 
 }
 
+//Affiche le plateau de jeu 
 void GameGraphique::AffichagePateau(){
 
     for(unsigned int j=0; j<game.defenses.size(); j++)
@@ -155,33 +198,13 @@ void GameGraphique::AffichagePateau(){
     //affichage de la money
     im_Money.draw(renderer,50, 50, 50, 50);
 
-    ostringstream ss;
-    ss<<game.joueur.money;
-    string moula(ss.str());
-
-    Couleur_Texte.r = 125; Couleur_Texte.g = 125; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,moula.c_str(),Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-
-    SDL_Rect positionJouer;
-    positionJouer.x = 120; positionJouer.y = 50; positionJouer.w = 50; positionJouer.h = 50;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionJouer);
+    AfficherTexte("","",game.joueur.money,120, 50, 50, 50, 125, 125, 0);
+    
 
     //===============Afficher le temps===================================================
 
     temps = (SDL_GetTicks()/1000.f); //récup le temps toute les secondes
-    ostringstream time;
-    time<<temps;
-    string Time(time.str());
-
-    Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,Time.c_str(),Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-
-    SDL_Rect positionTime;
-    positionTime.x = 900; positionTime.y = 50; positionTime.w = 35; positionTime.h = 35;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTime);
-
+    AfficherTexte("", "", temps, 900, 50, 35, 35, 0, 0, 0);
     // Gère le système d'affichage de vie
 
     if(game.joueur.getNbVies() == 3) im_hearts.draw(renderer, DimWindowX/2-90, DimWindowY-760, 180, 60);
@@ -195,32 +218,14 @@ void GameGraphique::AffichagePateau(){
 void GameGraphique::AfficherMenuChoixShop(){
 
     im_shop.draw(renderer, ParamInitShop[0], ParamInitShop[1], ParamInitShop[2],ParamInitShop[3]);//acheter une défense
-
-    Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,"Shop",Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-
-    SDL_Rect positionShopTxt;
-    positionShopTxt.x = ParamInitShop[0]; positionShopTxt.y = ParamInitShop[1]+65; positionShopTxt.w = 80; positionShopTxt.h = 20;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionShopTxt);
-   
+    AfficherTexte("Shop", "",0, ParamInitShop[0], ParamInitShop[1]+65, 80, 20, 0, 0, 0);
 }
 
 //Affiche les infos d'une defense selectionnée 
 void GameGraphique::AfficherInfosDefenseSelected(Defense def, int CaseChoisies,int posX, int posY, int W, int H){
 
 
-    ostringstream Case;
-    Case<<CaseChoisies;
-    string CaseChoix("Case : " + Case.str());
-
-    Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,CaseChoix.c_str(),Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-    SDL_Rect positionTexteInfosSelectedDef_Case;
-    positionTexteInfosSelectedDef_Case.x = posX - 45; positionTexteInfosSelectedDef_Case.y = posY; positionTexteInfosSelectedDef_Case.w = 90; positionTexteInfosSelectedDef_Case.h = 20;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosSelectedDef_Case);
-    
+    AfficherTexte("", "Case : ", CaseChoisies, posX-45, posY, 90, 20, 0, 0, 0);
     
     int type = def.getType();
     string Type;
@@ -236,61 +241,15 @@ void GameGraphique::AfficherInfosDefenseSelected(Defense def, int CaseChoisies,i
             Type = "MORTIER";
             break;
     }
+    AfficherTexte(Type, "", 0, posX-55, posY+20, 110, 15, 0, 0, 0);
+
+    AfficherTexte("","Damge : ", def.getDamage(), posX-W/2, posY+40, W, 15, 0, 0, 0);    
     
+    AfficherTexte("", "Range : ", def.getRange(), posX - W/2 +5, posY+60, W-10, 15, 0, 0, 0);
 
-    Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,Type.c_str(),Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-    SDL_Rect positionTexteInfosSelectedDef_dmg;
-    positionTexteInfosSelectedDef_dmg.x = posX - 55; positionTexteInfosSelectedDef_dmg.y = posY + 20; positionTexteInfosSelectedDef_dmg.w = 110; positionTexteInfosSelectedDef_dmg.h = 15;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosSelectedDef_dmg);
+    AfficherTexte("", "AtkSpeed : ", def.getReloadTime(), posX - W/2, posY+80, W, 15, 0, 0, 0);
 
-    
-    ostringstream Dmg;
-    Dmg<<def.getDamage();
-    string Damage("Damage : " + Dmg.str());
-
-    Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,Damage.c_str(),Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-    SDL_Rect positionTexteInfosSelectedDef_Damage;
-    positionTexteInfosSelectedDef_Damage.x = posX - W/2; positionTexteInfosSelectedDef_Damage.y = posY + 40; positionTexteInfosSelectedDef_Damage.w = W; positionTexteInfosSelectedDef_Damage.h = 15;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosSelectedDef_Damage);
-    
-    
-    ostringstream range;
-    range<<def.getRange();
-    string Range("Range : " + range.str());
-
-    Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,Range.c_str(),Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-    SDL_Rect positionTexteInfosSelectedDef_range;
-    positionTexteInfosSelectedDef_range.x = posX - W/2+5; positionTexteInfosSelectedDef_range.y = posY+60; positionTexteInfosSelectedDef_range.w = W-10; positionTexteInfosSelectedDef_range.h = 15;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosSelectedDef_range);
-
-    
-    ostringstream atkSpd;
-    atkSpd<<def.getReloadTime();
-    string AtkSpeed("AtkSpeed : " + atkSpd.str() + "s");
-
-    Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,AtkSpeed.c_str(),Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-    SDL_Rect positionTexteInfosSelectedDef_atkSpd;
-    positionTexteInfosSelectedDef_atkSpd.x = posX -W/2; positionTexteInfosSelectedDef_atkSpd.y = posY+80; positionTexteInfosSelectedDef_atkSpd.w = W; positionTexteInfosSelectedDef_atkSpd.h = 15;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosSelectedDef_atkSpd);
- 
-    ostringstream lvl;
-    lvl<<def.getLevel();
-    string Level("Level : " + lvl.str());
-
-    Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,Level.c_str(),Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-    SDL_Rect positionTexteInfosSelectedDef_Level;
-    positionTexteInfosSelectedDef_Level.x = posX - W/2 +10; positionTexteInfosSelectedDef_Level.y = posY+100; positionTexteInfosSelectedDef_Level.w = W-20; positionTexteInfosSelectedDef_Level.h = 15;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosSelectedDef_Level); 
+    AfficherTexte("", "Level : ", def.getLevel(), posX - W/2 +10, posY+100, W-20, 15, 0, 0, 0);
     
 }
 
@@ -301,35 +260,10 @@ void GameGraphique::AfficherShopInfoDefense(typeDef type, int posx, int posy, in
     {
         case CANON: 
 
-            //string s = "Damage : 5 \n Range : 5";
-
-            Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-            font_im.setSurface(TTF_RenderText_Solid(font,"Damage : 5",Couleur_Texte));
-            font_im.loadFromCurrentSurface(renderer);
-            SDL_Rect positionTexteInfosCANON_dmg;
-            positionTexteInfosCANON_dmg.x = posx + h; positionTexteInfosCANON_dmg.y = posy; positionTexteInfosCANON_dmg.w = w; positionTexteInfosCANON_dmg.h = h;
-            SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosCANON_dmg);
-
-            Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-            font_im.setSurface(TTF_RenderText_Solid(font,"Range : 5",Couleur_Texte));
-            font_im.loadFromCurrentSurface(renderer);
-            SDL_Rect positionTexteInfosCANON_range;
-            positionTexteInfosCANON_range.x = posx + h; positionTexteInfosCANON_range.y = posy+h; positionTexteInfosCANON_range.w = w; positionTexteInfosCANON_range.h = h;
-            SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosCANON_range);
-
-            Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-            font_im.setSurface(TTF_RenderText_Solid(font,"AtkSpeed : 0.5s",Couleur_Texte));
-            font_im.loadFromCurrentSurface(renderer);
-            SDL_Rect positionTexteInfosCANON_atkSpd;
-            positionTexteInfosCANON_atkSpd.x = posx + h; positionTexteInfosCANON_atkSpd.y = posy+2*h; positionTexteInfosCANON_atkSpd.w = w; positionTexteInfosCANON_atkSpd.h = h;
-            SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosCANON_atkSpd);
-            
-            Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-            font_im.setSurface(TTF_RenderText_Solid(font,"50",Couleur_Texte));
-            font_im.loadFromCurrentSurface(renderer);
-            SDL_Rect positionTexteInfosCANON_price;
-            positionTexteInfosCANON_price.x = posx + w + 60; positionTexteInfosCANON_price.y = posy+10; positionTexteInfosCANON_price.w = 40; positionTexteInfosCANON_price.h = 40;
-            SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosCANON_price);
+            AfficherTexte("Damage : 5","",0, posx+h, posy, w, h, 0, 0, 0);
+            AfficherTexte("Range : 5","",0, posx+h, posy+h, w, h, 0, 0, 0);
+            AfficherTexte("AtkSpeed : 0.5s","",0, posx+h, posy+2*h, w, h, 0, 0, 0);
+            AfficherTexte("50", "", 0, posx+w+60, posy+10, 40, 40, 0, 0, 0);
 
             im_Money.draw(renderer, posx + w + 105 , posy + 17 , 25, 25);
 
@@ -337,73 +271,27 @@ void GameGraphique::AfficherShopInfoDefense(typeDef type, int posx, int posy, in
 
         case DOUBLECANON :
 
-            Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-            font_im.setSurface(TTF_RenderText_Solid(font,"Damage : 10",Couleur_Texte));
-            font_im.loadFromCurrentSurface(renderer);
-            SDL_Rect positionTexteInfosDOUBLECANON_dmg;
-            positionTexteInfosDOUBLECANON_dmg.x = posx + h; positionTexteInfosDOUBLECANON_dmg.y = posy; positionTexteInfosDOUBLECANON_dmg.w = w; positionTexteInfosDOUBLECANON_dmg.h = h;
-            SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosDOUBLECANON_dmg);
-
-            Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-            font_im.setSurface(TTF_RenderText_Solid(font,"Range : 5",Couleur_Texte));
-            font_im.loadFromCurrentSurface(renderer);
-            SDL_Rect positionTexteInfosDOUBLECANON_range;
-            positionTexteInfosDOUBLECANON_range.x = posx + h; positionTexteInfosDOUBLECANON_range.y = posy+h; positionTexteInfosDOUBLECANON_range.w = w; positionTexteInfosDOUBLECANON_range.h = h;
-            SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosDOUBLECANON_range);
-
-            Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-            font_im.setSurface(TTF_RenderText_Solid(font,"AtkSpeed : 0.25s",Couleur_Texte));
-            font_im.loadFromCurrentSurface(renderer);
-            SDL_Rect positionTexteInfosDOUBLECANON_atkSpd;
-            positionTexteInfosDOUBLECANON_atkSpd.x = posx + h; positionTexteInfosDOUBLECANON_atkSpd.y = posy+2*h; positionTexteInfosDOUBLECANON_atkSpd.w = w; positionTexteInfosDOUBLECANON_atkSpd.h = h;
-            SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosDOUBLECANON_atkSpd);
-            
-            Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-            font_im.setSurface(TTF_RenderText_Solid(font,"100",Couleur_Texte));
-            font_im.loadFromCurrentSurface(renderer);
-            SDL_Rect positionTexteInfosDOUBLECANON_price;
-            positionTexteInfosDOUBLECANON_price.x = posx + w + 60; positionTexteInfosDOUBLECANON_price.y = posy+10; positionTexteInfosDOUBLECANON_price.w = 40; positionTexteInfosDOUBLECANON_price.h = 40;
-            SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosDOUBLECANON_price);
+            AfficherTexte("Damage : 10","",0, posx+h, posy, w, h, 0, 0, 0);
+            AfficherTexte("Range : 5","",0, posx+h, posy+h, w, h, 0, 0, 0);
+            AfficherTexte("AtkSpeed : 0.25s","",0, posx+h, posy+2*h, w, h, 0, 0, 0);
+            AfficherTexte("100", "", 0, posx+w+60, posy+10, 40, 40, 0, 0, 0);
 
             im_Money.draw(renderer, posx + w + 105 , posy + 17 , 25, 25);
 
             break;
 
-            case MORTIER :
+        case MORTIER :
 
-                Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-                font_im.setSurface(TTF_RenderText_Solid(font,"Damage : 25",Couleur_Texte));
-                font_im.loadFromCurrentSurface(renderer);
-                SDL_Rect positionTexteInfosMORTIER_dmg;
-                positionTexteInfosMORTIER_dmg.x = posx + h; positionTexteInfosMORTIER_dmg.y = posy; positionTexteInfosMORTIER_dmg.w = w; positionTexteInfosMORTIER_dmg.h = h;
-                SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosMORTIER_dmg);
+            AfficherTexte("Damage : 25","",0, posx+h, posy, w, h, 0, 0, 0);
+            AfficherTexte("Range : 6","",0, posx+h, posy+h, w, h, 0, 0, 0);
+            AfficherTexte("AtkSpeed : 2s","",0, posx+h, posy+2*h, w, h, 0, 0, 0);
+            AfficherTexte("200", "", 0, posx+w+60, posy+10, 40, 40, 0, 0, 0);   
 
-                Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-                font_im.setSurface(TTF_RenderText_Solid(font,"Range : 6",Couleur_Texte));
-                font_im.loadFromCurrentSurface(renderer);
-                SDL_Rect positionTexteInfosMORTIER_range;
-                positionTexteInfosMORTIER_range.x = posx + h; positionTexteInfosMORTIER_range.y = posy+h; positionTexteInfosMORTIER_range.w = w; positionTexteInfosMORTIER_range.h = h;
-                SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosMORTIER_range);
+            im_Money.draw(renderer, posx + w + 105 , posy + 17 , 25, 25);
 
-                Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-                font_im.setSurface(TTF_RenderText_Solid(font,"AtkSpeed : 2s",Couleur_Texte));
-                font_im.loadFromCurrentSurface(renderer);
-                SDL_Rect positionTexteInfosMORTIER_atkSpd;
-                positionTexteInfosMORTIER_atkSpd.x = posx + h; positionTexteInfosMORTIER_atkSpd.y = posy+2*h; positionTexteInfosMORTIER_atkSpd.w = w; positionTexteInfosMORTIER_atkSpd.h = h;
-                SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosMORTIER_atkSpd);
-                
-                Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-                font_im.setSurface(TTF_RenderText_Solid(font,"200",Couleur_Texte));
-                font_im.loadFromCurrentSurface(renderer);
-                SDL_Rect positionTexteInfosMORTIER_price;
-                positionTexteInfosMORTIER_price.x = posx + w + 60; positionTexteInfosMORTIER_price.y = posy+10; positionTexteInfosMORTIER_price.w = 40; positionTexteInfosMORTIER_price.h = 40;
-                SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosMORTIER_price);
+            break;
 
-                im_Money.draw(renderer, posx + w + 105 , posy + 17 , 25, 25);
-
-                break;
-
-            default : break;
+        default : break;
 
 
     }
@@ -414,39 +302,18 @@ void GameGraphique::AfficherMenuBuyDef(){
     
     //===================Canon======================
     im_defenseCANON.draw(renderer,ParamInitShopCANON[0], ParamInitShopCANON[1], ParamInitShopCANON[2], ParamInitShopCANON[3]);
-    Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,"CANON",Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-
-    SDL_Rect positionCANONtxt;
-    positionCANONtxt.x = ParamInitShopCANON[0]; positionCANONtxt.y = ParamInitShopCANON[1] + 68; positionCANONtxt.w = 70; positionCANONtxt.h = 30;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionCANONtxt);
-
+    AfficherTexte("CANON", "", 0, ParamInitShopCANON[0], ParamInitShopCANON[1]+ 68, 70, 30, 0, 0, 0);
     AfficherShopInfoDefense(CANON, ParamInitShopCANON[0] + 60, ParamInitShopCANON[1] , 100, 30 );
     
     //===================DoubleCanon======================
     im_defenseDOUBLECANON.draw(renderer,ParamInitShopDOUBLECANON[0], ParamInitShopDOUBLECANON[1], ParamInitShopDOUBLECANON[2], ParamInitShopDOUBLECANON[3]);
-    Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,"DOUBLECANON",Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-
-    SDL_Rect positionDOUBLECANONtxt;
-    positionDOUBLECANONtxt.x = ParamInitShopDOUBLECANON[0] - 25; positionDOUBLECANONtxt.y = ParamInitShopDOUBLECANON[1] + 68; positionDOUBLECANONtxt.w = 120; positionDOUBLECANONtxt.h = 30;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionDOUBLECANONtxt);
-
+    AfficherTexte("DOUBLECANON", "", 0, ParamInitShopDOUBLECANON[0] -25,ParamInitShopDOUBLECANON[1]+68, 120, 30, 0, 0, 0);
     AfficherShopInfoDefense(DOUBLECANON, ParamInitShopDOUBLECANON[0] + 70, ParamInitShopDOUBLECANON[1], 100, 30);
     
     //===================Mortier======================
     
     im_defenseMORTIER.draw(renderer,ParamInitShopMORTIER[0], ParamInitShopMORTIER[1], ParamInitShopMORTIER[2], ParamInitShopMORTIER[3]);
-    Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,"MORTIER",Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-
-    SDL_Rect positionMORTIERtxt;
-    positionMORTIERtxt.x = ParamInitShopMORTIER[0]; positionMORTIERtxt.y = ParamInitShopMORTIER[1] + 68; positionMORTIERtxt.w = 80; positionMORTIERtxt.h = 30;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionMORTIERtxt);
-
+    AfficherTexte("MORTIER","", 0, ParamInitShopMORTIER[0], ParamInitShopMORTIER[1]+ 68, 80, 30, 0, 0, 0);
     AfficherShopInfoDefense(MORTIER, ParamInitShopMORTIER[0] + 60, ParamInitShopMORTIER[1], 100, 30);
 }
 
@@ -454,27 +321,13 @@ void GameGraphique::AfficherMenuBuyDef(){
 void GameGraphique::AfficherMenuChoixUpgSell(){
 
     im_Sell.draw(renderer,ParamInitSell[0], ParamInitSell[1], ParamInitSell[2],ParamInitSell[3]); //Vendre une défenses
-
-    Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,"Vendre la defense",Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-
-    SDL_Rect positionSellTxt;
-    positionSellTxt.x = ParamInitSell[0]-180; positionSellTxt.y = ParamInitSell[1]+30; positionSellTxt.w = 160; positionSellTxt.h = 40;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionSellTxt);
-
+    AfficherTexte("Vendre la defense", "",0,ParamInitSell[0]-180,  ParamInitSell[1]+30, 160, 40, 0, 0, 0);
 
     im_Upgrade.draw(renderer,ParamInitUpgrade[0], ParamInitUpgrade[1], ParamInitUpgrade[2],ParamInitUpgrade[3]); //Améliorer une défense
-    Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-    font_im.setSurface(TTF_RenderText_Solid(font,"Ameliorer la defense",Couleur_Texte));
-    font_im.loadFromCurrentSurface(renderer);
-
-    SDL_Rect positionUpgradeTxt;
-    positionUpgradeTxt.x = ParamInitUpgrade[0]+90; positionUpgradeTxt.y = ParamInitUpgrade[1]+20; positionUpgradeTxt.w = 200; positionUpgradeTxt.h = 40;
-    SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionUpgradeTxt);
+    AfficherTexte("Ameliorer la defense", "", 0,ParamInitUpgrade[0]+90, ParamInitUpgrade[1]+20, 200, 40, 0, 0, 0);
 }
 
-
+//Affiche les message d'erreur
 void GameGraphique::AfficherMessageErreur(int nbErr) {
 
     string err1 = "Le type de defense n'est pas valide !";
@@ -492,24 +345,26 @@ void GameGraphique::AfficherMessageErreur(int nbErr) {
         err = err3;
     }
 
-    Couleur_Texte2.r = 250; Couleur_Texte2.g = 50; Couleur_Texte2.b = 55;
+    AfficherTexte(err.c_str(),"",0,470, 50, 300, 50, 255, 50, 50);
+
+    /* Couleur_Texte2.r = 250; Couleur_Texte2.g = 50; Couleur_Texte2.b = 55;
     font_im2.setSurface(TTF_RenderText_Solid(font,err.c_str(),Couleur_Texte2));
     font_im2.loadFromCurrentSurface(renderer);
 
     SDL_Rect positionJouer2;
     positionJouer2.x = 470; positionJouer2.y = 50; positionJouer2.w = 300; positionJouer2.h = 50;
-    SDL_RenderCopy(renderer,font_im2.getTexture(),nullptr,&positionJouer2);
+    SDL_RenderCopy(renderer,font_im2.getTexture(),nullptr,&positionJouer2); */
 
 }
 
-
+//Affiche le plateau pour la boucle du jeu
 void GameGraphique::afficherBoucle() {  
 
     AffichagePateau();
     //AfficherMessageErreur(-2);
 }
 
-//Affichage avec le menu de départ 
+//Boucle du jeu 
 
 void GameGraphique::afficher(){
 
@@ -709,19 +564,8 @@ void GameGraphique::afficher(){
         if(AfficherMenuChoixShopBool) 
         {
             AfficherMenuChoixShop();
-            
-            ostringstream Case;
-            Case<<CaseChoisie;
-            string CaseChoix("Case : " + Case.str());
+            AfficherTexte("", "Case : ", CaseChoisie, DimWindowX/2 - 45, 680, 90, 20, 0, 0, 0);
 
-            Couleur_Texte.r = 0; Couleur_Texte.g = 0; Couleur_Texte.b = 0;
-            font_im.setSurface(TTF_RenderText_Solid(font,CaseChoix.c_str(),Couleur_Texte));
-            font_im.loadFromCurrentSurface(renderer);
-            SDL_Rect positionTexteInfosSelectedDef_Case;
-            positionTexteInfosSelectedDef_Case.x = DimWindowX/2 - 45; positionTexteInfosSelectedDef_Case.y = 680; positionTexteInfosSelectedDef_Case.w = 90; positionTexteInfosSelectedDef_Case.h = 20;
-            SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&positionTexteInfosSelectedDef_Case);
-        
-        
         }    
         else if(AfficherMenuChoixBuyDefBool) AfficherMenuBuyDef();
         else if(AfficherMenuChoixUpgSellBool) 
@@ -730,7 +574,6 @@ void GameGraphique::afficher(){
             AfficherInfosDefenseSelected(game.defenses[CaseChoisie],CaseChoisie, DimWindowX/2, 680, 100, 30 );
             
         }
-
 
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);

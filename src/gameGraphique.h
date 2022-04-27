@@ -28,21 +28,10 @@ class GameGraphique {
 
         TTF_Font * font;
 
-        //! Image Money
+        
         Image font_im; 
         SDL_Color Couleur_Texte; 
-
-        //! Affichage messages d'erreurs
-        Image font_im2; 
-        SDL_Color Couleur_Texte2;
-
-        //! Affichage menu
-        Image font_jouer;
-        Image font_option;
-        Image font_score;
-        SDL_Color font_colorJ;
-        SDL_Color font_colorO;
-        SDL_Color font_colorS;
+        
         
         int retour;
         bool touchemonstre = true;
@@ -103,7 +92,7 @@ class GameGraphique {
         void afficherPrix();
 
         //! \brief Afficher l'image de la console
-        void afficherConsole();
+        void AfficherTexte(string Msg, string MsgWithValeur, float Valeur, int x, int y, int w, int h, int r, int g, int b);
 
         //! \brief Afficher les erreurs 
         void AfficherMessageErreur(int nbErr);
