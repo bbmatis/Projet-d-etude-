@@ -25,7 +25,6 @@ class GameGraphique {
         unsigned int dimx, dimy; //! Dimentions X et Y de l'image
         SDL_Window * window; //! Fenêtre SDL
         SDL_Renderer * renderer; //! Renderer SDL
-
         TTF_Font * font;
 
         

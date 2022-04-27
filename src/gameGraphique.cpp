@@ -83,6 +83,7 @@ void GameGraphique::afficherInit() {
         exit(1);
     }
 
+  
     window = SDL_CreateWindow("Marine versus the Arabs", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, DimWindowX, DimWindowY, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     if (window == NULL) {
         std::cout << "Erreur lors de la creation de la fenetre : " << SDL_GetError() << std::endl; 
@@ -400,6 +401,7 @@ void GameGraphique::afficher(){
     int CaseChoisie;
     int PosXRectHover;
     int PosYRectHover;
+    int tt = 0;
    
     
     int xMouse, yMouse;
@@ -412,23 +414,13 @@ void GameGraphique::afficher(){
          afficherBoucle();
          touchemonstre = false;
 
-         //fonction de frametime
-         prevtime = currenttime;
-         currenttime = SDL_GetTicks();
-         deltatime = (currenttime - prevtime) /1000.f;
-
-        frametime += deltatime;
-        if(frametime >= 1.f) //toute les secondes
-        {
-            //PUT HERE
-            frametime = 0;
-        }
+         
 
         while(SDL_PollEvent(&events)){
 
             if(events.type == SDL_QUIT) display = false;
 
-            if(events.type == SDL_MOUSEMOTION)
+            if(events.type == SDL_MOUSEMOTION && lancervague == false)
             {
                 SDL_GetMouseState(&xMouse, &yMouse);
                 for(unsigned int i=0; i<game.defenses.size(); i++)
@@ -445,9 +437,9 @@ void GameGraphique::afficher(){
                 }
 
             }
-            if(events.type == SDL_MOUSEBUTTONDOWN)
+            if(events.type == SDL_MOUSEBUTTONDOWN && lancervague==false)
             {
-                cout<<xMouse<<" "<<yMouse<<endl;
+                //cout<<xMouse<<" "<<yMouse<<endl;
                 for(unsigned int i=0; i<game.defenses.size(); i++)
                 {
                     int Defy = i/25; //transforme la position en i
@@ -461,7 +453,7 @@ void GameGraphique::afficher(){
 
                         if(events.button.button == SDL_BUTTON_LEFT && game.defenses[i].getType() == RIEN)
                         {
-                            cout<<"Case :"<<i<<" enfoncé"<<endl; 
+                            //cout<<"Case :"<<i<<" enfoncé"<<endl; 
                               
                             AfficherMenuChoixShopBool = true; //Affiche le menu buy
                             AfficherCroix = true;
@@ -471,7 +463,7 @@ void GameGraphique::afficher(){
                         }
                         else if(game.defenses[i].getType() != RIEN)
                         {
-                            cout<<"Case :"<<i<<" enfoncé"<<endl; 
+                            //cout<<"Case :"<<i<<" enfoncé"<<endl; 
 
                             AfficherMenuChoixUpgSellBool = true;
                             AfficherCroix = true;
@@ -493,18 +485,20 @@ void GameGraphique::afficher(){
                             AfficherMenuChoixShopBool = false;
                             AfficherMenuChoixBuyDefBool = true;
                           
+                          
                             
                         }
                     }
                     if(AfficherMenuChoixBuyDefBool == true)
                     {
-                        
+                        AfficherInfosSansMenus = false;
                         if(xMouse > ParamInitShopCANON[0] && xMouse < ParamInitShopCANON[0] + ParamInitShopCANON[2] && yMouse > ParamInitShopCANON[1] && yMouse < ParamInitShopCANON[1] + ParamInitShopCANON[3])
                         {
                             retour = game.buyDefense(CANON, CaseChoisie);
                             AfficherMenuChoixBuyDefBool = false;
                             AfficherCroix = false;
                             AfficherInfosSansMenus = true;
+                            
                         }
                         else if(xMouse > ParamInitShopDOUBLECANON[0] && xMouse < ParamInitShopDOUBLECANON[0] + ParamInitShopDOUBLECANON[2] && yMouse > ParamInitShopDOUBLECANON[1] && yMouse < ParamInitShopDOUBLECANON[1] + ParamInitShopDOUBLECANON[3])
                         {
@@ -553,7 +547,7 @@ void GameGraphique::afficher(){
                         
                         }
                     }
-                    if(AfficherInfosSansMenus)
+                    if(AfficherInfosSansMenus && AfficherMenuChoixBuyDefBool == false)
                     {
                         if(xMouse > ParamInitPlay[0] && xMouse < ParamInitPlay[0] + ParamInitPlay[2] &&  yMouse > ParamInitPlay[1] && yMouse < ParamInitPlay[1] + ParamInitPlay[3])
                         {
@@ -581,14 +575,15 @@ void GameGraphique::afficher(){
                     retour = game.DefHitMonstre(game.monstres[a], i, 1);
                     // Si la défense a touché le monstre
                     if (retour == 1) {
-                        cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;    
+                        //cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;    
                         }
                     }
                 }
             // On boucle tout les monstres 
             for (unsigned int i=0; i < game.monstres.size(); i++) {
-
-                game.monstres[i].setPosition(game.monstres[i].getPosition().x + 100*deltatime, 400); //en fonction du temps
+                
+                game.monstres[i].MoveRight();
+                //game.monstres[i].setPosition(game.monstres[i].getPosition().x + 100*deltatime, 400); //en fonction du temps
                 // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
                 if (game.monstres[i].getPosition().x >= DimWindowX) {
                     // On le supprime si c'est le cas
@@ -623,11 +618,7 @@ void GameGraphique::afficher(){
         if(AfficheRectangleHover)
         {
             SDL_Rect RectangleHover = {PosXRectHover, PosYRectHover, 35, 35};
-          
             SDL_RenderFillRect(renderer, &RectangleHover);
-
-        
-
         }
         if(AfficherInfosSansMenus)
         {
@@ -647,6 +638,23 @@ void GameGraphique::afficher(){
         {
             AfficherMenuChoixUpgSell();
             AfficherInfosDefenseSelected(game.defenses[CaseChoisie],CaseChoisie, DimWindowX/2, 680, 100, 30 );  
+        }
+
+        //fonction de frametime
+         prevtime = currenttime;
+         currenttime = SDL_GetTicks();
+         deltatime = (currenttime - prevtime) /1000.f;
+
+         
+         tt++;
+
+        frametime += deltatime;
+        if(frametime >= 1.f) //toute les secondes
+        {
+            int fps = tt;
+            cout<<"FPS : "<<fps<<endl;
+            tt=0;
+            frametime = 0;
         }
 
         SDL_RenderPresent(renderer);

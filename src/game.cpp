@@ -7,7 +7,7 @@
 using namespace std;
 
 Game::Game() {
-    vague = 1;
+    vague = 6;
     nbMonstreTues = 0;
     caseEntree = 175;
     caseSortie = 199;
