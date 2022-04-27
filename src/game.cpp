@@ -115,16 +115,16 @@ float Game::Distance(int x1, int y1, int x2, int y2)
 int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition, int mode){
 
     int Defy, Defx;
-    if(mode = 0)
+    if(mode == 0)
     {
         Defy = Defposition/25; //transforme la position en i
         Defx = Defposition%25; //transforme la position en j
     }
-    if(mode = 1)
+    else if(mode == 1)
     {
         Defy = (Defposition/25)*37+122 + 17; //transforme la position en i
         Defx = (Defposition%25)*37+40 + 17; //transforme la position en j
-    }
+    } 
 
     //le monstre est dans le rayon d'attaque de la defense
     if(abs(Distance(monstre.getPosition().x,monstre.getPosition().y, Defx, Defy)) <= defenses[Defposition].getRange()){

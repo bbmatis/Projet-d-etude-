@@ -4,7 +4,7 @@
 Monstre::Monstre(TypeMonstres typeMonstre) {
     type = typeMonstre;
     position.x = 0;
-    position.y = 400;
+    position.y = 7;
 
     switch (type)
     {

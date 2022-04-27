@@ -46,7 +46,22 @@ class GameGraphique {
         
         int retour;
         bool touchemonstre = true;
-        int choix;
+        bool choix;
+
+        //Utile pour le temps et les frames
+        float frametime=0;
+        int prevtime = 0;
+        int temps=0;
+        int currenttime = 0;
+        float deltatime = 0.f;
+
+        //On initalise des position et largeur prédefinie pour simplifier la gestion des menus
+        int ParamInitShop[4] = {DimWindowX/2-45, 705, 90, 60};
+        int ParamInitUpgrade[4] = {DimWindowX/2+160, 700, 60, 60};
+        int ParamInitSell[4] = {DimWindowX/2-230, 686, 70, 85};
+        int ParamInitShopCANON[4] = {DimWindowX/2-460, DimWindowY-100, 70, 70};
+        int ParamInitShopDOUBLECANON[4] = {DimWindowX/2-150, DimWindowY-100, 70, 70};
+        int ParamInitShopMORTIER[4] = {DimWindowX/2+160, DimWindowY-100, 70, 70};
         
 
         Image im_monstre1;
@@ -63,6 +78,7 @@ class GameGraphique {
         Image im_shop;
         Image im_Money;
         Image im_Sell;
+        Image im_Upgrade;
 
     public:
         
@@ -97,9 +113,12 @@ class GameGraphique {
 
         void afficherInit(); //! Initialise SDL
         void AffichagePateau(); //Iinitialise l'affichage du plateau de def
-        void AfficherMenuChoix(); //Affiche le menu pour les choix
+        void AfficherMenuChoixShop(); //Affiche le menu pour les choix pour une case vide -> just shop
+        void AfficherMenuBuyDef(); //Affiche le menu pour choisir la défense à acheter 
+        void AfficherShopInfoDefense(typeDef type, int posx, int posy, int w, int h); //Affiche les infos d'une défense en texte en fonction du type de def -> shop buy
+        void AfficherInfosDefenseSelected(Defense def, int CaseChoisie ,int posX, int posY, int W, int H); //Affiche les infos d'une defense déja posé
+        void AfficherMenuChoixUpgSell(); //Affiche le menu pour les choix pour une case rempli -> sell and upgrade
         void afficherBoucle();  //! Boucle d'affichage de l'image
-        //void afficherDetruit(); //! Déinitialise SDL
         void afficherErreurs();
 
 };
