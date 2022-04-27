@@ -45,8 +45,9 @@ class GameGraphique {
         float deltatime = 0.f;
 
         //On initalise des position et largeur prédefinie pour simplifier la gestion des menus
-        int ParamInitShop[4] = {DimWindowX/2-45, 705, 90, 60};
-        int ParamInitUpgrade[4] = {DimWindowX/2+160, 700, 60, 60};
+        int ParamInitShop[4] = {DimWindowX/2-45, DimWindowY -95, 90, 60};
+        int ParamInitUpgrade[4] = {DimWindowX/2+160, DimWindowY -100, 60, 60};
+        int ParamInitPlay[4] = {DimWindowX - 960, DimWindowY -100, 60, 60};
         int ParamInitSell[4] = {DimWindowX/2-230, 686, 70, 85};
         int ParamInitShopCANON[4] = {DimWindowX/2-460, DimWindowY-100, 70, 70};
         int ParamInitShopDOUBLECANON[4] = {DimWindowX/2-150, DimWindowY-100, 70, 70};
@@ -68,6 +69,8 @@ class GameGraphique {
         Image im_Money;
         Image im_Sell;
         Image im_Upgrade;
+        Image im_Cross;
+        Image im_Play;
 
     public:
         
@@ -102,6 +105,7 @@ class GameGraphique {
 
         void afficherInit(); //! Initialise SDL
         void AffichagePateau(); //Iinitialise l'affichage du plateau de def
+        void AfficherInfosJeu(); //Affiche bouton play et infos jeu (vague, monstres tuées...)
         void AfficherMenuChoixShop(); //Affiche le menu pour les choix pour une case vide -> just shop
         void AfficherMenuBuyDef(); //Affiche le menu pour choisir la défense à acheter 
         void AfficherShopInfoDefense(typeDef type, int posx, int posy, int w, int h); //Affiche les infos d'une défense en texte en fonction du type de def -> shop buy

@@ -130,6 +130,8 @@ void GameGraphique::afficherInit() {
     im_shop.loadFromFile("img/Shop.png",renderer);
     im_Sell.loadFromFile("img/Sell.png",renderer);
     im_Upgrade.loadFromFile("img/Upgrade.png",renderer);
+    im_Cross.loadFromFile("img/Cross.png", renderer);
+    im_Play.loadFromFile("img/Play.png", renderer);
 
     
 
@@ -211,7 +213,22 @@ void GameGraphique::AffichagePateau(){
     if(game.joueur.getNbVies() == 2) im_hearts1.draw(renderer,DimWindowX/2-90, DimWindowY-760, 180, 60);
     if(game.joueur.getNbVies() == 1) im_hearts2.draw(renderer,DimWindowX/2-90, DimWindowY-760, 180, 60);
     if(game.joueur.getNbVies() <  1) im_hearts3.draw(renderer,DimWindowX/2-90, DimWindowY-760, 180, 60);
-    //TODO Faire pour chaques vie du joueur
+
+   
+
+}
+
+void GameGraphique::AfficherInfosJeu(){
+
+    im_Play.draw(renderer,ParamInitPlay[0], ParamInitPlay[1], ParamInitPlay[2], ParamInitPlay[3]);
+
+    AfficherTexte("", "Monstres Tues : ", game.nbMonstreTues, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1], 150, 20, 0, 0, 0);
+
+    AfficherTexte("", "Vague : ", game.vague, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1] + 30, 100, 15, 0, 0, 0);
+    AfficherTexte("", "Nombre de monstres dans la vague : ", game.vague*4, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1]+55, 300, 20, 0, 0, 0);
+
+
+
 }
 
 //Affiche le menu pour les choix
@@ -243,7 +260,7 @@ void GameGraphique::AfficherInfosDefenseSelected(Defense def, int CaseChoisies,i
     }
     AfficherTexte(Type, "", 0, posX-55, posY+20, 110, 15, 0, 0, 0);
 
-    AfficherTexte("","Damge : ", def.getDamage(), posX-W/2, posY+40, W, 15, 0, 0, 0);    
+    AfficherTexte("","Damage : ", def.getDamage(), posX-W/2, posY+40, W, 15, 0, 0, 0);    
     
     AfficherTexte("", "Range : ", def.getRange(), posX - W/2 +5, posY+60, W-10, 15, 0, 0, 0);
 
@@ -369,11 +386,12 @@ void GameGraphique::afficherBoucle() {
 void GameGraphique::afficher(){
 
     bool display=true;
+    bool AfficherInfosSansMenus =true;
     bool lancervague=false;
-    bool affichermsg = false;
     bool AfficherMenuChoixShopBool=false;
     bool AfficherMenuChoixBuyDefBool=false;
     bool AfficherMenuChoixUpgSellBool=false;
+    bool AfficherCroix = false;
     int CaseChoisie;
    
     
@@ -383,6 +401,7 @@ void GameGraphique::afficher(){
     afficherInit();
 
     while(display){
+
          afficherBoucle();
          touchemonstre = false;
 
@@ -397,8 +416,6 @@ void GameGraphique::afficher(){
             //PUT HERE
             frametime = 0;
         }
-
-
 
         while(SDL_PollEvent(&events)){
 
@@ -424,7 +441,9 @@ void GameGraphique::afficher(){
                             cout<<"Case :"<<i<<" enfoncé"<<endl; 
                               
                             AfficherMenuChoixShopBool = true; //Affiche le menu buy
+                            AfficherCroix = true;
                             AfficherMenuChoixUpgSellBool = false;
+                            AfficherInfosSansMenus = false;
                             CaseChoisie = i;
                         }
                         else if(game.defenses[i].getType() != RIEN)
@@ -432,11 +451,14 @@ void GameGraphique::afficher(){
                             cout<<"Case :"<<i<<" enfoncé"<<endl; 
 
                             AfficherMenuChoixUpgSellBool = true;
+                            AfficherCroix = true;
                             AfficherMenuChoixShopBool = false;
                             AfficherMenuChoixBuyDefBool = false;
+                            AfficherInfosSansMenus = false;
 
                             CaseChoisie = i;
                         }
+                    
 
                     }
                     if(AfficherMenuChoixShopBool == true)
@@ -445,59 +467,75 @@ void GameGraphique::afficher(){
                         {
                             AfficherMenuChoixShopBool = false;
                             AfficherMenuChoixBuyDefBool = true;
+                          
+                            
                         }
                     }
                     if(AfficherMenuChoixBuyDefBool == true)
                     {
+                        
                         if(xMouse > ParamInitShopCANON[0] && xMouse < ParamInitShopCANON[0] + ParamInitShopCANON[2] && yMouse > ParamInitShopCANON[1] && yMouse < ParamInitShopCANON[1] + ParamInitShopCANON[3])
                         {
                             retour = game.buyDefense(CANON, CaseChoisie);
                             AfficherMenuChoixBuyDefBool = false;
+                            AfficherCroix = false;
+                            AfficherInfosSansMenus = true;
                         }
                         else if(xMouse > ParamInitShopDOUBLECANON[0] && xMouse < ParamInitShopDOUBLECANON[0] + ParamInitShopDOUBLECANON[2] && yMouse > ParamInitShopDOUBLECANON[1] && yMouse < ParamInitShopDOUBLECANON[1] + ParamInitShopDOUBLECANON[3])
                         {
                             retour = game.buyDefense(DOUBLECANON, CaseChoisie);
                             AfficherMenuChoixBuyDefBool = false;
+                            AfficherCroix = false;
+                            AfficherInfosSansMenus = true;
                         }
                         else if(xMouse > ParamInitShopMORTIER[0] && xMouse < ParamInitShopMORTIER[0] + ParamInitShopMORTIER[2] && yMouse > ParamInitShopMORTIER[1] && yMouse < ParamInitShopMORTIER[1] + ParamInitShopMORTIER[3])
                         {
                             retour = game.buyDefense(MORTIER, CaseChoisie);
                             AfficherMenuChoixBuyDefBool = false;
+                            AfficherCroix = false;
+                            AfficherInfosSansMenus = true;
+                            
                         }
                     }
                     if(AfficherMenuChoixUpgSellBool == true)
                     {
-                        
+                     
                         if(xMouse > ParamInitSell[0] - 180 && xMouse < ParamInitSell[0] + ParamInitSell[2] && yMouse > ParamInitSell[1] && yMouse < ParamInitSell[1] + ParamInitSell[3])
                         {
                             retour = game.sellDefense(game.defenses[CaseChoisie]);
                             AfficherMenuChoixUpgSellBool = false;
+                            AfficherCroix = false;
+                            AfficherInfosSansMenus = true;
                         }
                         if(xMouse > ParamInitUpgrade[0] && xMouse < ParamInitUpgrade[0] + ParamInitUpgrade[2] +240 && yMouse > ParamInitUpgrade[1] && yMouse < ParamInitUpgrade[1] + ParamInitUpgrade[3])
                         {
                             retour = game.upgradeDefense(game.defenses[CaseChoisie]);
                             AfficherMenuChoixUpgSellBool = false;
+                            AfficherCroix = false;
+                            AfficherInfosSansMenus = true;
                         }
 
                     }
-                }
-                
-            }
-
-            //TEST Fonction event avec le clavier => si on est dans une case et qu'on appuie sur une des touches ca achète une défense
-            if(events.type == SDL_KEYDOWN)
-            {
-
-                //Test fonction 
-                if(events.key.keysym.sym == SDLK_SPACE)
-                {
-                    SDL_WaitEvent(&events);
-
-                    lancervague = true;
-                    //Pour l'instant touche space  mais imaginer un bouton "play" pour lancé la vague de monstre
-                    SDL_WaitEvent(&events);//permet que l'action ne se realise pas 15 fois en même temps 
-                    //TODO lancer la vagaue de monstre
-                }
+                    if(AfficherCroix == true)
+                    {
+                        if(xMouse > DimWindowX-40 && xMouse < DimWindowX - 40 +20&& yMouse > DimWindowY - 100 && yMouse < DimWindowY - 100 +20)
+                        {
+                            AfficherCroix = false;
+                            AfficherMenuChoixUpgSellBool = false;
+                            AfficherMenuChoixBuyDefBool = false;
+                            AfficherMenuChoixShopBool = false;
+                            AfficherInfosSansMenus = true;
+                        
+                        }
+                    }
+                    if(AfficherInfosSansMenus)
+                    {
+                        if(xMouse > ParamInitPlay[0] && xMouse < ParamInitPlay[0] + ParamInitPlay[2] &&  yMouse > ParamInitPlay[1] && yMouse < ParamInitPlay[1] + ParamInitPlay[3])
+                        {
+                            lancervague = true;
+                        }
+                    }
+                } 
             }
         }
 
@@ -507,77 +545,78 @@ void GameGraphique::afficher(){
             }
          */
         
-        if(lancervague != false){ //Lancer vague
+        if(lancervague == true){ //Lancer vague
 
             // On boucle sur les défenses
-                for (unsigned int i=0; i < game.defenses.size(); i++) {
-                    if (game.defenses[i].getType() == RIEN) continue; // Si la case est vide, on passe à la suivante
-                    //cout<<"Tour de la défense : "<<i<<endl;
-
-                    for (unsigned int a = 0; a < game.monstres.size(); a++) {
-                        // Attack de la défense sur monstre a si possible
-                        retour = game.DefHitMonstre(game.monstres[a], i, 1);
-                        // Si la défense a touché le monstre
-                        if (retour == 1) {
-                            cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;    
-                            }
+            for (unsigned int i=0; i < game.defenses.size(); i++) {
+                if (game.defenses[i].getType() == RIEN) continue; // Si la case est vide, on passe à la suivante
+                
+                for (unsigned int a = 0; a < game.monstres.size(); a++) {
+                    // Attack de la défense sur monstre a si possible
+                    retour = game.DefHitMonstre(game.monstres[a], i, 1);
+                    // Si la défense a touché le monstre
+                    if (retour == 1) {
+                        cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;    
                         }
                     }
-           // On boucle tout les monstres 
-                    for (unsigned int i=0; i < game.monstres.size(); i++) {
-                        game.monstres[i].setPosition(game.monstres[i].getPosition().x + 100*deltatime, 400); //en fonction du temps
-             
-                        // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
-                        if (game.monstres[i].getPosition().x >= DimWindowX) {
-                            // On le supprime si c'est le cas
-                            game.monstres.erase(game.monstres.begin()+i);
+                }
+            // On boucle tout les monstres 
+            for (unsigned int i=0; i < game.monstres.size(); i++) {
 
-                            // Et on enlève une vie au joueur
-                            game.joueur.setNbVies(game.joueur.getNbVies() - 1);
-                        }
-
+                game.monstres[i].setPosition(game.monstres[i].getPosition().x + 100*deltatime, 400); //en fonction du temps
+                // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
+                if (game.monstres[i].getPosition().x >= DimWindowX) {
+                    // On le supprime si c'est le cas
+                    game.monstres.erase(game.monstres.begin()+i);
+                     // Et on enlève une vie au joueur
+                    game.joueur.setNbVies(game.joueur.getNbVies() - 1);
+                }
                         // On regarde si le monstre n'as plus de vies
-                        if (game.monstres[i].getHp() < 1) {
-                            // On le supprime si c'est le cas
-                            game.monstres.erase(game.monstres.begin()+i);
+                if (game.monstres[i].getHp() < 1) {
+                    // On le supprime si c'est le cas
+                    game.monstres.erase(game.monstres.begin()+i);
 
-                            // On ajoute un point au score joueur
-                            game.joueur.setScore(game.joueur.getScore() + 1);
+                    // On ajoute un point au score joueur
+                    game.joueur.setScore(game.joueur.getScore() + 1);
 
-                            // On ajoute de l'argent au joueur
-                            game.joueur.money += 100;
-                            game.nbMonstreTues ++;
-                        }
+                    // On ajoute de l'argent au joueur
+                    game.joueur.money += 100;
+                    game.nbMonstreTues ++;
+                }
 
-                        // On remet le tableau à la bonne taille
-                        game.monstres.shrink_to_fit();
+                // On remet le tableau à la bonne taille
+                game.monstres.shrink_to_fit();
 
-                        if(game.monstres.size() == 0) {
-                            lancervague = false;
-                            game.vague++;
-                            game.InitVagueMonstre();    //Recréer une nouvelle vague de monstre
-                        }
-                    }
-           
+                if(game.monstres.size() == 0) {
+                    lancervague = false;
+                    game.vague++;
+                    game.InitVagueMonstre();    //Recréer une nouvelle vague de monstre
+                }
+            }
         }
-        
+
+        if(AfficherInfosSansMenus)
+        {
+            AfficherInfosJeu();
+        }
+        if(AfficherCroix)
+        {
+            im_Cross.draw(renderer, DimWindowX-40, DimWindowY-100, 20, 20);
+        }
         if(AfficherMenuChoixShopBool) 
         {
             AfficherMenuChoixShop();
             AfficherTexte("", "Case : ", CaseChoisie, DimWindowX/2 - 45, 680, 90, 20, 0, 0, 0);
-
         }    
         else if(AfficherMenuChoixBuyDefBool) AfficherMenuBuyDef();
         else if(AfficherMenuChoixUpgSellBool) 
         {
             AfficherMenuChoixUpgSell();
-            AfficherInfosDefenseSelected(game.defenses[CaseChoisie],CaseChoisie, DimWindowX/2, 680, 100, 30 );
-            
+            AfficherInfosDefenseSelected(game.defenses[CaseChoisie],CaseChoisie, DimWindowX/2, 680, 100, 30 );  
         }
 
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
      
     }
-
 }    
