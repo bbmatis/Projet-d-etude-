@@ -53,7 +53,7 @@ class GameGraphique {
         int ParamInitShopDOUBLECANON[4] = {DimWindowX/2-150, DimWindowY-100, 70, 70};
         int ParamInitShopMORTIER[4] = {DimWindowX/2+160, DimWindowY-100, 70, 70};
         
-
+        Image im_plateauFond;
         Image im_monstre1;
         Image im_monstre2;
         Image im_monstre3;
@@ -71,6 +71,7 @@ class GameGraphique {
         Image im_Upgrade;
         Image im_Cross;
         Image im_Play;
+
 
     public:
         

@@ -115,6 +115,7 @@ void GameGraphique::afficherInit() {
 
     renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
  
+    im_plateauFond.loadFromFile("img/PlateauFond.png", renderer);
     im_monstre1.loadFromFile("img/Squelette.png", renderer);
     im_monstre2.loadFromFile("img/monstre2.png",renderer);
     im_monstre3.loadFromFile("img/Golem.png", renderer);
@@ -151,6 +152,9 @@ void GameGraphique::afficherInit() {
 
 //Affiche le plateau de jeu 
 void GameGraphique::AffichagePateau(){
+
+
+    im_plateauFond.draw(renderer, 30, 110, 950, 587);
 
     for(unsigned int j=0; j<game.defenses.size(); j++)
     {
@@ -392,7 +396,10 @@ void GameGraphique::afficher(){
     bool AfficherMenuChoixBuyDefBool=false;
     bool AfficherMenuChoixUpgSellBool=false;
     bool AfficherCroix = false;
+    bool AfficheRectangleHover = false;
     int CaseChoisie;
+    int PosXRectHover;
+    int PosYRectHover;
    
     
     int xMouse, yMouse;
@@ -424,6 +431,18 @@ void GameGraphique::afficher(){
             if(events.type == SDL_MOUSEMOTION)
             {
                 SDL_GetMouseState(&xMouse, &yMouse);
+                for(unsigned int i=0; i<game.defenses.size(); i++)
+                {
+                    int Defy = i/25; //transforme la position en i
+                    int Defx = i%25; //transforme la position en j
+
+                    if(xMouse > Defx*37+40 && xMouse < Defx*37+40 + 35 &&  yMouse > Defy*37+122 && yMouse < Defy*37+122 +35)
+                        { 
+                            AfficheRectangleHover = true;
+                            PosXRectHover = Defx*37+40;
+                            PosYRectHover = Defy*37+122;
+                        }
+                }
 
             }
             if(events.type == SDL_MOUSEBUTTONDOWN)
@@ -436,6 +455,10 @@ void GameGraphique::afficher(){
                     //si on enfonce le bouton gauche de la souris et que la souris se trouve dans l'une des cases 
                     if(xMouse > Defx*37+40 && xMouse < Defx*37+40 + 35 &&  yMouse > Defy*37+122 && yMouse < Defy*37+122 +35)
                     { 
+                        AfficheRectangleHover = true;
+                        PosXRectHover = Defx*37+40;
+                        PosYRectHover = Defy*37+122;
+
                         if(events.button.button == SDL_BUTTON_LEFT && game.defenses[i].getType() == RIEN)
                         {
                             cout<<"Case :"<<i<<" enfoncé"<<endl; 
@@ -458,6 +481,8 @@ void GameGraphique::afficher(){
 
                             CaseChoisie = i;
                         }
+
+                        
                     
 
                     }
@@ -595,6 +620,15 @@ void GameGraphique::afficher(){
             }
         }
 
+        if(AfficheRectangleHover)
+        {
+            SDL_Rect RectangleHover = {PosXRectHover, PosYRectHover, 35, 35};
+          
+            SDL_RenderFillRect(renderer, &RectangleHover);
+
+        
+
+        }
         if(AfficherInfosSansMenus)
         {
             AfficherInfosJeu();
