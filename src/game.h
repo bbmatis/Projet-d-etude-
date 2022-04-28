@@ -32,6 +32,7 @@ class Game {
         //! \param y1 position en x du point n°1
         //! \param x2 position en y du point n°2
         //! \param y2 position en y du point n°2
+        //! \return Distance entre 2 points
         float Distance(int x1, int y1, int x2, int y2);
     public:
         std::vector<Monstre> monstres;          // Tableau dynamique de monstres

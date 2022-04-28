@@ -7,7 +7,7 @@
 using namespace std;
 
 Game::Game() {
-    vague = 6;
+    vague = 1;
     nbMonstreTues = 0;
     caseEntree = 175;
     caseSortie = 199;
@@ -53,7 +53,8 @@ void Game::InitPlateauJeu(){
 int Game::buyDefense(typeDef defense, unsigned int position) {
 
     // On vérifie que le type de défense est valide
-    if (defense == RIEN) return -1;
+    if (defense == RIEN || position == caseEntree || position == caseSortie) return -1;
+   
 
     // On vérifie que la position valide et qu'il n'y a pas déjà une défense sur cette position
     if (position > LARGEUR*HAUTEUR || position < 0 || defenses[position].getType() != RIEN) return -2;
@@ -122,12 +123,12 @@ int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition, int mode){
     }
     else if(mode == 1)
     {
-        Defy = (Defposition/25)*37+122 + 17; //transforme la position en i
-        Defx = (Defposition%25)*37+40 + 17; //transforme la position en j
+        Defy = (Defposition/25)*37+122+17; //transforme la position en i
+        Defx = (Defposition%25)*37+40+17; //transforme la position en j
     } 
 
     //le monstre est dans le rayon d'attaque de la defense
-    if(abs(Distance(monstre.getPosition().x,monstre.getPosition().y, Defx, Defy)) <= defenses[Defposition].getRange()){
+    if(abs(Distance(monstre.getPosition().x+17,monstre.getPosition().y+35, Defx, Defy)) <= defenses[Defposition].getRange()){
         
         //Change la vie du monstre en fonction des dégats de la défense
         monstre.setHp(monstre.getHp()-defenses[Defposition].getDamage());

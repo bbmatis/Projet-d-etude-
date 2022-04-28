@@ -3,8 +3,8 @@
 // Constructeur
 Monstre::Monstre(TypeMonstres typeMonstre) {
     type = typeMonstre;
-    position.x = 0;
-    position.y = 400; //j'ai mis a 400 pour les test en graph 
+    position.x = 40; //j'ai mis 40 pour les test en graph
+    position.y = 366; //j'ai mis a 400 pour les test en graph 
 
     switch (type)
     {

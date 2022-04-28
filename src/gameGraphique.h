@@ -22,19 +22,35 @@ class GameGraphique {
     private: 
         Game game;
         Menu menu;
-        unsigned int dimx, dimy; //! Dimentions X et Y de l'image
-        SDL_Window * window; //! Fenêtre SDL
-        SDL_Renderer * renderer; //! Renderer SDL
-        TTF_Font * font;
-
+        unsigned int dimx, dimy; // Dimentions X et Y de l'image
+        SDL_Window * window; // Fenêtre SDL
+        SDL_Renderer * renderer; // Renderer SDL
         
+        TTF_Font * font;
         Image font_im; 
         SDL_Color Couleur_Texte; 
+        SDL_Event events;
         
         
         int retour;
-        bool touchemonstre = true;
         bool choix;
+        bool display=true;
+        bool AfficherInfosSansMenus =true;
+        bool lancervague=false;
+        bool AfficherMenuChoixShopBool=false;
+        bool AfficherMenuChoixBuyDefBool=false;
+        bool AfficherMenuChoixUpgSellBool=false;
+        bool AfficherCroix = false;
+        bool AfficherCercleRange = false;
+        bool AfficheRectangleHover = false;
+        bool AfficherErreursBool = false;
+        int CaseChoisie;
+        int PosXRectHover;
+        int PosYRectHover;
+        int tt = 0;
+        int xMouse, yMouse;
+        int RangeDefSelected;
+
 
         //Utile pour le temps et les frames
         float frametime=0;
@@ -70,6 +86,8 @@ class GameGraphique {
         Image im_Upgrade;
         Image im_Cross;
         Image im_Play;
+        Image im_CercleRange;
+        Image im_rectangleHover;
 
 
     public:
@@ -94,25 +112,63 @@ class GameGraphique {
         //! \brief afficher les prix des défenses
         void afficherPrix();
 
-        //! \brief Afficher l'image de la console
+        //! \brief Afficher du texte sur la fenêtre
+        //! \param Msg Texte à afficher (si il n'y a pas de valeur à afficher, ex: "Hello") 
+        //! \param MsgWithValeur Texte qui accompagne une valeur ex: "Damage : " + Valeur
+        //! \param Valeur Valeur à afficher en Texte
+        //! \param x position en x du texte
+        //! \param y position en y du texte
+        //! \param w largeur du texte
+        //! \param h longueur du texte
+        //! \param r Couleur rouge
+        //! \param g Couleur verte
+        //! \param b Couleur bleue
         void AfficherTexte(string Msg, string MsgWithValeur, float Valeur, int x, int y, int w, int h, int r, int g, int b);
 
         //! \brief Afficher les erreurs 
         void AfficherMessageErreur(int nbErr);
 
-        //! \brief Afficher l'image dans une fenêtre SDL2
+        //! \brief Afficher le jeu dans une fenêtre SDL2
         void afficher();
 
-        void afficherInit(); //! Initialise SDL
-        void AffichagePateau(); //Iinitialise l'affichage du plateau de def
-        void AfficherInfosJeu(); //Affiche bouton play et infos jeu (vague, monstres tuées...)
-        void AfficherMenuChoixShop(); //Affiche le menu pour les choix pour une case vide -> just shop
-        void AfficherMenuBuyDef(); //Affiche le menu pour choisir la défense à acheter 
-        void AfficherShopInfoDefense(typeDef type, int posx, int posy, int w, int h); //Affiche les infos d'une défense en texte en fonction du type de def -> shop buy
-        void AfficherInfosDefenseSelected(Defense def, int CaseChoisie ,int posX, int posY, int W, int H); //Affiche les infos d'une defense déja posé
-        void AfficherMenuChoixUpgSell(); //Affiche le menu pour les choix pour une case rempli -> sell and upgrade
-        void afficherBoucle();  //! Boucle d'affichage de l'image
+        //! \brief Initialise SDL
+        void afficherInit(); 
+
+        //! \brief Iinitialise l'affichage du plateau de def
+        void AffichagePateau(); 
+        
+        //! \brief Affiche bouton play et infos jeu (vague, monstres tuées...)
+        void AfficherInfosJeu();
+        
+        //! \brief Affiche le menu pour les choix pour une case vide -> just shop
+        void AfficherMenuChoixShop();
+        
+        //! \brief Affiche le menu pour choisir la défense à acheter 
+        void AfficherMenuBuyDef();
+        
+        //! \brief Affiche les infos d'une défense en texte en fonction du type de def -> shop buy
+        //! \param type type de la défense auquel on veut afficher les infos 
+        //! \param posx position en x du texte 
+        //! \param posy position en y du texte
+        //! \param w largeur du texte
+        //! \param h longueur du texte
+        void AfficherShopInfoDefense(typeDef type, int posx, int posy, int w, int h); 
+        
+        //! \brief Affiche les infos d'une defense déja posé
+        //! \param def Defense auquel on veut afficher les infos 
+        //! \param CaseChoisie indice de la case où se trouve la defense
+        //! \param posX position en x du texte 
+        //! \param posY position en y du texte
+        //! \param W largeur du texte
+        //! \param H longueur du texte
+        void AfficherInfosDefenseSelected(Defense def, int CaseChoisie ,int posX, int posY, int W, int H);
+        
+        //! \brief Affiche le menu pour les choix pour une case rempli -> sell and upgrade
+        void AfficherMenuChoixUpgSell();
+
+        //! \brief Affiche les erreurs sur l'écran
         void afficherErreurs();
+
 
 };
 

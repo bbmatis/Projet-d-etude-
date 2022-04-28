@@ -134,16 +134,11 @@ void GameGraphique::afficherInit() {
     im_Upgrade.loadFromFile("img/Upgrade.png",renderer);
     im_Cross.loadFromFile("img/Cross.png", renderer);
     im_Play.loadFromFile("img/Play.png", renderer);
-
-    
+    im_CercleRange.loadFromFile("img/CircleRange.png", renderer);
+    im_rectangleHover.loadFromFile("img/RectangleHover.png",renderer);
 
     SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);
     SDL_RenderClear(renderer);
-
-    for(int i=0; i<game.monstres.size(); i++) game.monstres[i].setPosition(0, 400);
-
-
-    
 
     // Dessine le plateau de jeu une premiere fois 
 
@@ -189,16 +184,25 @@ void GameGraphique::AffichagePateau(){
        
         if(game.monstres[i].getType() == Mob1){
     
-            im_monstre1.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 45, 45);
+            im_monstre1.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 35, 35);
+            SDL_Rect LifeRect = {game.monstres[i].getPosition().x-8, game.monstres[i].getPosition().y - 5.0, game.monstres[i].getHp(), 5};
+            SDL_RenderDrawRect(renderer, &LifeRect);
+            SDL_RenderFillRect(renderer, &LifeRect);
     
         }
         if(game.monstres[i].getType() == Mob2){
 
-            im_monstre2.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 45, 45);
+            im_monstre2.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 35, 35);
+            SDL_Rect LifeRect = {game.monstres[i].getPosition().x-8, game.monstres[i].getPosition().y - 5.0, game.monstres[i].getHp()/2, 5};
+            SDL_RenderDrawRect(renderer, &LifeRect);
+            SDL_RenderFillRect(renderer, &LifeRect);
         } 
         if(game.monstres[i].getType() == Mob3){
 
-            im_monstre3.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 45, 45);
+            im_monstre3.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 35, 35);
+            SDL_Rect LifeRect = {game.monstres[i].getPosition().x-8, game.monstres[i].getPosition().y - 5.0, game.monstres[i].getHp()/3, 5};
+            SDL_RenderDrawRect(renderer, &LifeRect);
+            SDL_RenderFillRect(renderer, &LifeRect);
         } 
     }
 
@@ -367,62 +371,35 @@ void GameGraphique::AfficherMessageErreur(int nbErr) {
         err = err3;
     }
 
-    AfficherTexte(err.c_str(),"",0,470, 50, 300, 50, 255, 50, 50);
-
-    /* Couleur_Texte2.r = 250; Couleur_Texte2.g = 50; Couleur_Texte2.b = 55;
-    font_im2.setSurface(TTF_RenderText_Solid(font,err.c_str(),Couleur_Texte2));
-    font_im2.loadFromCurrentSurface(renderer);
-
-    SDL_Rect positionJouer2;
-    positionJouer2.x = 470; positionJouer2.y = 50; positionJouer2.w = 300; positionJouer2.h = 50;
-    SDL_RenderCopy(renderer,font_im2.getTexture(),nullptr,&positionJouer2); */
-
-}
-
-//Affiche le plateau pour la boucle du jeu
-void GameGraphique::afficherBoucle() {  
-
-    AffichagePateau();
-    //AfficherMessageErreur(-2);
+    AfficherTexte(err.c_str(),"",0, 500, 700 , 400, 50, 255, 50, 50);
 }
 
 //Boucle du jeu 
 
 void GameGraphique::afficher(){
-
-    bool display=true;
-    bool AfficherInfosSansMenus =true;
-    bool lancervague=false;
-    bool AfficherMenuChoixShopBool=false;
-    bool AfficherMenuChoixBuyDefBool=false;
-    bool AfficherMenuChoixUpgSellBool=false;
-    bool AfficherCroix = false;
-    bool AfficheRectangleHover = false;
-    int CaseChoisie;
-    int PosXRectHover;
-    int PosYRectHover;
-    int tt = 0;
-   
     
-    int xMouse, yMouse;
-
-    SDL_Event events;
     afficherInit();
 
     while(display){
 
-         afficherBoucle();
-         touchemonstre = false;
+        AffichagePateau();
 
-         
-
+        //fonction de frametime
+        prevtime = currenttime;
+        currenttime = SDL_GetTicks();
+        deltatime = (currenttime - prevtime) /1000.f;
+        frametime += deltatime;
+        int temps1;
+        
+        //SDL_RenderDrawLine(renderer, 0, 398, 1000, 398); debug 
+             
         while(SDL_PollEvent(&events)){
 
             if(events.type == SDL_QUIT) display = false;
 
             if(events.type == SDL_MOUSEMOTION && lancervague == false)
             {
-                SDL_GetMouseState(&xMouse, &yMouse);
+                SDL_GetMouseState(&xMouse, &yMouse); //Recupère pos x et y de la souris
                 for(unsigned int i=0; i<game.defenses.size(); i++)
                 {
                     int Defy = i/25; //transforme la position en i
@@ -433,28 +410,27 @@ void GameGraphique::afficher(){
                             AfficheRectangleHover = true;
                             PosXRectHover = Defx*37+40;
                             PosYRectHover = Defy*37+122;
+                            RangeDefSelected = game.defenses[i].getRange();
+                            if(game.defenses[i].getType() != RIEN)
+                            {
+                                AfficherCercleRange = true;
+                            }
                         }
                 }
 
             }
             if(events.type == SDL_MOUSEBUTTONDOWN && lancervague==false)
             {
-                //cout<<xMouse<<" "<<yMouse<<endl;
                 for(unsigned int i=0; i<game.defenses.size(); i++)
                 {
                     int Defy = i/25; //transforme la position en i
                     int Defx = i%25; //transforme la position en j
+
                     //si on enfonce le bouton gauche de la souris et que la souris se trouve dans l'une des cases 
                     if(xMouse > Defx*37+40 && xMouse < Defx*37+40 + 35 &&  yMouse > Defy*37+122 && yMouse < Defy*37+122 +35)
                     { 
-                        AfficheRectangleHover = true;
-                        PosXRectHover = Defx*37+40;
-                        PosYRectHover = Defy*37+122;
-
                         if(events.button.button == SDL_BUTTON_LEFT && game.defenses[i].getType() == RIEN)
-                        {
-                            //cout<<"Case :"<<i<<" enfoncé"<<endl; 
-                              
+                        {         
                             AfficherMenuChoixShopBool = true; //Affiche le menu buy
                             AfficherCroix = true;
                             AfficherMenuChoixUpgSellBool = false;
@@ -463,20 +439,13 @@ void GameGraphique::afficher(){
                         }
                         else if(game.defenses[i].getType() != RIEN)
                         {
-                            //cout<<"Case :"<<i<<" enfoncé"<<endl; 
-
-                            AfficherMenuChoixUpgSellBool = true;
-                            AfficherCroix = true;
+                            AfficherMenuChoixUpgSellBool = true; //Affiche le menu pour vendre ou défendre + croix et ferme les autres
+                            AfficherCroix = true; //croix fermeture menu
                             AfficherMenuChoixShopBool = false;
                             AfficherMenuChoixBuyDefBool = false;
                             AfficherInfosSansMenus = false;
-
-                            CaseChoisie = i;
+                            CaseChoisie = i; 
                         }
-
-                        
-                    
-
                     }
                     if(AfficherMenuChoixShopBool == true)
                     {
@@ -484,9 +453,6 @@ void GameGraphique::afficher(){
                         {
                             AfficherMenuChoixShopBool = false;
                             AfficherMenuChoixBuyDefBool = true;
-                          
-                          
-                            
                         }
                     }
                     if(AfficherMenuChoixBuyDefBool == true)
@@ -498,7 +464,11 @@ void GameGraphique::afficher(){
                             AfficherMenuChoixBuyDefBool = false;
                             AfficherCroix = false;
                             AfficherInfosSansMenus = true;
-                            
+                            if(retour != 0)
+                            {
+                                temps1=SDL_GetTicks()/1000; //demarre le timer a t secondes
+                                AfficherErreursBool = true; //Afficher le texte d'erreur
+                            }
                         }
                         else if(xMouse > ParamInitShopDOUBLECANON[0] && xMouse < ParamInitShopDOUBLECANON[0] + ParamInitShopDOUBLECANON[2] && yMouse > ParamInitShopDOUBLECANON[1] && yMouse < ParamInitShopDOUBLECANON[1] + ParamInitShopDOUBLECANON[3])
                         {
@@ -506,6 +476,11 @@ void GameGraphique::afficher(){
                             AfficherMenuChoixBuyDefBool = false;
                             AfficherCroix = false;
                             AfficherInfosSansMenus = true;
+                            if(retour != 0)
+                            {
+                                temps1=SDL_GetTicks()/1000;
+                                AfficherErreursBool = true;
+                            }
                         }
                         else if(xMouse > ParamInitShopMORTIER[0] && xMouse < ParamInitShopMORTIER[0] + ParamInitShopMORTIER[2] && yMouse > ParamInitShopMORTIER[1] && yMouse < ParamInitShopMORTIER[1] + ParamInitShopMORTIER[3])
                         {
@@ -513,12 +488,15 @@ void GameGraphique::afficher(){
                             AfficherMenuChoixBuyDefBool = false;
                             AfficherCroix = false;
                             AfficherInfosSansMenus = true;
-                            
+                            if(retour != 0)
+                            {
+                                temps1=SDL_GetTicks()/1000;
+                                AfficherErreursBool = true;
+                            }   
                         }
                     }
                     if(AfficherMenuChoixUpgSellBool == true)
                     {
-                     
                         if(xMouse > ParamInitSell[0] - 180 && xMouse < ParamInitSell[0] + ParamInitSell[2] && yMouse > ParamInitSell[1] && yMouse < ParamInitSell[1] + ParamInitSell[3])
                         {
                             retour = game.sellDefense(game.defenses[CaseChoisie]);
@@ -533,7 +511,6 @@ void GameGraphique::afficher(){
                             AfficherCroix = false;
                             AfficherInfosSansMenus = true;
                         }
-
                     }
                     if(AfficherCroix == true)
                     {
@@ -544,7 +521,6 @@ void GameGraphique::afficher(){
                             AfficherMenuChoixBuyDefBool = false;
                             AfficherMenuChoixShopBool = false;
                             AfficherInfosSansMenus = true;
-                        
                         }
                     }
                     if(AfficherInfosSansMenus && AfficherMenuChoixBuyDefBool == false)
@@ -558,67 +534,79 @@ void GameGraphique::afficher(){
             }
         }
 
-        /*  if(affichermsg) {
-                    AfficherMessageErreur(retour);
-                    SDL_WaitEvent(&events);
-            }
-         */
-        
+        //===============================Lance la vague de monstres==========================================
         if(lancervague == true){ //Lancer vague
+
+            for(unsigned int i=0; i<game.monstres.size(); i++)
+            {
+                game.monstres[i].MoveRight();
+            }
 
             // On boucle sur les défenses
             for (unsigned int i=0; i < game.defenses.size(); i++) {
+         
                 if (game.defenses[i].getType() == RIEN) continue; // Si la case est vide, on passe à la suivante
                 
                 for (unsigned int a = 0; a < game.monstres.size(); a++) {
                     // Attack de la défense sur monstre a si possible
+                    SDL_RenderDrawLine(renderer, 0, game.monstres[a].getPosition().y+35,1000, game.monstres[a].getPosition().y+35 );
+                    
                     retour = game.DefHitMonstre(game.monstres[a], i, 1);
+                    
+                    if (game.monstres[a].getHp() <= 0) {
+                        // On le supprime si c'est le cas
+                        game.monstres.erase(game.monstres.begin()+i);
+
+                        // On ajoute un point au score joueur
+                        game.joueur.setScore(game.joueur.getScore() + 1);
+
+                        // On ajoute de l'argent au joueur
+                        game.joueur.money += 100;
+                        game.nbMonstreTues ++;
+                    }
+                    // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
+                    if (game.monstres[a].getPosition().x >= DimWindowX) {
+                        // On le supprime si c'est le cas
+                        game.monstres.erase(game.monstres.begin()+i);
+                        // Et on enlève une vie au joueur
+                        game.joueur.setNbVies(game.joueur.getNbVies() - 1);
+                    }
+
+                        // On remet le tableau à la bonne taille
+                    game.monstres.shrink_to_fit();
+
+                    if(game.monstres.size() == 0) {
+                        lancervague = false;
+                        game.vague++;
+                        game.InitVagueMonstre();    //Recréer une nouvelle vague de monstre
+                    }
+                    
                     // Si la défense a touché le monstre
                     if (retour == 1) {
-                        //cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;    
-                        }
+                        cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;    
                     }
                 }
-            // On boucle tout les monstres 
-            for (unsigned int i=0; i < game.monstres.size(); i++) {
-                
-                game.monstres[i].MoveRight();
-                //game.monstres[i].setPosition(game.monstres[i].getPosition().x + 100*deltatime, 400); //en fonction du temps
-                // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
-                if (game.monstres[i].getPosition().x >= DimWindowX) {
-                    // On le supprime si c'est le cas
-                    game.monstres.erase(game.monstres.begin()+i);
-                     // Et on enlève une vie au joueur
-                    game.joueur.setNbVies(game.joueur.getNbVies() - 1);
-                }
-                        // On regarde si le monstre n'as plus de vies
-                if (game.monstres[i].getHp() < 1) {
-                    // On le supprime si c'est le cas
-                    game.monstres.erase(game.monstres.begin()+i);
-
-                    // On ajoute un point au score joueur
-                    game.joueur.setScore(game.joueur.getScore() + 1);
-
-                    // On ajoute de l'argent au joueur
-                    game.joueur.money += 100;
-                    game.nbMonstreTues ++;
-                }
-
-                // On remet le tableau à la bonne taille
-                game.monstres.shrink_to_fit();
-
-                if(game.monstres.size() == 0) {
-                    lancervague = false;
-                    game.vague++;
-                    game.InitVagueMonstre();    //Recréer une nouvelle vague de monstre
-                }
             }
+               
         }
-
+            
+        //======================Affichage des Menus / Texte / Elements d'infos (MouseHover + RangeCircle)============================================
+        if(AfficherErreursBool)
+        {            
+            AfficherMessageErreur(retour);
+            
+            if(SDL_GetTicks()/1000-temps1 == 3) //Attend 3s avant d'effacer le message d'erreur
+            {
+                AfficherErreursBool = false;
+            }
+        }  
+        if(AfficherCercleRange)
+        {
+            im_CercleRange.draw(renderer, PosXRectHover+17-RangeDefSelected/2, PosYRectHover+17-RangeDefSelected/2, RangeDefSelected,RangeDefSelected );
+        }
         if(AfficheRectangleHover)
         {
-            SDL_Rect RectangleHover = {PosXRectHover, PosYRectHover, 35, 35};
-            SDL_RenderFillRect(renderer, &RectangleHover);
+            im_rectangleHover.draw(renderer,PosXRectHover, PosYRectHover, 35, 35);
         }
         if(AfficherInfosSansMenus)
         {
@@ -633,23 +621,19 @@ void GameGraphique::afficher(){
             AfficherMenuChoixShop();
             AfficherTexte("", "Case : ", CaseChoisie, DimWindowX/2 - 45, 680, 90, 20, 0, 0, 0);
         }    
-        else if(AfficherMenuChoixBuyDefBool) AfficherMenuBuyDef();
+        else if(AfficherMenuChoixBuyDefBool) 
+        {
+            AfficherMenuBuyDef();
+        }
         else if(AfficherMenuChoixUpgSellBool) 
         {
             AfficherMenuChoixUpgSell();
             AfficherInfosDefenseSelected(game.defenses[CaseChoisie],CaseChoisie, DimWindowX/2, 680, 100, 30 );  
         }
 
-        //fonction de frametime
-         prevtime = currenttime;
-         currenttime = SDL_GetTicks();
-         deltatime = (currenttime - prevtime) /1000.f;
-
-         
-         tt++;
-
-        frametime += deltatime;
-        if(frametime >= 1.f) //toute les secondes
+        //Affiche les fps dans la console
+        tt++;
+        if(frametime >= 2.f) //toute les secondes
         {
             int fps = tt;
             cout<<"FPS : "<<fps<<endl;

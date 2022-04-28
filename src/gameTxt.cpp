@@ -254,7 +254,7 @@ void GameTxt::jouer() {
                         }
 
                         // On regarde si le monstre n'as plus de vies
-                        if (game.monstres[i].getHp() < 1) {
+                        if (game.monstres[i].getHp() <=0) {
                             // On le supprime si c'est le cas
                             game.monstres.erase(game.monstres.begin()+i);
 
