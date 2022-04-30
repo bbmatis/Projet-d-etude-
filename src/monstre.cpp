@@ -10,14 +10,17 @@ Monstre::Monstre(TypeMonstres typeMonstre) {
     {
         case Mob1:
             hp = 50;
+            maxHp = 50;
             speed = 1;
             break;
         case Mob2:
             hp = 100;
+            maxHp = 100;
             speed = 1.2;
             break;
         case Mob3:
             hp = 150;
+            maxHp = 150;
             speed = 0.9;
             break;
     }
@@ -56,6 +59,11 @@ int Monstre::getHp() const {
     return hp;
 }
 
+// Obtenir la santée max du monstre
+int Monstre::getMaxHp() const {
+    return maxHp;
+}
+
 // Définir la santée du monstre
 void Monstre::setHp(int newHp) {
     hp = newHp;
@@ -78,5 +86,5 @@ TypeMonstres Monstre::getType() const{
 
 // Premier déplacement du monstre
 void Monstre::firstMove(int numeroArriver){
-    position.x = -numeroArriver * 15;
+    position.x = -numeroArriver * 40;
 }

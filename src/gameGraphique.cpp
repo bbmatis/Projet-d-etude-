@@ -180,29 +180,27 @@ void GameGraphique::AffichagePateau(){
 
     for(unsigned int i =0; i<game.monstres.size(); i++)
     {
-       
-        if(game.monstres[i].getType() == Mob1){
-    
-            im_monstre1.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 35, 35);
-            SDL_Rect LifeRect = {game.monstres[i].getPosition().x-8, game.monstres[i].getPosition().y - 5.0, game.monstres[i].getHp(), 5};
+        // Si le monstre as déjà reçu des dégats
+        if (game.monstres[i].getHp() < game.monstres[i].getMaxHp()) {
+            // Détermine la taille de la barre de vie
+            int hp = game.monstres[i].getHp();
+            int maxHp = game.monstres[i].getMaxHp();
+            float hpBar = (hp * 100 / maxHp)/2;
+            SDL_Rect LifeRect = {game.monstres[i].getPosition().x-8, game.monstres[i].getPosition().y - 5.0, hpBar, 5};
             SDL_RenderDrawRect(renderer, &LifeRect);
             SDL_RenderFillRect(renderer, &LifeRect);
-    
         }
-        if(game.monstres[i].getType() == Mob2){
 
+        if(game.monstres[i].getType() == Mob1) {
+            im_monstre1.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 35, 35);
+        }
+        if(game.monstres[i].getType() == Mob2) {
             im_monstre2.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 35, 35);
-            SDL_Rect LifeRect = {game.monstres[i].getPosition().x-8, game.monstres[i].getPosition().y - 5.0, game.monstres[i].getHp()/2, 5};
-            SDL_RenderDrawRect(renderer, &LifeRect);
-            SDL_RenderFillRect(renderer, &LifeRect);
         } 
-        if(game.monstres[i].getType() == Mob3){
-
+        if(game.monstres[i].getType() == Mob3) {
             im_monstre3.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 35, 35);
-            SDL_Rect LifeRect = {game.monstres[i].getPosition().x-8, game.monstres[i].getPosition().y - 5.0, game.monstres[i].getHp()/3, 5};
-            SDL_RenderDrawRect(renderer, &LifeRect);
-            SDL_RenderFillRect(renderer, &LifeRect);
-        } 
+        }
+
     }
 
     //affichage de la money
@@ -221,8 +219,6 @@ void GameGraphique::AffichagePateau(){
     if(game.joueur.getNbVies() == 2) im_hearts1.draw(renderer,DimWindowX/2-90, DimWindowY-760, 180, 60);
     if(game.joueur.getNbVies() == 1) im_hearts2.draw(renderer,DimWindowX/2-90, DimWindowY-760, 180, 60);
     if(game.joueur.getNbVies() <  1) im_hearts3.draw(renderer,DimWindowX/2-90, DimWindowY-760, 180, 60);
-
-   
 
 }
 

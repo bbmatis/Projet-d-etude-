@@ -11,7 +11,8 @@ class Monstre {
         float speed;            // Vitesse du monstre
         Vecteur2D position;     // Vecteur position (x;y) du monstre
         int hp;                 // Nombre de points de vie du monstre
-        TypeMonstres type;
+        int maxHp;              // Nombre maximum de points de vie du monstre
+        TypeMonstres type;      // Type du monstre   
     public:
 
         //! \brief Constructeur
@@ -38,6 +39,9 @@ class Monstre {
 
         //! \brief Obtenir la santée du monstre
         int getHp() const;
+
+        //! \brief Obtenir la santée max du monstre
+        int getMaxHp() const;
 
         //! \brief Modifier la santée du monstre
         //! \param newHp nouveau nombres de vies
