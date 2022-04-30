@@ -54,7 +54,6 @@ int Game::buyDefense(typeDef defense, unsigned int position) {
 
     // On vérifie que le type de défense est valide
     if (defense == RIEN || position == caseEntree || position == caseSortie) return -1;
-   
 
     // On vérifie que la position valide et qu'il n'y a pas déjà une défense sur cette position
     if (position > LARGEUR*HAUTEUR || position < 0 || defenses[position].getType() != RIEN) return -2;
@@ -65,8 +64,15 @@ int Game::buyDefense(typeDef defense, unsigned int position) {
     // On vérifie que le joueur à assez d'argent pour acheter la défense
     if (defense_tmp.getPrix() > joueur.money) return -3;
 
-    // Tout est ok, on ajoute la défense au plateau de jeu
+    // Tout semble bon on met la défense sur la case en gardant l'ancienne au cas ou
+    Defense base = defenses[position];
     defenses[position] = defense_tmp;
+    // On essaye de mettre a jour les distances pour voir si la case est valide
+    if (!updateDistances()) {
+        // Si la case n'est pas valide on remet l'ancienne défense
+        defenses[position] = base;
+        return -4;
+    }
     joueur.money -= defense_tmp.getPrix();
     
     // On retourne 0 pour indiquer que la défense a été placée

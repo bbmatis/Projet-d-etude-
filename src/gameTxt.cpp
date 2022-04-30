@@ -87,16 +87,16 @@ void GameTxt::afficher(){ //test voir le .h
     cout<<"NbVie : "<<red<<game.joueur.getNbVies()<<def<<endl;
     
     // On affiche un tableau avec les distances des cases par rapport a la sortie
-    for(int i=0; i<HAUTEUR; i++) {
-        for(int j=0; j<LARGEUR; j++) {
-            int indice = j+i*LARGEUR;
-            if (game.distances[indice] < 100) cout<<" ";
-            if (game.distances[indice] < 10) cout<<" ";
-            // On affiche la distance de la case par rapport a la sortie
-            cout<<game.distances[indice]<<"|";
-        }
-        cout<<endl;
-    }
+    // for(int i=0; i<HAUTEUR; i++) {
+    //     for(int j=0; j<LARGEUR; j++) {
+    //         int indice = j+i*LARGEUR;
+    //         if (game.distances[indice] < 100) cout<<" ";
+    //         if (game.distances[indice] < 10) cout<<" ";
+    //         // On affiche la distance de la case par rapport a la sortie
+    //         cout<<game.distances[indice]<<"|";
+    //     }
+    //     cout<<endl;
+    // }
     
 }
 
@@ -108,11 +108,11 @@ void GameTxt::jouer() {
     // On défini des defenses de bases pour les tests
     Defense d1(DOUBLECANON);
     Defense d2(DOUBLECANON);
-    Defense d3(DOUBLECANON);
+    // Defense d3(DOUBLECANON);
 
     game.defenses[174] = d1;
     game.defenses[198] = d2;
-    game.defenses[224] = d3;
+    // game.defenses[224] = d3;
 
     game.updateDistances();
 
@@ -139,8 +139,6 @@ void GameTxt::jouer() {
 
         // On déclare une variable pour stocker les retours des fonctions
         int retour;
-
-        
 
         // On fait l'action correspondante au choix du joueur
         switch(choix)
@@ -177,6 +175,8 @@ void GameTxt::jouer() {
                     else if (retour == -2) cout << "La position choisie est invalide."<<endl;
                     // Si le joueur n'a pas assez d'argent
                     else if (retour == -3) cout << "Vous n'avez pas assez d'argent pour acheter cette défense."<<endl;
+                    // Si la défense bloque le passage
+                    else if (retour == -4) cout << "Vous ne pouvez pas poser de défensses ici cela bloquerait le passage pour les ennemies."<<endl;
                     // Si l'erreur n'est pas connue (seems weird :thonk:)
                     else cout << "Erreur inconnue."<<endl; 
                     cout << def;
