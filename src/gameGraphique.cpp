@@ -158,7 +158,7 @@ void GameGraphique::AffichagePateau(){
         int Defx = j%25; //transforme la position en x
         if(game.defenses[j].getType() == RIEN)
         {
-            // im_defenseRIEN.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
+            im_defenseRIEN.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
         }
         else if(game.defenses[j].getType() == DOUBLECANON)
         {
@@ -381,16 +381,27 @@ void GameGraphique::afficher(){
     afficherInit();
 
     while(display){
-        this_thread::sleep_for(chrono::milliseconds(10)); //met le jeu en pause pdt 10ms pour avoir quelquechose comme 100fps
+        // Met le jeu en pause pdt 10ms pour avoir quelquechose comme 100fps
+        this_thread::sleep_for(chrono::milliseconds(10));
 
-        AffichagePateau();
+        //Affiche les fps dans la console
+        frames++;
+        if(frametime >= 1.f) // Toute les secondes on affiche le nb de fps
+        {
+            cout<<"FPS : "<<frames<<endl;
+            frames=0;
+            frametime = 0;
+        }
 
         //fonction de frametime
         prevtime = currenttime;
         currenttime = SDL_GetTicks();
         deltatime = (currenttime - prevtime) /1000.f;
         frametime += deltatime;
+
         int temps1;
+
+        AffichagePateau();
         
         //SDL_RenderDrawLine(renderer, 0, 398, 1000, 398); debug 
              
@@ -630,15 +641,6 @@ void GameGraphique::afficher(){
         {
             AfficherMenuChoixUpgSell();
             AfficherInfosDefenseSelected(game.defenses[CaseChoisie],CaseChoisie, DimWindowX/2, 680, 100, 30 );  
-        }
-
-        //Affiche les fps dans la console
-        frames++;
-        if(frametime >= 1.f) // Toute les secondes on affiche le nb de fps
-        {
-            cout<<"FPS : "<<frames<<endl;
-            frames=0;
-            frametime = 0;
         }
 
         SDL_RenderPresent(renderer);
