@@ -51,9 +51,12 @@ class Monstre {
         //! \param new_y nouvelle position en y
         void setPosition(int new_x, int new_y);
 
+        //! \brief Obtenir le type du monstre
         TypeMonstres getType() const;
 
-
+        //! \brief Changer la position du monstre
+        //! par rapport a son numéro d'arriver dans la vague
+        void firstMove(int numeroArriver);
 };
 
 #endif

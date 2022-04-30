@@ -8,23 +8,21 @@ using namespace std;
 
 int main (int argc, char *argv[]) {
 
-    // Initialisation du jeu
-    Game maGame;
-    maGame.init();
-
     // On regarde si un argument est passé en paramètre
     // Si oui et si c'est -t ou --txt, on lance le jeu en mode texte
     // Sinon, on lance le jeu en mode graphique
 
     if (argc == 2 && (strcmp(argv[1], "-t") == 0 || strcmp(argv[1], "--txt") == 0)) {
-        // On créer un GameTxt à partir de maGame
-        GameTxt maGameTxt(maGame);
+        // On créer une partie en Txt
+        GameTxt maGameTxt;
 
         // Et on lance le jeu en mode texte
         maGameTxt.jouer(); 
     } else {
-        
-        GameGraphique GameGraphique(maGame);
+        // On créer une partie en Graphique
+        GameGraphique GameGraphique;
+
+        // Et on lance le jeu en mode graphique
         GameGraphique.afficher();
     } 
 

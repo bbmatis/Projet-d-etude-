@@ -38,8 +38,10 @@ Color::Modifier cyan(Color::FG_CYAN);
 
 
 // Constructeur de GameTxt
-GameTxt::GameTxt(Game famosoGame) {
-    game = famosoGame;
+GameTxt::GameTxt() {
+    Game laGame;
+    laGame.init();
+    game = laGame;
 }
 
 // destructeur de GameTxt

@@ -44,8 +44,12 @@ class Game {
         Joueur joueur;
         int caseEntree;
         int caseSortie;
+        int modeDAffichage;
         
         //! \brief Constructeur
+        Game(unsigned int leModeDAffichage);
+
+        //! \brief Constructeur par défaut
         Game();
         
         //! \brief Destructeur

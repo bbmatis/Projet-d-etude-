@@ -93,7 +93,7 @@ class GameGraphique {
     public:
         
         //! \brief Constructeur
-        GameGraphique(Game theGame);
+        GameGraphique();
 
         //! \brief Destructeur
         ~GameGraphique();

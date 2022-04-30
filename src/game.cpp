@@ -6,11 +6,20 @@
 
 using namespace std;
 
+Game::Game(unsigned int leModeDAffichage) {
+    vague = 1;
+    nbMonstreTues = 0;
+    caseEntree = 175;
+    caseSortie = 199;
+    modeDAffichage = leModeDAffichage;
+}
+
 Game::Game() {
     vague = 1;
     nbMonstreTues = 0;
     caseEntree = 175;
     caseSortie = 199;
+    modeDAffichage = 0;
 }
 
 Game::~Game(){
@@ -38,6 +47,8 @@ void Game::InitVagueMonstre(){
         } else {
             monstres.push_back(Monstre(Mob1));
         }
+        // Faire le premier mouvement du monstre
+        monstres[i].firstMove(i);
     }
 }
 
@@ -129,12 +140,21 @@ int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition, int mode){
     }
     else if(mode == 1)
     {
-        Defy = (Defposition/25)*37+122+17; //transforme la position en i
-        Defx = (Defposition%25)*37+40+17; //transforme la position en j
+        Defy = (Defposition/25)*37+122+18; //transforme la position en i
+        Defx = (Defposition%25)*37+40+18; //transforme la position en j
     } 
 
     //le monstre est dans le rayon d'attaque de la defense
-    if(abs(Distance(monstre.getPosition().x+17,monstre.getPosition().y+35, Defx, Defy)) <= defenses[Defposition].getRange()){
+    // Distance entre le monstre et la défense
+
+    float distance = Distance(monstre.getPosition().x, monstre.getPosition().y, Defx, Defy);
+    if(distance <= defenses[Defposition].getRange()){
+        cout << "Le monstre est dans le rayon d'attaque de la défense" << endl;
+        cout << "Distance : " << distance << endl;
+        cout << "Rayon : " << defenses[Defposition].getRange() << endl;
+        // On affiche position du monstre et position de la défense
+        cout << "Monstre : " << monstre.getPosition().x << " " << monstre.getPosition().y << endl;
+        cout << "Defense : " << Defx << " " << Defy << endl;
         
         //Change la vie du monstre en fonction des dégats de la défense
         monstre.setHp(monstre.getHp()-defenses[Defposition].getDamage());
