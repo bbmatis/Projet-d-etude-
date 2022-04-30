@@ -61,7 +61,7 @@ class Game {
         void InitPlateauJeu(); 
 
         //! \brief Permet de placer une défense sur le plateau de jeu.
-        //! Retourne 0 si la défense a été placée avec succès, -1 si le type n'est pas valide, -2 si la position n'est pas valide et -3 si le joueur n'a pas assez d'argent.
+        //! Retourne 0 si la défense a été placée avec succès, -1 si le type n'est pas valide, -2 si la position n'est pas valide, -3 si le joueur n'a pas assez d'argent et -4 si la défense rend l'arrivée inaccessible.
         //! \param defense défense à placer
         //! \param position position de la défense
         int buyDefense(typeDef defense, unsigned int position);

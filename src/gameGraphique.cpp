@@ -407,7 +407,10 @@ void GameGraphique::afficher(){
              
         while(SDL_PollEvent(&events)){
 
-            if(events.type == SDL_QUIT) display = false;
+            if(events.type == SDL_QUIT) {
+                display = false;
+                continue; // On fini l'itération de la boucle
+            }
 
             if(events.type == SDL_MOUSEMOTION && lancervague == false)
             {
