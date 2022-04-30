@@ -151,15 +151,16 @@ void GameGraphique::afficherInit() {
 //Affiche le plateau de jeu 
 void GameGraphique::AffichagePateau(){
 
-
+    int decalagePlateauX = 40;
+    int decalagePlateauY = 122;
     im_plateauFond.draw(renderer, 30, 110, 950, 587);
 
     for(unsigned int j=0; j<game.defenses.size(); j++)
     {
         int Defy = j/25;            //transforme la position en y
         int Defx = j%25;            //transforme la position en x
-        int posX = Defx*37+40;      //calcul la position en x 
-        int posY = Defy*37+122.5;   //calcul la position en y
+        int posX = Defx*tailleCase+decalagePlateauX;      //calcul la position en x 
+        int posY = Defy*tailleCase+decalagePlateauY;   //calcul la position en y
         if(game.defenses[j].getType() == RIEN)
         {
             im_defenseRIEN.draw(renderer, posX, posY, 35, 35);
@@ -180,25 +181,27 @@ void GameGraphique::AffichagePateau(){
 
     for(unsigned int i =0; i<game.monstres.size(); i++)
     {
+        int monstreX = game.monstres[i].getPosition().x+decalagePlateauX;
+        int monstreY = game.monstres[i].getPosition().y*tailleCase+decalagePlateauY;
         // Si le monstre as déjà reçu des dégats
         if (game.monstres[i].getHp() < game.monstres[i].getMaxHp()) {
             // Détermine la taille de la barre de vie
             int hp = game.monstres[i].getHp();
             int maxHp = game.monstres[i].getMaxHp();
             float hpBar = (hp * 100 / maxHp)/2;
-            SDL_Rect LifeRect = {game.monstres[i].getPosition().x-8, game.monstres[i].getPosition().y - 5.0, hpBar, 5};
+            SDL_Rect LifeRect = {monstreX-8, monstreY - 5.0, hpBar, 5};
             SDL_RenderDrawRect(renderer, &LifeRect);
             SDL_RenderFillRect(renderer, &LifeRect);
         }
 
         if(game.monstres[i].getType() == Mob1) {
-            im_monstre1.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 35, 35);
+            im_monstre1.draw(renderer,monstreX,monstreY, 35, 35);
         }
         if(game.monstres[i].getType() == Mob2) {
-            im_monstre2.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 35, 35);
+            im_monstre2.draw(renderer,monstreX,monstreY, 35, 35);
         } 
         if(game.monstres[i].getType() == Mob3) {
-            im_monstre3.draw(renderer,game.monstres[i].getPosition().x,game.monstres[i].getPosition().y, 35, 35);
+            im_monstre3.draw(renderer,monstreX,monstreY, 35, 35);
         }
 
     }
@@ -417,12 +420,12 @@ void GameGraphique::afficher(){
                     int Defy = i/25; //transforme la position en i
                     int Defx = i%25; //transforme la position en j
 
-                    if(xMouse > Defx*37+40 && xMouse < Defx*37+40 + 35 &&  yMouse > Defy*37+122 && yMouse < Defy*37+122 +35)
+                    if(xMouse > Defx*tailleCase+40 && xMouse < Defx*tailleCase+40 + 35 &&  yMouse > Defy*tailleCase+122 && yMouse < Defy*tailleCase+122 +35)
                         { 
                             AfficheRectangleHover = true;
-                            PosXRectHover = Defx*37+40;
-                            PosYRectHover = Defy*37+122;
-                            RangeDefSelected = game.defenses[i].getRange()*37;
+                            PosXRectHover = Defx*tailleCase+40;
+                            PosYRectHover = Defy*tailleCase+122;
+                            RangeDefSelected = game.defenses[i].getRange()*tailleCase;
                             if(game.defenses[i].getType() != RIEN)
                             {
                                 AfficherCercleRange = true;
@@ -439,7 +442,7 @@ void GameGraphique::afficher(){
                     int Defx = i%25; //transforme la position en j
 
                     //si on enfonce le bouton gauche de la souris et que la souris se trouve dans l'une des cases 
-                    if(xMouse > Defx*37+40 && xMouse < Defx*37+40 + 35 &&  yMouse > Defy*37+122 && yMouse < Defy*37+122 +35)
+                    if(xMouse > Defx*tailleCase+40 && xMouse < Defx*tailleCase+40 + 35 &&  yMouse > Defy*tailleCase+122 && yMouse < Defy*tailleCase+122 +35)
                     { 
                         if(events.button.button == SDL_BUTTON_LEFT && game.defenses[i].getType() == RIEN)
                         {         
@@ -551,6 +554,12 @@ void GameGraphique::afficher(){
 
             for(unsigned int i=0; i<game.monstres.size(); i++)
             {
+                Vecteur2D monstrePos = game.monstres[i].getPosition();
+                int monstreCase = (monstrePos.y/tailleCase)*LARGEUR + (monstrePos.x/tailleCase);
+                if (i == 0) {
+                    // cout << "Case du monstre : " << monstreCase << endl;
+                    // cout << "Posx : " << monstrePos.x <<" Posy : " << monstrePos.y << endl;
+                }
                 game.monstres[i].MoveRight();
             }
 

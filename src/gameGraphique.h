@@ -49,6 +49,7 @@ class GameGraphique {
         int PosYRectHover;
         int xMouse, yMouse;
         int RangeDefSelected;
+        const int tailleCase = 37;
 
 
         //Utile pour le temps et les frames

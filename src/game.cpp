@@ -132,31 +132,34 @@ float Game::Distance(int x1, int y1, int x2, int y2)
 //La défense attaque le monstre
 int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition){
 
-    int Defy, Defx;
-    if(modeDAffichage == 0)
+    int Defy = Defposition/25; //transforme la position en i
+    int Defx = Defposition%25; //transforme la position en j
+    int MonstreX = monstre.getPosition().x;
+    int MonstreY = monstre.getPosition().y;
+    int tailleCase = 1;
+    if(modeDAffichage == 1)
     {
-        Defy = Defposition/25; //transforme la position en i
-        Defx = Defposition%25; //transforme la position en j
-    }
-    else if(modeDAffichage == 1)
-    {
-        Defy = (Defposition/25)*37+122+18; //transforme la position en i
-        Defx = (Defposition%25)*37+40+18; //transforme la position en j
+        tailleCase = 37;
+        // Adapte la position de la défense au mode graphique
+        Defy = Defy*tailleCase+122+18;
+        Defx = Defx*tailleCase+40+18;
+        // Adapte la position du monstre au mode graphique
+        MonstreY = MonstreY*tailleCase+122+18;
+        MonstreX = MonstreX+40+18;
     } 
 
     //le monstre est dans le rayon d'attaque de la defense
     // Distance entre le monstre et la défense
 
-    float distance = Distance(monstre.getPosition().x, monstre.getPosition().y, Defx, Defy);
-    int tailleCase = 1;
-    if(modeDAffichage == 1) tailleCase = 37;
-    if(distance <= defenses[Defposition].getRange()*tailleCase){
-        cout << "Le monstre est dans le rayon d'attaque de la défense" << endl;
+    float distance = Distance(MonstreX, MonstreY, Defx, Defy);
+            cout << "Le monstre est dans le rayon d'attaque de la défense" << endl;
         cout << "Distance : " << distance << endl;
         cout << "Rayon : " << defenses[Defposition].getRange() << endl;
         // On affiche position du monstre et position de la défense
-        cout << "Monstre : " << monstre.getPosition().x << " " << monstre.getPosition().y << endl;
-        cout << "Defense : " << Defx << " " << Defy << endl;
+        cout << "Monstre : " << MonstreX << " ; " << MonstreY << endl;
+        cout << "Defense : " << Defx << " ; " << Defy << endl;
+    if(distance <= defenses[Defposition].getRange()*tailleCase){
+
         
         //Change la vie du monstre en fonction des dégats de la défense
         monstre.setHp(monstre.getHp()-defenses[Defposition].getDamage());
