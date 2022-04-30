@@ -148,7 +148,9 @@ int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition){
     // Distance entre le monstre et la défense
 
     float distance = Distance(monstre.getPosition().x, monstre.getPosition().y, Defx, Defy);
-    if(distance <= defenses[Defposition].getRange()){
+    int tailleCase = 1;
+    if(modeDAffichage == 1) tailleCase = 37;
+    if(distance <= defenses[Defposition].getRange()*tailleCase){
         cout << "Le monstre est dans le rayon d'attaque de la défense" << endl;
         cout << "Distance : " << distance << endl;
         cout << "Rayon : " << defenses[Defposition].getRange() << endl;

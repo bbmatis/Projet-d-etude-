@@ -385,9 +385,11 @@ void GameGraphique::afficher(){
 
         //Affiche les fps dans la console
         frames++;
+        totalFrames++;
+
         if(frametime >= 1.f) // Toute les secondes on affiche le nb de fps
         {
-            cout<<"FPS : "<<frames<<endl;
+            cout<<"FPS : "<<frames<<" Total : "<<totalFrames<<endl;
             frames=0;
             frametime = 0;
         }
@@ -421,7 +423,7 @@ void GameGraphique::afficher(){
                             AfficheRectangleHover = true;
                             PosXRectHover = Defx*37+40;
                             PosYRectHover = Defy*37+122;
-                            RangeDefSelected = game.defenses[i].getRange();
+                            RangeDefSelected = game.defenses[i].getRange()*37;
                             if(game.defenses[i].getType() != RIEN)
                             {
                                 AfficherCercleRange = true;
@@ -574,12 +576,17 @@ void GameGraphique::afficher(){
                         game.joueur.money += 100;
                         game.nbMonstreTues ++;
                     }else {
-                        retour = game.DefHitMonstre(game.monstres[a], i);
-                        // Si la défense a touché le monstre
-                        if (retour == 1) {
-                            cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;   
-                            // cout<<"Position du monstre : "<<game.monstres[a].getPosition().x<<" "<<game.monstres[a].getPosition().y<<endl;
+                        if (game.defenses[i].getLastHit() + game.defenses[i].getReloadTime()*100 < totalFrames ) {
+                            retour = game.DefHitMonstre(game.monstres[a], i);
+                            // Si la défense a touché le monstre
+                            if (retour == 1) {
+                                cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;   
+                                // cout<<"Position du monstre : "<<game.monstres[a].getPosition().x<<" "<<game.monstres[a].getPosition().y<<endl;
+                                game.defenses[i].setLastHit(totalFrames);
+
+                            }
                         }
+
                     }
                     // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
                     if (game.monstres[a].getPosition().x >= DimWindowX) {

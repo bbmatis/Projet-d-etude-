@@ -13,6 +13,7 @@ class Defense {
         unsigned int level;     // Niveau de la défense 
         typeDef type;           // Type de la défense (situé dans le enum)
         unsigned int prix;      // Coût d'achat de la défense 
+        unsigned int lastHit;   // Dernier temps de frappe
         
     public:
         //! \fn Constructeur
@@ -65,6 +66,14 @@ class Defense {
         
         //! \fn Améliorer la défense au niveau supérieur
         void upgrade();
+
+        //! \fn Définir la dernière frappe
+        //! \param newLastHit Nouveau temps de frappe
+        void setLastHit(unsigned int newLastHit);
+
+        //! \fn Récuper le dernier temps de frappe
+        unsigned int getLastHit() const;
+        
         
 };
 

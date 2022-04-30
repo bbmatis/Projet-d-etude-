@@ -47,12 +47,13 @@ class GameGraphique {
         int CaseChoisie;
         int PosXRectHover;
         int PosYRectHover;
-        int frames = 0;
         int xMouse, yMouse;
         int RangeDefSelected;
 
 
         //Utile pour le temps et les frames
+        int totalFrames = 0;
+        int frames = 0;
         float frametime=0;
         int prevtime = 0;
         int temps=0;
