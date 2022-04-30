@@ -47,7 +47,7 @@ class GameGraphique {
         int CaseChoisie;
         int PosXRectHover;
         int PosYRectHover;
-        int tt = 0;
+        int frames = 0;
         int xMouse, yMouse;
         int RangeDefSelected;
 

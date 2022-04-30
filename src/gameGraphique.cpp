@@ -154,11 +154,11 @@ void GameGraphique::AffichagePateau(){
 
     for(unsigned int j=0; j<game.defenses.size(); j++)
     {
-        int Defy = j/25; //transforme la position en i
-        int Defx = j%25; //transforme la position en j
+        int Defy = j/25; //transforme la position en y
+        int Defx = j%25; //transforme la position en x
         if(game.defenses[j].getType() == RIEN)
         {
-            im_defenseRIEN.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
+            // im_defenseRIEN.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
         }
         else if(game.defenses[j].getType() == DOUBLECANON)
         {
@@ -381,6 +381,7 @@ void GameGraphique::afficher(){
     afficherInit();
 
     while(display){
+        this_thread::sleep_for(chrono::milliseconds(10)); //met le jeu en pause pdt 10ms pour avoir quelquechose comme 100fps
 
         AffichagePateau();
 
@@ -632,12 +633,11 @@ void GameGraphique::afficher(){
         }
 
         //Affiche les fps dans la console
-        tt++;
-        if(frametime >= 2.f) //toute les secondes
+        frames++;
+        if(frametime >= 1.f) // Toute les secondes on affiche le nb de fps
         {
-            int fps = tt;
-            cout<<"FPS : "<<fps<<endl;
-            tt=0;
+            cout<<"FPS : "<<frames<<endl;
+            frames=0;
             frametime = 0;
         }
 
