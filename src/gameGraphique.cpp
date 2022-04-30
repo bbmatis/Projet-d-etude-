@@ -574,7 +574,7 @@ void GameGraphique::afficher(){
                         game.joueur.money += 100;
                         game.nbMonstreTues ++;
                     }else {
-                        retour = game.DefHitMonstre(game.monstres[a], i, 1);
+                        retour = game.DefHitMonstre(game.monstres[a], i);
                         // Si la défense a touché le monstre
                         if (retour == 1) {
                             cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;   
