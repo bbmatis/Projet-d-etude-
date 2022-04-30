@@ -76,3 +76,7 @@ TypeMonstres Monstre::getType() const{
     return type;
 }
 
+// Premier déplacement du monstre
+void Monstre::firstMove(int numeroArriver){
+    position.x = -numeroArriver * 15;
+}

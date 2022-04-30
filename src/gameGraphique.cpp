@@ -10,9 +10,11 @@
 #include <thread>
 
 
-GameGraphique::GameGraphique(Game theGame) {
-  game = theGame;
-  
+GameGraphique::GameGraphique() {
+    unsigned int leModeDAffichage = 1;
+    Game laGame(leModeDAffichage);
+    laGame.init();
+    game = laGame;
 }
 
 GameGraphique::~GameGraphique() {
@@ -154,33 +156,30 @@ void GameGraphique::AffichagePateau(){
 
     for(unsigned int j=0; j<game.defenses.size(); j++)
     {
-        int Defy = j/25; //transforme la position en y
-        int Defx = j%25; //transforme la position en x
+        int Defy = j/25;            //transforme la position en y
+        int Defx = j%25;            //transforme la position en x
+        int posX = Defx*37+40;      //calcul la position en x 
+        int posY = Defy*37+122.5;   //calcul la position en y
         if(game.defenses[j].getType() == RIEN)
         {
-            im_defenseRIEN.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
+            im_defenseRIEN.draw(renderer, posX, posY, 35, 35);
         }
         else if(game.defenses[j].getType() == DOUBLECANON)
         {
-            im_defenseDOUBLECANON.draw(renderer, Defx*37+40, Defy*37+122.5, 35, 35);
+            im_defenseDOUBLECANON.draw(renderer, posX, posY, 35, 35);
         }
         else if(game.defenses[j].getType() == CANON)
         {
-            im_defenseCANON.draw(renderer,Defx*37+40, Defy*37+122.5, 35, 35);
+            im_defenseCANON.draw(renderer,posX, posY, 35, 35);
         }
         else if(game.defenses[j].getType() == MORTIER)
         {
-            im_defenseMORTIER.draw(renderer,Defx*37+40, Defy*37+122.5, 35, 35);
+            im_defenseMORTIER.draw(renderer,posX, posY, 35, 35);
         }
     }
 
-    
-
-    
-
     for(unsigned int i =0; i<game.monstres.size(); i++)
     {
-
        
         if(game.monstres[i].getType() == Mob1){
     
@@ -386,9 +385,11 @@ void GameGraphique::afficher(){
 
         //Affiche les fps dans la console
         frames++;
+        totalFrames++;
+
         if(frametime >= 1.f) // Toute les secondes on affiche le nb de fps
         {
-            cout<<"FPS : "<<frames<<endl;
+            cout<<"FPS : "<<frames<<" Total : "<<totalFrames<<endl;
             frames=0;
             frametime = 0;
         }
@@ -425,7 +426,7 @@ void GameGraphique::afficher(){
                             AfficheRectangleHover = true;
                             PosXRectHover = Defx*37+40;
                             PosYRectHover = Defy*37+122;
-                            RangeDefSelected = game.defenses[i].getRange();
+                            RangeDefSelected = game.defenses[i].getRange()*37;
                             if(game.defenses[i].getType() != RIEN)
                             {
                                 AfficherCercleRange = true;
@@ -566,11 +567,10 @@ void GameGraphique::afficher(){
                     // Attack de la défense sur monstre a si possible
                     SDL_RenderDrawLine(renderer, 0, game.monstres[a].getPosition().y+35,1000, game.monstres[a].getPosition().y+35 );
                     
-                    retour = game.DefHitMonstre(game.monstres[a], i, 1);
-                    
+                    // On regarde si le monstre a encore de la vie
                     if (game.monstres[a].getHp() <= 0) {
                         // On le supprime si c'est le cas
-                        game.monstres.erase(game.monstres.begin()+i);
+                        game.monstres.erase(game.monstres.begin()+a);
 
                         // On ajoute un point au score joueur
                         game.joueur.setScore(game.joueur.getScore() + 1);
@@ -578,11 +578,23 @@ void GameGraphique::afficher(){
                         // On ajoute de l'argent au joueur
                         game.joueur.money += 100;
                         game.nbMonstreTues ++;
+                    }else {
+                        if (game.defenses[i].getLastHit() + game.defenses[i].getReloadTime()*100 < totalFrames ) {
+                            retour = game.DefHitMonstre(game.monstres[a], i);
+                            // Si la défense a touché le monstre
+                            if (retour == 1) {
+                                cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;   
+                                // cout<<"Position du monstre : "<<game.monstres[a].getPosition().x<<" "<<game.monstres[a].getPosition().y<<endl;
+                                game.defenses[i].setLastHit(totalFrames);
+
+                            }
+                        }
+
                     }
                     // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
                     if (game.monstres[a].getPosition().x >= DimWindowX) {
                         // On le supprime si c'est le cas
-                        game.monstres.erase(game.monstres.begin()+i);
+                        game.monstres.erase(game.monstres.begin()+a);
                         // Et on enlève une vie au joueur
                         game.joueur.setNbVies(game.joueur.getNbVies() - 1);
                     }
@@ -594,11 +606,6 @@ void GameGraphique::afficher(){
                         lancervague = false;
                         game.vague++;
                         game.InitVagueMonstre();    //Recréer une nouvelle vague de monstre
-                    }
-                    
-                    // Si la défense a touché le monstre
-                    if (retour == 1) {
-                        cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;    
                     }
                 }
             }

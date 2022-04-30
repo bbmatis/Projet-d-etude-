@@ -34,6 +34,7 @@ class Game {
         //! \param y2 position en y du point n°2
         //! \return Distance entre 2 points
         float Distance(int x1, int y1, int x2, int y2);
+        int modeDAffichage; //mode d'affichage
     public:
         std::vector<Monstre> monstres;          // Tableau dynamique de monstres
         std::vector<Defense> defenses;          // Tableau dynamique de défenses
@@ -46,6 +47,9 @@ class Game {
         int caseSortie;
         
         //! \brief Constructeur
+        Game(unsigned int leModeDAffichage);
+
+        //! \brief Constructeur par défaut
         Game();
         
         //! \brief Destructeur
@@ -78,9 +82,7 @@ class Game {
         //! \brief retroune si le monstre a été haagrah ou non
         //! \param IndiceDuMonstre Indice du monstre qui va se faire bully
         //! \param Defposition position de la défense qui va attaquer
-        //! \param Defx coord x de la défense à améliorer
-        //! \param Defy coord y de la défense à améliorer
-        int DefHitMonstre(Monstre & monstre, unsigned int Defposition, int mode);
+        int DefHitMonstre(Monstre & monstre, unsigned int Defposition);
 
         //! \brief Met à jour les distances des cases par rapport a l'arrivé
         //! \return true si mit a jour avec succès, false sinon

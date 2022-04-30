@@ -38,8 +38,10 @@ Color::Modifier cyan(Color::FG_CYAN);
 
 
 // Constructeur de GameTxt
-GameTxt::GameTxt(Game famosoGame) {
-    game = famosoGame;
+GameTxt::GameTxt() {
+    Game laGame;
+    laGame.init();
+    game = laGame;
 }
 
 // destructeur de GameTxt
@@ -231,7 +233,7 @@ void GameTxt::jouer() {
 
                         for (unsigned int a = 0; a < game.monstres.size(); a++) {
                             // Attack de la défense sur monstre a si possible
-                            retour = game.DefHitMonstre(game.monstres[a], i, 0);
+                            retour = game.DefHitMonstre(game.monstres[a], i);
                             // Si la défense a touché le monstre
                             if (retour == 1) {
                                 cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;

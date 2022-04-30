@@ -11,7 +11,7 @@ class GameTxt {
     public: 
         //! \brief Constructeur
         //! \param famosoGame Game à partir de la quel on va créer un GameTxt
-        GameTxt(Game famosoGame);
+        GameTxt();
 
         //! \brief Destructeur
         ~GameTxt();

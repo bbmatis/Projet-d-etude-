@@ -5,26 +5,27 @@ Defense::Defense(typeDef typeDef) {
     type = typeDef;
     zoneDamage = false;
     level = 1;
+    lastHit = 0;
     switch (type)
     {
         case CANON:
             reloadTime = 0.5f;
             damage = 5;
-            range = 70;
+            range = 6;
             zoneDamage = false;
             prix = 50;
             break;
         case DOUBLECANON:
             reloadTime = 0.25f;
             damage = 10;
-            range = 70;
+            range = 4;
             zoneDamage = false;
             prix = 100;
             break;
         case MORTIER:
             reloadTime = 2.0f;
             damage = 25;
-            range = 100;
+            range = 8;
             zoneDamage = true;
             prix = 200;
             break;
@@ -96,4 +97,14 @@ unsigned int Defense::getPrix() const {
 // Obtenir le lvl de la défense
 unsigned int Defense::getLevel() const {
     return level;
+}
+
+// Définir la dernière frappe
+void Defense::setLastHit(unsigned int newLastHit) {
+    lastHit = newLastHit;
+}
+
+// Récuper le dernier temps de frappe
+unsigned int Defense::getLastHit() const {
+    return lastHit;
 }
