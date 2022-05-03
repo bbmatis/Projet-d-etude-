@@ -212,6 +212,8 @@ int Game::sellDefense(Defense & defense) {
     // On vend la défense
     joueur.money += prix; // On lui donne que la moitié de la thune hein
     defense = Defense(); //remplace la def par une case vide
+    // On met a joour les distances
+    updateDistances();
     return prix;
 }
 

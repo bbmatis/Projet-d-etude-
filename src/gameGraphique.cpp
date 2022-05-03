@@ -595,55 +595,38 @@ void GameGraphique::afficher(){
         }
 
         //===============================Lance la vague de monstres==========================================
-        if(lancervague == true){ //Lancer vague
-            // On fait une pause de 0.5 secondes pour voir mieux 
-            // this_thread::sleep_for(chrono::milliseconds(100));
+        if(lancervague == true){ //Lancer vague de monstres
 
             for(unsigned int i=0; i<game.monstres.size(); i++)
             {
                 Vecteur2D monstrePos = game.monstres[i].getPosition();
 
+                // Centre de la case ou est le monstre
                 float centreCaseX = monstrePos.x + tailleCase/2;
                 float centreCaseY = monstrePos.y + tailleCase/2;
 
+                // On calcule la position du monstre en case
                 int X = floor((centreCaseX)/tailleCase);
                 int Y = floor((centreCaseY)/tailleCase);
                 const int monstreCase = Y*LARGEUR + X;
- 
-                // if (monstrePos.x < 0 ) {
-                //     // cout << "Monstre hors du tableau" << endl;
-                //     game.monstres[i].MoveRight();
-                //     continue;
-                // }
 
-
-                // continue;
-
-
+                // On fait déplacer le monstre vers sa cible si il ne l'as pas atteinte on continue
                 if (!game.monstres[i].moveToTargetPosition()) {
-                    // cout << "Le monstre continue vers sa cible" <<endl;
                     continue;
                 }
 
+                // On regarde si le monstre a la case de sortie et si oui il sort du plateau
                 if (monstreCase == game.caseSortie) {
-                    game.monstres[i].setTargetPosition(1000, monstrePos.y);
+                    game.monstres[i].setTargetPosition(5000, monstrePos.y);
                     continue;
                 }
-
-                monstrePos = game.monstres[i].getPosition();
-
-                cout << "Le monstre a atteint sa cible et cherche une nouvelle cible" << endl;
-                cout << "Case du monstre : " << monstreCase << endl;
-                cout << "Posx : " << monstrePos.x <<" Posy : " << monstrePos.y << endl;
                 
 
                 int tmpCase = -1;
-                int direction = 1;
                 // On regarde si la case du haut est accessible
                 if (game.isAccessibleCase(monstreCase, monstreCase - LARGEUR)) {
                     cout << "Case du haut accessible N°" << monstreCase - LARGEUR << " ayant pour Distance : " << game.distances[monstreCase-LARGEUR] << " VS " << game.distances[monstreCase] << endl;
                     tmpCase = monstreCase - LARGEUR;
-                    direction = 0;
                 }
                 // On regarde si la case de droite est accessible
                 if (game.isAccessibleCase(monstreCase, monstreCase + 1)) {
@@ -652,10 +635,8 @@ void GameGraphique::afficher(){
                     cout << "Case de droite accessible N°" << monstreCase + 1 << " ayant pour Distance : " << game.distances[monstreCase+1] << " VS " << game.distances[tmpCase] << endl;
                     if (tmpCase == -1) {
                         tmpCase = monstreCase + 1;
-                        direction = 1;
                     } else if (game.distances[monstreCase + 1] < game.distances[tmpCase]) {
                         tmpCase = monstreCase + 1;
-                        direction = 1;
                     }
                 }
                 // On regarde si la case du bas est accessible
@@ -664,10 +645,8 @@ void GameGraphique::afficher(){
                     cout << "Case du bas accessible N°" << monstreCase + 1 << " ayant pour Distance : " << game.distances[monstreCase+LARGEUR] << " VS " << game.distances[tmpCase] << endl;
                     if (tmpCase == -1) {
                         tmpCase = monstreCase + LARGEUR;
-                        direction = 2;
                     }else if (game.distances[monstreCase + LARGEUR] < game.distances[tmpCase]) {
                         tmpCase = monstreCase + LARGEUR;
-                        direction = 2;
                     }
                 }
                 // On regarde si la case de gauche est accessible
@@ -676,31 +655,15 @@ void GameGraphique::afficher(){
                     // On regarde si elle est plus proche
                     if (tmpCase == -1) {
                         tmpCase = monstreCase - 1;
-                        direction = 3;
                     }else if (game.distances[monstreCase - 1] < game.distances[tmpCase]) {
                         tmpCase = monstreCase - 1;
-                        direction = 3;
                     }
                 }
 
-                // On défini la target du monstre
+                // On défini la nouvel target du monstre
                 int targetX = (tmpCase % LARGEUR)*tailleCase;
                 int targetY = (tmpCase / LARGEUR)*tailleCase;
                 game.monstres[i].setTargetPosition(targetX, targetY);
-
-                // if (direction == 0) {
-                //     cout << "Monstre va vers le haut" << endl;
-                //     game.monstres[i].MoveUp();
-                // } else if (direction == 1) {
-                //     cout << "Monstre va vers la droite" << endl;
-                //     game.monstres[i].MoveRight();
-                // } else if (direction == 2) {
-                //     cout << "Monstre va vers le bas" << endl;
-                //     game.monstres[i].MoveDown();
-                // } else if (direction == 3) {
-                //     cout << "Monstre va vers la gauche" << endl;
-                //     game.monstres[i].MoveLeft();
-                // }
             }
 
             // On boucle sur les défenses
