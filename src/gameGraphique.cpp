@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <chrono>
 #include <thread>
+#include <cmath>
 
 
 GameGraphique::GameGraphique() {
@@ -18,23 +19,6 @@ GameGraphique::GameGraphique() {
 }
 
 GameGraphique::~GameGraphique() {
-
-    SDL_DestroyTexture(im_Money.getTexture());
-    SDL_DestroyTexture(im_defenseCANON.getTexture());
-    SDL_DestroyTexture(im_defenseDOUBLECANON.getTexture());
-    SDL_DestroyTexture(im_defenseMORTIER.getTexture());
-    SDL_DestroyTexture(im_defenseRIEN.getTexture());
-    SDL_DestroyTexture(im_shop.getTexture());
-    SDL_DestroyTexture(im_Sell.getTexture());
-    SDL_DestroyTexture(im_Upgrade.getTexture());
-    SDL_DestroyTexture(im_monstre1.getTexture());
-    SDL_DestroyTexture(im_monstre2.getTexture());
-    SDL_DestroyTexture(im_monstre3.getTexture());
-    SDL_DestroyTexture(im_hearts.getTexture());
-    SDL_DestroyTexture(im_hearts1.getTexture());
-    SDL_DestroyTexture(im_hearts2.getTexture());
-    SDL_DestroyTexture(im_hearts3.getTexture());
-    
     
     TTF_CloseFont(font);
     TTF_Quit();
@@ -110,15 +94,9 @@ void GameGraphique::afficherInit() {
             exit(1);
 	}
 
-    game.defenses[186] = Defense(DOUBLECANON); // TEST
-    game.defenses[99] = Defense(MORTIER); // TEST 
-    game.defenses[254] = Defense(DOUBLECANON); // TEST 
-    game.defenses[260] = Defense(CANON); // TEST 
-    game.defenses[130] = Defense(DOUBLECANON); // TEST 
-
     renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
  
-    im_plateauFond.loadFromFile("img/PlateauFond.png", renderer);
+    im_plateauFond.loadFromFile("img/PlateauFond_old.png", renderer);
     im_monstre1.loadFromFile("img/Squelette.png", renderer);
     im_monstre2.loadFromFile("img/monstre2.png",renderer);
     im_monstre3.loadFromFile("img/Golem.png", renderer);
@@ -153,7 +131,7 @@ void GameGraphique::AffichagePateau(){
 
     int decalagePlateauX = 40;
     int decalagePlateauY = 122;
-    im_plateauFond.draw(renderer, 30, 110, 950, 587);
+    im_plateauFond.draw(renderer, 30, 111, 945, 575);
 
     for(unsigned int j=0; j<game.defenses.size(); j++)
     {
@@ -182,13 +160,13 @@ void GameGraphique::AffichagePateau(){
     for(unsigned int i =0; i<game.monstres.size(); i++)
     {
         int monstreX = game.monstres[i].getPosition().x+decalagePlateauX;
-        int monstreY = game.monstres[i].getPosition().y*tailleCase+decalagePlateauY;
+        int monstreY = game.monstres[i].getPosition().y+decalagePlateauY;
         // Si le monstre as déjà reçu des dégats
         if (game.monstres[i].getHp() < game.monstres[i].getMaxHp()) {
             // Détermine la taille de la barre de vie
             int hp = game.monstres[i].getHp();
             int maxHp = game.monstres[i].getMaxHp();
-            float hpBar = (hp * 100 / maxHp)/2;
+            int hpBar = (hp * 100 / maxHp)/2;
             SDL_Rect LifeRect = {monstreX-8, monstreY - 5.0, hpBar, 5};
             SDL_RenderDrawRect(renderer, &LifeRect);
             SDL_RenderFillRect(renderer, &LifeRect);
@@ -398,6 +376,18 @@ void GameGraphique::afficher(){
     
     afficherInit();
 
+    // On affiche un tableau avec les distances des cases par rapport a la sortie
+    for(int i=0; i<HAUTEUR; i++) {
+        for(int j=0; j<LARGEUR; j++) {
+            int indice = j+i*LARGEUR;
+            if (game.distances[indice] < 100) cout<<" ";
+            if (game.distances[indice] < 10) cout<<" ";
+            // On affiche la distance de la case par rapport a la sortie
+            cout<<game.distances[indice]<<"|";
+        }
+        cout<<endl;
+    }
+
     while(display){
         // Met le jeu en pause pdt 10ms pour avoir quelquechose comme 100fps
         this_thread::sleep_for(chrono::milliseconds(10));
@@ -423,7 +413,8 @@ void GameGraphique::afficher(){
 
         AffichagePateau();
         
-        //SDL_RenderDrawLine(renderer, 0, 398, 1000, 398); debug 
+        //SDL_RenderDrawLine(renderer, 0, 398, 1000, 398);
+        //SDL_RenderDrawLine(renderer, 464, 0, 464, 800);
              
         while(SDL_PollEvent(&events)){
 
@@ -456,6 +447,7 @@ void GameGraphique::afficher(){
             }
             if(events.type == SDL_MOUSEBUTTONDOWN && lancervague==false)
             {
+                
                 for(unsigned int i=0; i<game.defenses.size(); i++)
                 {
                     int Defy = i/25; //transforme la position en i
@@ -496,9 +488,10 @@ void GameGraphique::afficher(){
                         if(xMouse > ParamInitShopCANON[0] && xMouse < ParamInitShopCANON[0] + ParamInitShopCANON[2] && yMouse > ParamInitShopCANON[1] && yMouse < ParamInitShopCANON[1] + ParamInitShopCANON[3])
                         {
                             retour = game.buyDefense(CANON, CaseChoisie);
+                            AfficherInfosSansMenus = true;
                             AfficherMenuChoixBuyDefBool = false;
                             AfficherCroix = false;
-                            AfficherInfosSansMenus = true;
+                            
                             if(retour != 0)
                             {
                                 temps1=SDL_GetTicks()/1000; //demarre le timer a t secondes
@@ -559,7 +552,7 @@ void GameGraphique::afficher(){
                             AfficherInfosSansMenus = true;
                         }
                     }
-                    if(AfficherInfosSansMenus && AfficherMenuChoixBuyDefBool == false)
+                    if(AfficherInfosSansMenus == true && AfficherMenuChoixBuyDefBool == false)
                     {
                         if(xMouse > ParamInitPlay[0] && xMouse < ParamInitPlay[0] + ParamInitPlay[2] &&  yMouse > ParamInitPlay[1] && yMouse < ParamInitPlay[1] + ParamInitPlay[3])
                         {
@@ -572,16 +565,93 @@ void GameGraphique::afficher(){
 
         //===============================Lance la vague de monstres==========================================
         if(lancervague == true){ //Lancer vague
+            // On fait une pause de 0.5 secondes pour voir mieux 
+            // this_thread::sleep_for(chrono::milliseconds(100));
 
             for(unsigned int i=0; i<game.monstres.size(); i++)
             {
                 Vecteur2D monstrePos = game.monstres[i].getPosition();
-                int monstreCase = (monstrePos.y/tailleCase)*LARGEUR + (monstrePos.x/tailleCase);
-                if (i == 0) {
-                    // cout << "Case du monstre : " << monstreCase << endl;
-                    // cout << "Posx : " << monstrePos.x <<" Posy : " << monstrePos.y << endl;
+                float centreCaseX = monstrePos.x + tailleCase/2;
+                float centreCaseY = monstrePos.y + tailleCase/2;
+
+                int X = floor(centreCaseX/tailleCase);
+                int Y = floor(centreCaseY/tailleCase);
+                const int monstreCase = Y*LARGEUR + X;
+ 
+                if (monstrePos.x < 0 ) {
+                    // cout << "Monstre hors du tableau" << endl;
+                    game.monstres[i].MoveRight();
+                    continue;
                 }
-                game.monstres[i].MoveRight();
+
+                if (monstreCase == game.caseSortie) {
+                    game.monstres[i].MoveRight();
+                    continue;
+                }
+
+                cout << "Case du monstre : " << monstreCase << endl;
+                cout << "Posx : " << monstrePos.x <<" Posy : " << monstrePos.y << endl;
+                // continue;
+
+                int tmpCase = -1;
+                int direction = 1;
+                // On regarde si la case du haut est accessible
+                if (game.isAccessibleCase(monstreCase, monstreCase - LARGEUR)) {
+                    cout << "Case du haut accessible N°" << monstreCase - LARGEUR << " ayant pour Distance : " << game.distances[monstreCase-LARGEUR] << " VS " << game.distances[monstreCase] << endl;
+                    tmpCase = monstreCase - LARGEUR;
+                    direction = 0;
+                }
+                // On regarde si la case de droite est accessible
+                if (game.isAccessibleCase(monstreCase, monstreCase + 1)) {
+                    // On regarde si elle est plus proche
+
+                    cout << "Case de droite accessible N°" << monstreCase + 1 << " ayant pour Distance : " << game.distances[monstreCase+1] << " VS " << game.distances[tmpCase] << endl;
+                    if (tmpCase == -1) {
+                        tmpCase = monstreCase + 1;
+                        direction = 1;
+                    } else if (game.distances[monstreCase + 1] < game.distances[tmpCase]) {
+                        tmpCase = monstreCase + 1;
+                        direction = 1;
+                    }
+                }
+                // On regarde si la case du bas est accessible
+                if (game.isAccessibleCase(monstreCase, monstreCase + LARGEUR)) {
+                    // On regarde si elle est plus proche
+                    cout << "Case du bas accessible N°" << monstreCase + 1 << " ayant pour Distance : " << game.distances[monstreCase+LARGEUR] << " VS " << game.distances[tmpCase] << endl;
+                    if (tmpCase == -1) {
+                        tmpCase = monstreCase + LARGEUR;
+                        direction = 2;
+                    }else if (game.distances[monstreCase + LARGEUR] < game.distances[tmpCase]) {
+                        tmpCase = monstreCase + LARGEUR;
+                        direction = 2;
+                    }
+                }
+                // On regarde si la case de gauche est accessible
+                if (game.isAccessibleCase(monstreCase, monstreCase - 1)) {
+                    cout << "Case de gauche accessible N°" << monstreCase - 1 << " Distance : " << game.distances[monstreCase-1] << " VS " << game.distances[tmpCase] << endl;
+                    // On regarde si elle est plus proche
+                    if (tmpCase == -1) {
+                        tmpCase = monstreCase - 1;
+                        direction = 3;
+                    }else if (game.distances[monstreCase - 1] < game.distances[tmpCase]) {
+                        tmpCase = monstreCase - 1;
+                        direction = 3;
+                    }
+                }
+
+                if (direction == 0) {
+                    cout << "Monstre va vers le haut" << endl;
+                    game.monstres[i].MoveUp();
+                } else if (direction == 1) {
+                    cout << "Monstre va vers la droite" << endl;
+                    game.monstres[i].MoveRight();
+                } else if (direction == 2) {
+                    cout << "Monstre va vers le bas" << endl;
+                    game.monstres[i].MoveDown();
+                } else if (direction == 3) {
+                    cout << "Monstre va vers la gauche" << endl;
+                    game.monstres[i].MoveLeft();
+                }
             }
 
             // On boucle sur les défenses
@@ -591,7 +661,7 @@ void GameGraphique::afficher(){
                 
                 for (unsigned int a = 0; a < game.monstres.size(); a++) {
                     // Attack de la défense sur monstre a si possible
-                    SDL_RenderDrawLine(renderer, 0, game.monstres[a].getPosition().y+35,1000, game.monstres[a].getPosition().y+35 );
+                    SDL_RenderDrawLine(renderer, 0, game.monstres[a].getPosition().y+120,1000, game.monstres[a].getPosition().y+120 );
                     
                     // On regarde si le monstre a encore de la vie
                     if (game.monstres[a].getHp() <= 0) {
@@ -609,7 +679,7 @@ void GameGraphique::afficher(){
                             retour = game.DefHitMonstre(game.monstres[a], i);
                             // Si la défense a touché le monstre
                             if (retour == 1) {
-                                cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;   
+                                // cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;   
                                 // cout<<"Position du monstre : "<<game.monstres[a].getPosition().x<<" "<<game.monstres[a].getPosition().y<<endl;
                                 game.defenses[i].setLastHit(totalFrames);
 
@@ -618,7 +688,7 @@ void GameGraphique::afficher(){
 
                     }
                     // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
-                    if (game.monstres[a].getPosition().x >= DimWindowX) {
+                    if (game.monstres[a].getPosition().x >= DimWindowX-80) {
                         // On le supprime si c'est le cas
                         game.monstres.erase(game.monstres.begin()+a);
                         // Et on enlève une vie au joueur
@@ -650,7 +720,7 @@ void GameGraphique::afficher(){
         }  
         if(AfficherCercleRange)
         {
-            im_CercleRange.draw(renderer, PosXRectHover+17-RangeDefSelected/2, PosYRectHover+17-RangeDefSelected/2, RangeDefSelected,RangeDefSelected );
+            im_CercleRange.draw(renderer, PosXRectHover+17-RangeDefSelected, PosYRectHover+17-RangeDefSelected, RangeDefSelected*2,RangeDefSelected*2 );
         }
         if(AfficheRectangleHover)
         {

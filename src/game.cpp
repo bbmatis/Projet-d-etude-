@@ -34,10 +34,17 @@ Game::~Game(){
 void Game::init() {
     InitPlateauJeu();   // Initialise le plateau de jeu
     InitVagueMonstre();
+
+    defenses[186] = Defense(DOUBLECANON); // TEST
+
+    updateDistances();
 }
 
 //Initialise le tableau de monstre (vague)
 void Game::InitVagueMonstre(){ 
+    // monstres.push_back(Monstre(Mob1));
+    // monstres[0].firstMove(1, 1);
+    // return;
     for(unsigned int i=0; i<vague*4; i++) {
         //  Obtenir un monstre aléatoire pour définir la raretée du monstre
         int monstreRarity = rand() % 100;
@@ -50,7 +57,7 @@ void Game::InitVagueMonstre(){
             monstres.push_back(Monstre(Mob1));
         }
         // Faire le premier mouvement du monstre
-        monstres[i].firstMove(i);
+        monstres[i].firstMove(i, modeDAffichage);
     }
 }
 
@@ -244,23 +251,23 @@ int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition){
     {
         tailleCase = 37;
         // Adapte la position de la défense au mode graphique
-        Defy = Defy*tailleCase+122+18;
-        Defx = Defx*tailleCase+40+18;
+        Defy = Defy*tailleCase+122+17;
+        Defx = Defx*tailleCase+40+17;
         // Adapte la position du monstre au mode graphique
-        MonstreY = MonstreY*tailleCase+122+18;
-        MonstreX = MonstreX+40+18;
+        MonstreY = MonstreY+122+17;
+        MonstreX = MonstreX+40+17;
     } 
 
     //le monstre est dans le rayon d'attaque de la defense
     // Distance entre le monstre et la défense
 
     float distance = Distance(MonstreX, MonstreY, Defx, Defy);
-            cout << "Le monstre est dans le rayon d'attaque de la défense" << endl;
-        cout << "Distance : " << distance << endl;
-        cout << "Rayon : " << defenses[Defposition].getRange() << endl;
-        // On affiche position du monstre et position de la défense
-        cout << "Monstre : " << MonstreX << " ; " << MonstreY << endl;
-        cout << "Defense : " << Defx << " ; " << Defy << endl;
+    // cout << "Le monstre est dans le rayon d'attaque de la défense" << endl;
+    // cout << "Distance : " << distance << endl;
+    // cout << "Rayon : " << defenses[Defposition].getRange() << endl;
+    // // On affiche position du monstre et position de la défense
+    // cout << "Monstre : " << MonstreX << " ; " << MonstreY << endl;
+    // cout << "Defense : " << Defx << " ; " << Defy << endl;
     if(distance <= defenses[Defposition].getRange()*tailleCase){
 
         
@@ -382,9 +389,10 @@ unsigned int * Game::getDistances() {
 bool Game::updateDistances() {
     unsigned int *tmpDistances = getDistances();
     if (tmpDistances[175] == 404) {
-        cout << "L'arrivée est inaccessible" << endl;
+        cout << "[MAJ-Dist] L'arrivée est inaccessible" << endl;
         return false;
     }
+    cout << "[MAJ-Dist] L'arrivée est accessible" << endl;
     for (unsigned int i = 0; i < LARGEUR*HAUTEUR; i++) distances[i] = tmpDistances[i];
     return true;
 }

@@ -65,7 +65,7 @@ class GameGraphique {
         //On initalise des position et largeur prédefinie pour simplifier la gestion des menus
         int ParamInitShop[4] = {DimWindowX/2-45, DimWindowY -95, 90, 60};
         int ParamInitUpgrade[4] = {DimWindowX/2+160, DimWindowY -100, 60, 60};
-        int ParamInitPlay[4] = {DimWindowX - 960, DimWindowY -100, 60, 60};
+        int ParamInitPlay[4] = {DimWindowX/2-250, DimWindowY -90, 60, 60};
         int ParamInitSell[4] = {DimWindowX/2-230, 686, 70, 85};
         int ParamInitShopCANON[4] = {DimWindowX/2-460, DimWindowY-100, 70, 70};
         int ParamInitShopDOUBLECANON[4] = {DimWindowX/2-150, DimWindowY-100, 70, 70};
