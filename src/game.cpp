@@ -141,11 +141,11 @@ int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition){
     {
         tailleCase = 37;
         // Adapte la position de la défense au mode graphique
-        Defy = Defy*tailleCase+122+18;
-        Defx = Defx*tailleCase+40+18;
+        Defy = Defy*tailleCase+122+17;
+        Defx = Defx*tailleCase+40+17;
         // Adapte la position du monstre au mode graphique
-        MonstreY = MonstreY+122;
-        MonstreX = MonstreX+40;
+        MonstreY = MonstreY+122+17;
+        MonstreX = MonstreX+40+17;
     } 
 
     //le monstre est dans le rayon d'attaque de la defense

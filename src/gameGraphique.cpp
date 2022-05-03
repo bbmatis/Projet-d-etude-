@@ -570,7 +570,7 @@ void GameGraphique::afficher(){
                 
                 for (unsigned int a = 0; a < game.monstres.size(); a++) {
                     // Attack de la défense sur monstre a si possible
-                    SDL_RenderDrawLine(renderer, 0, game.monstres[a].getPosition().y+35,1000, game.monstres[a].getPosition().y+35 );
+                    SDL_RenderDrawLine(renderer, 0, game.monstres[a].getPosition().y+120,1000, game.monstres[a].getPosition().y+120);
                     
                     // On regarde si le monstre a encore de la vie
                     if (game.monstres[a].getHp() <= 0) {
