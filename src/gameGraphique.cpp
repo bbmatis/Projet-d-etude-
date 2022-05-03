@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <chrono>
 #include <thread>
+#include <cmath>
 
 
 GameGraphique::GameGraphique() {
@@ -92,12 +93,6 @@ void GameGraphique::afficherInit() {
             SDL_Quit(); 
             exit(1);
 	}
-
-    game.defenses[186] = Defense(DOUBLECANON); // TEST
-    game.defenses[99] = Defense(MORTIER); // TEST 
-    game.defenses[254] = Defense(DOUBLECANON); // TEST 
-    game.defenses[260] = Defense(CANON); // TEST 
-    game.defenses[130] = Defense(DOUBLECANON); // TEST 
 
     renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
  
@@ -361,6 +356,18 @@ void GameGraphique::afficher(){
     
     afficherInit();
 
+    // On affiche un tableau avec les distances des cases par rapport a la sortie
+    for(int i=0; i<HAUTEUR; i++) {
+        for(int j=0; j<LARGEUR; j++) {
+            int indice = j+i*LARGEUR;
+            if (game.distances[indice] < 100) cout<<" ";
+            if (game.distances[indice] < 10) cout<<" ";
+            // On affiche la distance de la case par rapport a la sortie
+            cout<<game.distances[indice]<<"|";
+        }
+        cout<<endl;
+    }
+
     while(display){
         // Met le jeu en pause pdt 10ms pour avoir quelquechose comme 100fps
         this_thread::sleep_for(chrono::milliseconds(10));
@@ -537,16 +544,93 @@ void GameGraphique::afficher(){
 
         //===============================Lance la vague de monstres==========================================
         if(lancervague == true){ //Lancer vague
+            // On fait une pause de 0.5 secondes pour voir mieux 
+            // this_thread::sleep_for(chrono::milliseconds(100));
 
             for(unsigned int i=0; i<game.monstres.size(); i++)
             {
                 Vecteur2D monstrePos = game.monstres[i].getPosition();
-                int monstreCase = (monstrePos.y/tailleCase)*LARGEUR + (monstrePos.x/tailleCase);
-                if (i == 0) {
-                    cout << "Case du monstre : " << monstreCase << endl;
-                    cout << "Posx : " << monstrePos.x <<" Posy : " << monstrePos.y << endl;
+                float centreCaseX = monstrePos.x + tailleCase/2;
+                float centreCaseY = monstrePos.y + tailleCase/2;
+
+                int X = floor(centreCaseX/tailleCase);
+                int Y = floor(centreCaseY/tailleCase);
+                const int monstreCase = Y*LARGEUR + X;
+ 
+                if (monstrePos.x < 0 ) {
+                    // cout << "Monstre hors du tableau" << endl;
+                    game.monstres[i].MoveRight();
+                    continue;
                 }
-                game.monstres[i].MoveRight();
+
+                if (monstreCase == game.caseSortie) {
+                    game.monstres[i].MoveRight();
+                    continue;
+                }
+
+                cout << "Case du monstre : " << monstreCase << endl;
+                cout << "Posx : " << monstrePos.x <<" Posy : " << monstrePos.y << endl;
+                // continue;
+
+                int tmpCase = -1;
+                int direction = 1;
+                // On regarde si la case du haut est accessible
+                if (game.isAccessibleCase(monstreCase, monstreCase - LARGEUR)) {
+                    cout << "Case du haut accessible N°" << monstreCase - LARGEUR << " ayant pour Distance : " << game.distances[monstreCase-LARGEUR] << " VS " << game.distances[monstreCase] << endl;
+                    tmpCase = monstreCase - LARGEUR;
+                    direction = 0;
+                }
+                // On regarde si la case de droite est accessible
+                if (game.isAccessibleCase(monstreCase, monstreCase + 1)) {
+                    // On regarde si elle est plus proche
+
+                    cout << "Case de droite accessible N°" << monstreCase + 1 << " ayant pour Distance : " << game.distances[monstreCase+1] << " VS " << game.distances[tmpCase] << endl;
+                    if (tmpCase == -1) {
+                        tmpCase = monstreCase + 1;
+                        direction = 1;
+                    } else if (game.distances[monstreCase + 1] < game.distances[tmpCase]) {
+                        tmpCase = monstreCase + 1;
+                        direction = 1;
+                    }
+                }
+                // On regarde si la case du bas est accessible
+                if (game.isAccessibleCase(monstreCase, monstreCase + LARGEUR)) {
+                    // On regarde si elle est plus proche
+                    cout << "Case du bas accessible N°" << monstreCase + 1 << " ayant pour Distance : " << game.distances[monstreCase+LARGEUR] << " VS " << game.distances[tmpCase] << endl;
+                    if (tmpCase == -1) {
+                        tmpCase = monstreCase + LARGEUR;
+                        direction = 2;
+                    }else if (game.distances[monstreCase + LARGEUR] < game.distances[tmpCase]) {
+                        tmpCase = monstreCase + LARGEUR;
+                        direction = 2;
+                    }
+                }
+                // On regarde si la case de gauche est accessible
+                if (game.isAccessibleCase(monstreCase, monstreCase - 1)) {
+                    cout << "Case de gauche accessible N°" << monstreCase - 1 << " Distance : " << game.distances[monstreCase-1] << " VS " << game.distances[tmpCase] << endl;
+                    // On regarde si elle est plus proche
+                    if (tmpCase == -1) {
+                        tmpCase = monstreCase - 1;
+                        direction = 3;
+                    }else if (game.distances[monstreCase - 1] < game.distances[tmpCase]) {
+                        tmpCase = monstreCase - 1;
+                        direction = 3;
+                    }
+                }
+
+                if (direction == 0) {
+                    cout << "Monstre va vers le haut" << endl;
+                    game.monstres[i].MoveUp();
+                } else if (direction == 1) {
+                    cout << "Monstre va vers la droite" << endl;
+                    game.monstres[i].MoveRight();
+                } else if (direction == 2) {
+                    cout << "Monstre va vers le bas" << endl;
+                    game.monstres[i].MoveDown();
+                } else if (direction == 3) {
+                    cout << "Monstre va vers la gauche" << endl;
+                    game.monstres[i].MoveLeft();
+                }
             }
 
             // On boucle sur les défenses
