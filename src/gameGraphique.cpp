@@ -597,7 +597,7 @@ void GameGraphique::afficher(){
 
                     }
                     // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
-                    if (game.monstres[a].getPosition().x >= DimWindowX) {
+                    if (game.monstres[a].getPosition().x >= DimWindowX-80) {
                         // On le supprime si c'est le cas
                         game.monstres.erase(game.monstres.begin()+a);
                         // Et on enlève une vie au joueur
