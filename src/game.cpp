@@ -32,10 +32,17 @@ Game::~Game(){
 void Game::init() {
     InitPlateauJeu();   // Initialise le plateau de jeu
     InitVagueMonstre();
+
+    defenses[186] = Defense(DOUBLECANON); // TEST
+
+    updateDistances();
 }
 
 //Initialise le tableau de monstre (vague)
 void Game::InitVagueMonstre(){ 
+    // monstres.push_back(Monstre(Mob1));
+    // monstres[0].firstMove(1, 1);
+    // return;
     for(unsigned int i=0; i<vague*4; i++) {
         //  Obtenir un monstre aléatoire pour définir la raretée du monstre
         int monstreRarity = rand() % 100;
@@ -279,9 +286,10 @@ unsigned int * Game::getDistances() {
 bool Game::updateDistances() {
     unsigned int *tmpDistances = getDistances();
     if (tmpDistances[175] == 404) {
-        cout << "L'arrivée est inaccessible" << endl;
+        cout << "[MAJ-Dist] L'arrivée est inaccessible" << endl;
         return false;
     }
+    cout << "[MAJ-Dist] L'arrivée est accessible" << endl;
     for (unsigned int i = 0; i < LARGEUR*HAUTEUR; i++) distances[i] = tmpDistances[i];
     return true;
 }

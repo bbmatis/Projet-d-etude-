@@ -89,16 +89,16 @@ void GameTxt::afficher(){ //test voir le .h
     cout<<"NbVie : "<<red<<game.joueur.getNbVies()<<def<<endl;
     
     // On affiche un tableau avec les distances des cases par rapport a la sortie
-    // for(int i=0; i<HAUTEUR; i++) {
-    //     for(int j=0; j<LARGEUR; j++) {
-    //         int indice = j+i*LARGEUR;
-    //         if (game.distances[indice] < 100) cout<<" ";
-    //         if (game.distances[indice] < 10) cout<<" ";
-    //         // On affiche la distance de la case par rapport a la sortie
-    //         cout<<game.distances[indice]<<"|";
-    //     }
-    //     cout<<endl;
-    // }
+    for(int i=0; i<HAUTEUR; i++) {
+        for(int j=0; j<LARGEUR; j++) {
+            int indice = j+i*LARGEUR;
+            if (game.distances[indice] < 100) cout<<" ";
+            if (game.distances[indice] < 10) cout<<" ";
+            // On affiche la distance de la case par rapport a la sortie
+            cout<<game.distances[indice]<<"|";
+        }
+        cout<<endl;
+    }
     
 }
 
@@ -106,15 +106,6 @@ void GameTxt::afficher(){ //test voir le .h
 void GameTxt::jouer() {
     srand(time(NULL));
     clock_t t_time;
-    
-    // On défini des defenses de bases pour les tests
-    Defense d1(DOUBLECANON);
-    Defense d2(DOUBLECANON);
-    // Defense d3(DOUBLECANON);
-
-    game.defenses[174] = d1;
-    game.defenses[198] = d2;
-    // game.defenses[224] = d3;
 
     game.updateDistances();
 
