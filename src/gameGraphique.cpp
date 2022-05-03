@@ -19,23 +19,6 @@ GameGraphique::GameGraphique() {
 }
 
 GameGraphique::~GameGraphique() {
-
-    SDL_DestroyTexture(im_Money.getTexture());
-    SDL_DestroyTexture(im_defenseCANON.getTexture());
-    SDL_DestroyTexture(im_defenseDOUBLECANON.getTexture());
-    SDL_DestroyTexture(im_defenseMORTIER.getTexture());
-    SDL_DestroyTexture(im_defenseRIEN.getTexture());
-    SDL_DestroyTexture(im_shop.getTexture());
-    SDL_DestroyTexture(im_Sell.getTexture());
-    SDL_DestroyTexture(im_Upgrade.getTexture());
-    SDL_DestroyTexture(im_monstre1.getTexture());
-    SDL_DestroyTexture(im_monstre2.getTexture());
-    SDL_DestroyTexture(im_monstre3.getTexture());
-    SDL_DestroyTexture(im_hearts.getTexture());
-    SDL_DestroyTexture(im_hearts1.getTexture());
-    SDL_DestroyTexture(im_hearts2.getTexture());
-    SDL_DestroyTexture(im_hearts3.getTexture());
-    
     
     TTF_CloseFont(font);
     TTF_Quit();
@@ -113,7 +96,7 @@ void GameGraphique::afficherInit() {
 
     renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
  
-    im_plateauFond.loadFromFile("img/PlateauFond.png", renderer);
+    im_plateauFond.loadFromFile("img/PlateauFond_old.png", renderer);
     im_monstre1.loadFromFile("img/Squelette.png", renderer);
     im_monstre2.loadFromFile("img/monstre2.png",renderer);
     im_monstre3.loadFromFile("img/Golem.png", renderer);
@@ -148,7 +131,7 @@ void GameGraphique::AffichagePateau(){
 
     int decalagePlateauX = 40;
     int decalagePlateauY = 122;
-    im_plateauFond.draw(renderer, 30, 110, 950, 587);
+    im_plateauFond.draw(renderer, 30, 111, 945, 575);
 
     for(unsigned int j=0; j<game.defenses.size(); j++)
     {
@@ -444,6 +427,7 @@ void GameGraphique::afficher(){
             }
             if(events.type == SDL_MOUSEBUTTONDOWN && lancervague==false)
             {
+                
                 for(unsigned int i=0; i<game.defenses.size(); i++)
                 {
                     int Defy = i/25; //transforme la position en i
@@ -484,9 +468,10 @@ void GameGraphique::afficher(){
                         if(xMouse > ParamInitShopCANON[0] && xMouse < ParamInitShopCANON[0] + ParamInitShopCANON[2] && yMouse > ParamInitShopCANON[1] && yMouse < ParamInitShopCANON[1] + ParamInitShopCANON[3])
                         {
                             retour = game.buyDefense(CANON, CaseChoisie);
+                            AfficherInfosSansMenus = true;
                             AfficherMenuChoixBuyDefBool = false;
                             AfficherCroix = false;
-                            AfficherInfosSansMenus = true;
+                            
                             if(retour != 0)
                             {
                                 temps1=SDL_GetTicks()/1000; //demarre le timer a t secondes
@@ -546,7 +531,7 @@ void GameGraphique::afficher(){
                             AfficherInfosSansMenus = true;
                         }
                     }
-                    if(AfficherInfosSansMenus && AfficherMenuChoixBuyDefBool == false)
+                    if(AfficherInfosSansMenus == true && AfficherMenuChoixBuyDefBool == false)
                     {
                         if(xMouse > ParamInitPlay[0] && xMouse < ParamInitPlay[0] + ParamInitPlay[2] &&  yMouse > ParamInitPlay[1] && yMouse < ParamInitPlay[1] + ParamInitPlay[3])
                         {
