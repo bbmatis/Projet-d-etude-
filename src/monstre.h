@@ -8,11 +8,12 @@ enum TypeMonstres {Mob1, Mob2, Mob3};
 class Monstre {
 
     private:
+        TypeMonstres type;      // Type du monstre   
         float speed;            // Vitesse du monstre
         Vecteur2D position;     // Vecteur position (x;y) du monstre
         int hp;                 // Nombre de points de vie du monstre
         int maxHp;              // Nombre maximum de points de vie du monstre
-        TypeMonstres type;      // Type du monstre   
+        Vecteur2D targetPosition; // Vecteur position (x;y) ou le monstre doit se rendre
     public:
 
         //! \brief Constructeur
@@ -37,6 +38,15 @@ class Monstre {
         //! \brief Déplacer le monstre vers le bas
         void MoveDown();
 
+        //! \brief Définir une position a laquelle le monstre doit se déplacer
+        //! \param x Position en x
+        //! \param y Position en y
+        void setTargetPosition(float x, float y);
+
+        //! \brief Se déplacer vers la position cible
+        //! \return true si le monstre a atteint sa cible
+        bool moveToTargetPosition();
+
         //! \brief Obtenir la santée du monstre
         int getHp() const;
 
@@ -58,9 +68,9 @@ class Monstre {
         //! \brief Obtenir le type du monstre
         TypeMonstres getType() const;
 
-        //! \brief Changer la position du monstre
+        //! \brief Initialise le monstre
         //! par rapport a son numéro d'arriver dans la vague
-        void firstMove(int numeroArriver, int modeDaffichage);
+        void initMonstre(int numeroArriver, int modeDaffichage, int vague);
 };
 
 #endif

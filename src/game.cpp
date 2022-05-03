@@ -55,7 +55,7 @@ void Game::InitVagueMonstre(){
             monstres.push_back(Monstre(Mob1));
         }
         // Faire le premier mouvement du monstre
-        monstres[i].firstMove(i, modeDAffichage);
+        monstres[i].initMonstre(i, modeDAffichage, vague);
     }
 }
 

@@ -32,7 +32,33 @@ GameGraphique::~GameGraphique() {
 
 //Affiche du texte selon l'entrée 
 void GameGraphique::AfficherTexte(string Msg, string MsgWithValeur, float Valeur, int x, int y, int w, int h, int r, int g, int b){
+    // cout << "AfficherTexte" << endl;
 
+    SDL_Color color = { r, g, b };
+
+    const char* text = Msg.c_str();
+
+    if (Msg == ""){
+        ostringstream Val;
+        Val << Valeur;
+        string val = MsgWithValeur + Val.str();
+        text = val.c_str();
+    }
+
+    cout << text << endl;
+
+    SDL_Surface * surface = TTF_RenderText_Solid(font, text, color);
+    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    SDL_QueryTexture(texture, NULL, NULL, &w, &h);
+    SDL_Rect dstrect = { x, y, w, h };
+    SDL_RenderCopy(renderer, texture, NULL, &dstrect);
+
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);
+        
+
+    return;
     if(Msg == ""){
 
         ostringstream Val;
@@ -40,22 +66,27 @@ void GameGraphique::AfficherTexte(string Msg, string MsgWithValeur, float Valeur
         string val(MsgWithValeur + Val.str());
 
         Couleur_Texte.r = r; Couleur_Texte.g = g; Couleur_Texte.b = b;
-        font_im.setSurface(TTF_RenderText_Solid(font,val.c_str(),Couleur_Texte));
+        SDL_Surface *textSurface = TTF_RenderText_Solid(font, val.c_str(), Couleur_Texte);
+        font_im.setSurface(textSurface);
         font_im.loadFromCurrentSurface(renderer);
 
         SDL_Rect RectVal;
         RectVal.x = x; RectVal.y = y; RectVal.w = w; RectVal.h = h;
         SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&RectVal);
+        SDL_FreeSurface(textSurface);
     }
     else
     {
         Couleur_Texte.r = r; Couleur_Texte.g = g; Couleur_Texte.b = b;
-        font_im.setSurface(TTF_RenderText_Solid(font,Msg.c_str(),Couleur_Texte));
+        SDL_Surface *textSurface = TTF_RenderText_Solid(font, Msg.c_str(), Couleur_Texte);
+        font_im.setSurface(textSurface);
         font_im.loadFromCurrentSurface(renderer);
 
         SDL_Rect RectMsg;
         RectMsg.x = x; RectMsg.y = y; RectMsg.w = w; RectMsg.h = h;
         SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&RectMsg);
+        SDL_FreeSurface(textSurface);
+
     }
     
 }
@@ -85,9 +116,9 @@ void GameGraphique::afficherInit() {
     }
 
     // FONTS
-    font = TTF_OpenFont("img/arial.ttf",50);
+    font = TTF_OpenFont("img/arial.ttf",24);
     if (font == nullptr)
-        font = TTF_OpenFont("img/arial.ttf",50);
+        font = TTF_OpenFont("img/arial.ttf",24);
     if (font == nullptr) {
             cout << "Failed to load img/Arial.ttf SDL_TTF Error: " << TTF_GetError() << endl; 
             SDL_Quit(); 
@@ -207,10 +238,10 @@ void GameGraphique::AfficherInfosJeu(){
 
     im_Play.draw(renderer,ParamInitPlay[0], ParamInitPlay[1], ParamInitPlay[2], ParamInitPlay[3]);
 
-    AfficherTexte("", "Monstres Tues : ", game.nbMonstreTues, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1], 150, 20, 0, 0, 0);
+    AfficherTexte("", "Tues : ", game.nbMonstreTues, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1], 0, 0, 0, 0, 0);
 
-    AfficherTexte("", "Vague : ", game.vague, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1] + 30, 100, 15, 0, 0, 0);
-    AfficherTexte("", "Nombre de monstres dans la vague : ", game.vague*4, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1]+55, 300, 20, 0, 0, 0);
+    AfficherTexte("", "Vague : ", game.vague, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1] + 30, 0, 0, 0, 0, 0);
+    AfficherTexte("", "Monstres : ", game.vague*4, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1]+55, 0, 0, 0, 0, 0);
 
 
 
@@ -550,27 +581,40 @@ void GameGraphique::afficher(){
             for(unsigned int i=0; i<game.monstres.size(); i++)
             {
                 Vecteur2D monstrePos = game.monstres[i].getPosition();
+
                 float centreCaseX = monstrePos.x + tailleCase/2;
                 float centreCaseY = monstrePos.y + tailleCase/2;
 
-                int X = floor(centreCaseX/tailleCase);
-                int Y = floor(centreCaseY/tailleCase);
+                int X = floor((centreCaseX)/tailleCase);
+                int Y = floor((centreCaseY)/tailleCase);
                 const int monstreCase = Y*LARGEUR + X;
  
-                if (monstrePos.x < 0 ) {
-                    // cout << "Monstre hors du tableau" << endl;
-                    game.monstres[i].MoveRight();
+                // if (monstrePos.x < 0 ) {
+                //     // cout << "Monstre hors du tableau" << endl;
+                //     game.monstres[i].MoveRight();
+                //     continue;
+                // }
+
+
+                // continue;
+
+
+                if (!game.monstres[i].moveToTargetPosition()) {
+                    // cout << "Le monstre continue vers sa cible" <<endl;
                     continue;
                 }
 
                 if (monstreCase == game.caseSortie) {
-                    game.monstres[i].MoveRight();
+                    game.monstres[i].setTargetPosition(1000, monstrePos.y);
                     continue;
                 }
 
+                monstrePos = game.monstres[i].getPosition();
+
+                cout << "Le monstre a atteint sa cible et cherche une nouvelle cible" << endl;
                 cout << "Case du monstre : " << monstreCase << endl;
                 cout << "Posx : " << monstrePos.x <<" Posy : " << monstrePos.y << endl;
-                // continue;
+                
 
                 int tmpCase = -1;
                 int direction = 1;
@@ -618,19 +662,24 @@ void GameGraphique::afficher(){
                     }
                 }
 
-                if (direction == 0) {
-                    cout << "Monstre va vers le haut" << endl;
-                    game.monstres[i].MoveUp();
-                } else if (direction == 1) {
-                    cout << "Monstre va vers la droite" << endl;
-                    game.monstres[i].MoveRight();
-                } else if (direction == 2) {
-                    cout << "Monstre va vers le bas" << endl;
-                    game.monstres[i].MoveDown();
-                } else if (direction == 3) {
-                    cout << "Monstre va vers la gauche" << endl;
-                    game.monstres[i].MoveLeft();
-                }
+                // On défini la target du monstre
+                int targetX = (tmpCase % LARGEUR)*tailleCase;
+                int targetY = (tmpCase / LARGEUR)*tailleCase;
+                game.monstres[i].setTargetPosition(targetX, targetY);
+
+                // if (direction == 0) {
+                //     cout << "Monstre va vers le haut" << endl;
+                //     game.monstres[i].MoveUp();
+                // } else if (direction == 1) {
+                //     cout << "Monstre va vers la droite" << endl;
+                //     game.monstres[i].MoveRight();
+                // } else if (direction == 2) {
+                //     cout << "Monstre va vers le bas" << endl;
+                //     game.monstres[i].MoveDown();
+                // } else if (direction == 3) {
+                //     cout << "Monstre va vers la gauche" << endl;
+                //     game.monstres[i].MoveLeft();
+                // }
             }
 
             // On boucle sur les défenses

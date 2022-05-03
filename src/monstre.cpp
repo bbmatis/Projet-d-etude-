@@ -10,17 +10,14 @@ Monstre::Monstre(TypeMonstres typeMonstre) {
     {
         case Mob1:
             hp = 50;
-            maxHp = 50;
             speed = 1;
             break;
         case Mob2:
             hp = 100;
-            maxHp = 100;
             speed = 1.2;
             break;
         case Mob3:
             hp = 150;
-            maxHp = 150;
             speed = 0.9;
             break;
     }
@@ -85,10 +82,59 @@ TypeMonstres Monstre::getType() const{
 }
 
 // Premier déplacement du monstre
-void Monstre::firstMove(int numeroArriver, int modeAffichage) {
+void Monstre::initMonstre(int numeroArriver, int modeAffichage, int vague) {
     // Si en mode graphique
-    if (modeAffichage == 1) {
-        position.y = 7*37;
-    }
+    if (modeAffichage == 1) position.y = 7*37;
     position.x = -numeroArriver * 40;
+    setTargetPosition(0, position.y);
+    hp+=(vague-1)*hp;
+    maxHp = hp;
 }
+
+// Définir une position a laquelle le monstre doit se déplacer
+void Monstre::setTargetPosition(float x, float y) {
+    targetPosition.x = x;
+    targetPosition.y = y;
+}
+
+// Se déplacer vers la position cible
+bool Monstre::moveToTargetPosition() {
+    // Si le monstre est au dessus de la position cible
+    if (position.y < targetPosition.y) {
+        MoveDown();
+        if (position.y > targetPosition.y) {
+            position.y = targetPosition.y;
+        }
+    }
+    // Si le monstre est au dessous de la position cible
+    else if (position.y > targetPosition.y) {
+        MoveUp();
+        if (position.y < targetPosition.y) {
+            position.y = targetPosition.y;
+        }
+    }
+
+    // Si le monstre est à gauche de la position cible
+    if (position.x < targetPosition.x) {
+        MoveRight();
+        if (position.x > targetPosition.x) {
+            position.x = targetPosition.x;
+        }
+    } else if (position.x > targetPosition.x) {
+        MoveLeft();
+        if (position.x < targetPosition.x) {
+            position.x = targetPosition.x;
+        }
+    }
+
+    // Si le monstre est à la position cible
+    if (position.x == targetPosition.x && position.y == targetPosition.y) {
+        return true;
+    }
+
+    return false;
+}
+
+    
+
+    
