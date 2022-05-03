@@ -60,7 +60,7 @@ class Monstre {
 
         //! \brief Changer la position du monstre
         //! par rapport a son numéro d'arriver dans la vague
-        void firstMove(int numeroArriver);
+        void firstMove(int numeroArriver, int modeDaffichage);
 };
 
 #endif

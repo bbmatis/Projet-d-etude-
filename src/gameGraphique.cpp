@@ -182,13 +182,13 @@ void GameGraphique::AffichagePateau(){
     for(unsigned int i =0; i<game.monstres.size(); i++)
     {
         int monstreX = game.monstres[i].getPosition().x+decalagePlateauX;
-        int monstreY = game.monstres[i].getPosition().y*tailleCase+decalagePlateauY;
+        int monstreY = game.monstres[i].getPosition().y+decalagePlateauY;
         // Si le monstre as déjà reçu des dégats
         if (game.monstres[i].getHp() < game.monstres[i].getMaxHp()) {
             // Détermine la taille de la barre de vie
             int hp = game.monstres[i].getHp();
             int maxHp = game.monstres[i].getMaxHp();
-            float hpBar = (hp * 100 / maxHp)/2;
+            int hpBar = (hp * 100 / maxHp)/2;
             SDL_Rect LifeRect = {monstreX-8, monstreY - 5.0, hpBar, 5};
             SDL_RenderDrawRect(renderer, &LifeRect);
             SDL_RenderFillRect(renderer, &LifeRect);
@@ -557,8 +557,8 @@ void GameGraphique::afficher(){
                 Vecteur2D monstrePos = game.monstres[i].getPosition();
                 int monstreCase = (monstrePos.y/tailleCase)*LARGEUR + (monstrePos.x/tailleCase);
                 if (i == 0) {
-                    // cout << "Case du monstre : " << monstreCase << endl;
-                    // cout << "Posx : " << monstrePos.x <<" Posy : " << monstrePos.y << endl;
+                    cout << "Case du monstre : " << monstreCase << endl;
+                    cout << "Posx : " << monstrePos.x <<" Posy : " << monstrePos.y << endl;
                 }
                 game.monstres[i].MoveRight();
             }
@@ -588,7 +588,7 @@ void GameGraphique::afficher(){
                             retour = game.DefHitMonstre(game.monstres[a], i);
                             // Si la défense a touché le monstre
                             if (retour == 1) {
-                                cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;   
+                                // cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;   
                                 // cout<<"Position du monstre : "<<game.monstres[a].getPosition().x<<" "<<game.monstres[a].getPosition().y<<endl;
                                 game.defenses[i].setLastHit(totalFrames);
 

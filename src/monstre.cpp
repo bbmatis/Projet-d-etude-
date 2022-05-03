@@ -85,6 +85,10 @@ TypeMonstres Monstre::getType() const{
 }
 
 // Premier déplacement du monstre
-void Monstre::firstMove(int numeroArriver){
+void Monstre::firstMove(int numeroArriver, int modeAffichage) {
+    // Si en mode graphique
+    if (modeAffichage == 1) {
+        position.y = 7*37;
+    }
     position.x = -numeroArriver * 40;
 }
