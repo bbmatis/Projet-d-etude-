@@ -629,7 +629,7 @@ void GameGraphique::afficher(){
         }  
         if(AfficherCercleRange)
         {
-            im_CercleRange.draw(renderer, PosXRectHover+17-RangeDefSelected/2, PosYRectHover+17-RangeDefSelected/2, RangeDefSelected,RangeDefSelected );
+            im_CercleRange.draw(renderer, PosXRectHover+17-RangeDefSelected, PosYRectHover+17-RangeDefSelected, RangeDefSelected*2,RangeDefSelected*2 );
         }
         if(AfficheRectangleHover)
         {
