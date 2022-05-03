@@ -17,6 +17,7 @@
    Memcheck:Leak
    ...
    fun:SDL_CreateRenderer
+   fun:SDL_DestroyRenderer
 }
 
 {
@@ -24,6 +25,7 @@
    Memcheck:Leak
    ...
    fun:SDL_CreateWindow
+   fun:SDL_DestroyWindow
 }
 
 {

@@ -84,6 +84,15 @@ class Game {
         //! \param Defposition position de la défense qui va attaquer
         int DefHitMonstre(Monstre & monstre, unsigned int Defposition);
 
+        /** \brief récupère le score depuis un fichier externe **/
+        void recupScoreFromFile(); 
+
+        /** \brief écris les scores dans un fichier externe **/
+        void enregistreScore(); 
+
+        /** \brief trie les scores **/
+        void trieScore(); 
+
         //! \brief Met à jour les distances des cases par rapport a l'arrivé
         //! \return true si mit a jour avec succès, false sinon
         bool updateDistances();

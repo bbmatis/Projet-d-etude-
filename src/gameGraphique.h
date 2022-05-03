@@ -44,6 +44,7 @@ class GameGraphique {
         bool AfficherCercleRange = false;
         bool AfficheRectangleHover = false;
         bool AfficherErreursBool = false;
+        bool AfficherImageUpgrade = false; 
         int CaseChoisie;
         int PosXRectHover;
         int PosYRectHover;
@@ -141,6 +142,9 @@ class GameGraphique {
         
         //! \brief Affiche bouton play et infos jeu (vague, monstres tuées...)
         void AfficherInfosJeu();
+
+        //! \brief Affiche les images des defenses améliorées
+        void AfficherDefenseUpgrade(Defense defense); 
         
         //! \brief Affiche le menu pour les choix pour une case vide -> just shop
         void AfficherMenuChoixShop();

@@ -26,6 +26,8 @@ int main (int argc, char *argv[]) {
         GameGraphique.afficher();
     } 
 
+    
+
     return EXIT_SUCCESS;
     
 }

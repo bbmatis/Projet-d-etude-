@@ -2,18 +2,12 @@
 
 using namespace std;
 
-
-
 Menu::~Menu(){
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     
     SDL_Quit();
 }
-
-void Menu::recupScoreFromFile(){} /** \brief récupère le score depuis un fichier externe **/
-
-void Menu::trieScore(){} /** \brief trie les scores **/
 
 Menu::Menu(){}
 

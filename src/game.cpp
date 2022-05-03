@@ -1,5 +1,7 @@
 #include "game.h"
 #include <iostream>
+#include <fstream> // <-- Pour lire et écrire dans le fichier "Score.txt"
+#include <string> // <-- Pour pouvoir déclarer les variable "string"
 #include <math.h>
 #include <time.h>
 
@@ -65,6 +67,107 @@ void Game::InitPlateauJeu(){
     for(int i=0; i<HAUTEUR; i++) for(int j=0; j<LARGEUR; j++) defenses.push_back(Defense());
     // On met les distances des cases à 404 car on ne sait pas encore quelles défenses sont à quelle distance
     for(int i=0; i<HAUTEUR; i++) for(int j=0; j<LARGEUR; j++) distances[i*LARGEUR+j] = 404;
+}
+
+/* void Game::recupScoreFromFile() {
+    string joueur1 = "Player"; // <-- Tes variables "string" (chaîne de caractères) contenant les pseudos
+
+    string Texte[100]; // <-- Création d'un tableau comportant un certain nombre de valeurs
+
+    int Prenoms = 0;
+    int Nbr = 0;
+
+    string const NomFichier = "score.txt"; //Chemin d'accès au fichier
+
+    ifstream lectureScore("score.txt");  //Ouverture du fichier en mode "lecture"
+
+    if(lectureScore)
+    {
+    string ligne;
+    
+    while (getline(lectureScore, ligne))
+    {
+    if (ligne == joueur1)
+    {
+        Prenoms = 1;
+    }
+
+    Nbr = Nbr + 1;
+    Texte[Nbr] = ligne;
+    }
+    }
+    else
+    {
+    cout << "ERREUR: Impossible d'ouvrir le fichier!" << endl;
+    }
+} */
+
+void Game::enregistreScore() {
+    int score1 = 1; // <-- Les variables "int" contenant les scores
+    int score2 = 0;
+
+    string joueur1 = "Player"; // <-- Tes variables "string" (chaîne de caractères) contenant les pseudos
+
+    string Texte[100]; // <-- Création d'un tableau comportant un certain nombre de valeurs
+
+    int Prenoms = 0;
+    int Nbr = 0;
+
+    string const NomFichier = "test.txt"; //Chemin d'accès au fichier
+
+    ifstream lectureScore("test.txt");  //Ouverture du fichier en mode "lecture"
+
+    if(lectureScore)
+    {
+        string ligne;
+    
+        while (getline(lectureScore, ligne))
+        {
+        if (ligne == joueur1)
+        {
+            Prenoms = 1;
+        }
+
+        Nbr = Nbr + 1;
+        Texte[Nbr] = ligne;
+        }
+    }
+    else
+    {
+        cout << "ERREUR: Impossible d'ouvrir le fichier!" << endl;
+    }
+
+    ofstream ScoreEcriture(NomFichier.c_str()); //Ouverture du fichier en mode "écriture"
+
+    if (ScoreEcriture)
+    {
+    if (Prenoms == 1)
+    {
+    for (int i = 1; i <= Nbr; ++i)
+    {
+        ScoreEcriture << Texte[i] << endl;
+    }
+    ScoreEcriture << score1 << " " << score2;
+    }
+    else
+    {
+    for (int i = 1; i <= Nbr; ++i)
+    {
+        ScoreEcriture << Texte[i];
+
+        if (Nbr >= 1)
+        {
+        ScoreEcriture << endl;
+        }
+    }
+
+    ScoreEcriture << joueur1 << endl << score1 << " " << score2;
+    }
+    }
+    else
+    {
+        cout << "ERREUR: Impossible d'ouvrir le fichier!" << endl;
+    }
 }
 
 // Acheter et placer une défense

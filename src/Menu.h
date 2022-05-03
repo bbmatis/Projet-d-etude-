@@ -6,7 +6,6 @@
 
 #include <stdlib.h>
 #include <iostream>
-
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
@@ -42,8 +41,6 @@ class Menu {
     public : 
         Menu();
         ~Menu();
-        void recupScoreFromFile(); /** \brief récupère le score depuis un fichier externe **/
-        void trieScore(); /** \brief trie les scores **/
         void MenuAfficher();
         void MenuInit();
         void MenuBoucle();

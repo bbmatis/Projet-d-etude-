@@ -360,6 +360,26 @@ void GameGraphique::AfficherMenuChoixUpgSell(){
     AfficherTexte("Ameliorer la defense", "", 0,ParamInitUpgrade[0]+90, ParamInitUpgrade[1]+20, 200, 40, 0, 0, 0);
 }
 
+void GameGraphique::AfficherDefenseUpgrade(Defense defense) {
+    int Y = 120;
+    int X = 40;
+    int Tcase = 37;
+    if(AfficherImageUpgrade == true) {
+        if(defense.getType() == CANON) {
+            //im_UpgradeCANON.draw(renderer,posX, posY, 35, 35);
+            AfficherTexte("1","",0,5*Tcase+X+10,5*Tcase+Y+8,20,20,0,100,200);
+        }
+        if(defense.getType() == DOUBLECANON) {
+            //im_UpgradeDOUBLECANON.draw(renderer,posX, posY, 35, 35);
+            AfficherTexte("1","",0,5*Tcase+X+10,5*Tcase+Y+8,20,20,0,0,255);
+        }
+        if(defense.getType() == MORTIER) {
+            //im_UpgradeMORTIER.draw(renderer,posX, posY, 35, 35);
+            AfficherTexte("1","",0,5*Tcase+X+10,5*Tcase+Y+8,20,20,0,0,255);
+        }
+    }
+}
+
 //Affiche les message d'erreur
 void GameGraphique::AfficherMessageErreur(int nbErr) {
 
@@ -546,6 +566,7 @@ void GameGraphique::afficher(){
                         if(xMouse > ParamInitUpgrade[0] && xMouse < ParamInitUpgrade[0] + ParamInitUpgrade[2] +240 && yMouse > ParamInitUpgrade[1] && yMouse < ParamInitUpgrade[1] + ParamInitUpgrade[3])
                         {
                             retour = game.upgradeDefense(game.defenses[CaseChoisie]);
+                            AfficherImageUpgrade = true;
                             AfficherMenuChoixUpgSellBool = false;
                             AfficherCroix = false;
                             AfficherInfosSansMenus = true;
@@ -774,7 +795,8 @@ void GameGraphique::afficher(){
         else if(AfficherMenuChoixUpgSellBool) 
         {
             AfficherMenuChoixUpgSell();
-            AfficherInfosDefenseSelected(game.defenses[CaseChoisie],CaseChoisie, DimWindowX/2, 680, 100, 30 );  
+            AfficherInfosDefenseSelected(game.defenses[CaseChoisie],CaseChoisie, DimWindowX/2, 680, 100, 30 );
+            AfficherDefenseUpgrade(game.defenses[CaseChoisie]);  
         }
 
         SDL_RenderPresent(renderer);
