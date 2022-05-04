@@ -43,8 +43,8 @@ class Game {
         unsigned int vague;                     // Indice de vague de monstres 
         unsigned int nbMonstreTues;             // nombre de monstre tué au cours de la partie
         Joueur joueur;
-        int caseEntree;
-        int caseSortie;
+        unsigned int caseEntree = 175;
+        unsigned int caseSortie = 199;
         int frameCount = 0;
         
         //! \brief Constructeur
@@ -114,7 +114,7 @@ class Game {
         //! \param visited tableau de booléens qui indique si une case a déjà été visitée
         //! \param toVisit tableau d'indices de cases à visiter
         //! \return true si possible et false sinon
-        bool canVisitCase(unsigned int from, unsigned int to, vector<bool> & visited, vector<int> & toVisit);
+        bool canVisitCase(int from, int to, vector<bool> & visited, vector<int> & toVisit);
 
         //! \brief Récupèrer la distance d'une case
         //! \param position la case demander

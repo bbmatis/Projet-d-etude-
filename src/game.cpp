@@ -4,6 +4,7 @@
 #include <string> // <-- Pour pouvoir déclarer les variable "string"
 #include <math.h>
 #include <time.h>
+#include <cassert>
 
 
 using namespace std;
@@ -11,16 +12,12 @@ using namespace std;
 Game::Game(unsigned int leModeDAffichage) {
     vague = 1;
     nbMonstreTues = 0;
-    caseEntree = 175;
-    caseSortie = 199;
     modeDAffichage = leModeDAffichage;
 }
 
 Game::Game() {
     vague = 1;
     nbMonstreTues = 0;
-    caseEntree = 175;
-    caseSortie = 199;
     modeDAffichage = 0;
 }
 
@@ -264,12 +261,7 @@ int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition){
     // Distance entre le monstre et la défense
 
     float distance = Distance(MonstreX, MonstreY, Defx, Defy);
-    // cout << "Le monstre est dans le rayon d'attaque de la défense" << endl;
-    // cout << "Distance : " << distance << endl;
-    // cout << "Rayon : " << defenses[Defposition].getRange() << endl;
-    // // On affiche position du monstre et position de la défense
-    // cout << "Monstre : " << MonstreX << " ; " << MonstreY << endl;
-    // cout << "Defense : " << Defx << " ; " << Defy << endl;
+
     if(distance <= defenses[Defposition].getRange()*tailleCase){        
         //Change la vie du monstre en fonction des dégats de la défense
         monstre.setHp(monstre.getHp()-defenses[Defposition].getDamage());
@@ -297,8 +289,9 @@ bool Game::isAccessibleCase(unsigned int from, unsigned int to) {
 }
 
 // Tester une case pour savoir si on peut la visiter ou non
-bool Game::canVisitCase(unsigned int from, unsigned int to, vector<bool> &visited, vector<int> &toVisit) {
-    // cout << "getDistance(" << from << "," << to <<")" << endl;
+bool Game::canVisitCase(int from, int to, vector<bool> &visited, vector<int> &toVisit) {
+    // On vérifie que la case est bien accessible
+    assert(isAccessibleCase(from, to));    
 
     // On teste si la case est visitée
     if (visited[to]) return false;
@@ -388,11 +381,7 @@ unsigned int * Game::getDistances() {
 
 bool Game::updateDistances() {
     unsigned int *tmpDistances = getDistances();
-    if (tmpDistances[175] == 404) {
-        cout << "[MAJ-Dist] L'arrivée est inaccessible" << endl;
-        return false;
-    }
-    cout << "[MAJ-Dist] L'arrivée est accessible" << endl;
+    if (tmpDistances[175] == 404) return false;
     for (unsigned int i = 0; i < LARGEUR*HAUTEUR; i++) distances[i] = tmpDistances[i];
     return true;
 }
@@ -418,11 +407,7 @@ bool Game::playTurn() {
         // On calcule la position du monstre en case
         int X = floor((centreCaseX)/tailleCase);
         int Y = floor((centreCaseY)/tailleCase);
-        const int monstreCase = Y*LARGEUR + X;
-        // On affiche la position du monstre
-        cout << "[MONSTRE] Position : ";
-        cout << "(" << X << "," << Y << ")" << endl;
-        cout << "[Jeu] Monstre " << i << " en case " << monstreCase << endl;
+        const unsigned int monstreCase = Y*LARGEUR + X;
 
         // On fait déplacer le monstre vers sa cible si il ne l'as pas atteinte on continue
         if (!monstres[i].moveToTargetPosition()) {

@@ -2,9 +2,7 @@
 #include <iostream>
 #include "game.h"
 #include <unistd.h>
-#include <chrono>
 #include <thread>
-#include <ctime>
 #include <ostream>
 
 using namespace std;
@@ -104,8 +102,6 @@ void GameTxt::afficher(){ //test voir le .h
 
 // Jouer le jeu en mode textuel
 void GameTxt::jouer() {
-    srand(time(NULL));
-    clock_t t_time;
 
     // On affiche le jeu plateau de jeu
     afficher();
@@ -217,7 +213,7 @@ void GameTxt::jouer() {
                 }
             
                 break;
-                
+
         }
         afficher(); // afficher le plateau de jeu
 

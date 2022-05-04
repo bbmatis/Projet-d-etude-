@@ -163,7 +163,7 @@ void GameGraphique::AffichagePateau(){
             int hp = game.monstres[i].getHp();
             int maxHp = game.monstres[i].getMaxHp();
             int hpBar = (hp * 100 / maxHp)/2;
-            SDL_Rect LifeRect = {monstreX-8, monstreY - 5.0, hpBar, 5};
+            SDL_Rect LifeRect = {monstreX-8, monstreY - 5, hpBar, 5};
             SDL_RenderDrawRect(renderer, &LifeRect);
             SDL_RenderFillRect(renderer, &LifeRect);
         }
