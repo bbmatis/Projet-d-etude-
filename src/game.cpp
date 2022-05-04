@@ -270,9 +270,7 @@ int Game::DefHitMonstre(Monstre &monstre , unsigned int Defposition){
     // // On affiche position du monstre et position de la défense
     // cout << "Monstre : " << MonstreX << " ; " << MonstreY << endl;
     // cout << "Defense : " << Defx << " ; " << Defy << endl;
-    if(distance <= defenses[Defposition].getRange()*tailleCase){
-
-        
+    if(distance <= defenses[Defposition].getRange()*tailleCase){        
         //Change la vie du monstre en fonction des dégats de la défense
         monstre.setHp(monstre.getHp()-defenses[Defposition].getDamage());
         return 1;
@@ -399,3 +397,131 @@ bool Game::updateDistances() {
     return true;
 }
 
+
+// Joue un tour de jeu
+bool Game::playTurn() {
+    int tailleCase = 1;
+    int largeurMax = LARGEUR;
+    int facteurFrames = 1;
+    if (modeDAffichage == 1) {
+        tailleCase = 37;
+        largeurMax = 1080;
+        facteurFrames = 100;
+    }
+    for(unsigned int i=0; i<monstres.size(); i++){
+        Vecteur2D monstrePos = monstres[i].getPosition();
+
+        // Centre de la case ou est le monstre
+        float centreCaseX = monstrePos.x + tailleCase/2;
+        float centreCaseY = monstrePos.y + tailleCase/2;
+
+        // On calcule la position du monstre en case
+        int X = floor((centreCaseX)/tailleCase);
+        int Y = floor((centreCaseY)/tailleCase);
+        const int monstreCase = Y*LARGEUR + X;
+        // On affiche la position du monstre
+        cout << "[MONSTRE] Position : ";
+        cout << "(" << X << "," << Y << ")" << endl;
+        cout << "[Jeu] Monstre " << i << " en case " << monstreCase << endl;
+
+        // On fait déplacer le monstre vers sa cible si il ne l'as pas atteinte on continue
+        if (!monstres[i].moveToTargetPosition()) {
+            continue;
+        }
+
+        // On regarde si le monstre a la case de sortie et si oui il sort du plateau
+        if (monstreCase == caseSortie) {
+            monstres[i].setTargetPosition(5000, monstrePos.y);
+            continue;
+        }
+        
+
+        int tmpCase = -1;
+        // On regarde si la case du haut est accessible
+        if (isAccessibleCase(monstreCase, monstreCase - LARGEUR)) {
+            tmpCase = monstreCase - LARGEUR;
+        }
+        // On regarde si la case de droite est accessible
+        if (isAccessibleCase(monstreCase, monstreCase + 1)) {
+            // On regarde si elle est plus proche
+
+            if (tmpCase == -1) {
+                tmpCase = monstreCase + 1;
+            } else if (distances[monstreCase + 1] < distances[tmpCase]) {
+                tmpCase = monstreCase + 1;
+            }
+        }
+        // On regarde si la case du bas est accessible
+        if (isAccessibleCase(monstreCase, monstreCase + LARGEUR)) {
+            // On regarde si elle est plus proche
+            if (tmpCase == -1) {
+                tmpCase = monstreCase + LARGEUR;
+            }else if (distances[monstreCase + LARGEUR] < distances[tmpCase]) {
+                tmpCase = monstreCase + LARGEUR;
+            }
+        }
+        // On regarde si la case de gauche est accessible
+        if (isAccessibleCase(monstreCase, monstreCase - 1)) {
+            // On regarde si elle est plus proche
+            if (tmpCase == -1) {
+                tmpCase = monstreCase - 1;
+            }else if (distances[monstreCase - 1] < distances[tmpCase]) {
+                tmpCase = monstreCase - 1;
+            }
+        }
+
+        // On défini la nouvel target du monstre
+        int targetX = (tmpCase % LARGEUR)*tailleCase;
+        int targetY = (tmpCase / LARGEUR)*tailleCase;
+        monstres[i].setTargetPosition(targetX, targetY);
+    }
+
+    // On boucle sur les défenses
+    for (unsigned int i=0; i < defenses.size(); i++) {
+
+        // Si la case est vide, on passe à la suivante
+        if (defenses[i].getType() == RIEN) continue; 
+        
+        // On regarde quels sont les monstre que la défense peut attaquer
+        for (unsigned int a = 0; a < monstres.size(); a++) {                    
+            // On regarde si le monstre a encore de la vie
+            if (monstres[a].getHp() <= 0) {
+                // On le supprime si c'est le cas
+                monstres.erase(monstres.begin()+a);
+
+                // On ajoute un point au score joueur
+                joueur.setScore(joueur.getScore() + 1);
+
+                // On ajoute de l'argent au joueur
+                joueur.money += 100;
+                nbMonstreTues ++;
+            }else {
+                if (defenses[i].getLastHit() + defenses[i].getReloadTime()*facteurFrames < frameCount ) {
+                    int retour = DefHitMonstre(monstres[a], i);
+                    // Si la défense a touché le monstre ont met a jour le temps de reload
+                    if (retour == 1) defenses[i].setLastHit(frameCount);
+                }
+
+            }
+            // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
+            if (monstres[a].getPosition().x >= largeurMax) {
+                // On le supprime si c'est le cas
+                monstres.erase(monstres.begin()+a);
+                // Et on enlève une vie au joueur
+                joueur.setNbVies(joueur.getNbVies() - 1);
+            }
+
+                // On remet le tableau à la bonne taille
+            monstres.shrink_to_fit();
+        }
+    }
+
+    frameCount++;
+    if(monstres.size() == 0) {
+        vague++;
+        InitVagueMonstre();    //Recréer une nouvelle vague de monstre
+        return false;
+    }
+
+    return true;
+} 

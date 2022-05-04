@@ -89,16 +89,16 @@ void GameTxt::afficher(){ //test voir le .h
     cout<<"NbVie : "<<red<<game.joueur.getNbVies()<<def<<endl;
     
     // On affiche un tableau avec les distances des cases par rapport a la sortie
-    for(int i=0; i<HAUTEUR; i++) {
-        for(int j=0; j<LARGEUR; j++) {
-            int indice = j+i*LARGEUR;
-            if (game.distances[indice] < 100) cout<<" ";
-            if (game.distances[indice] < 10) cout<<" ";
-            // On affiche la distance de la case par rapport a la sortie
-            cout<<game.distances[indice]<<"|";
-        }
-        cout<<endl;
-    }
+    // for(int i=0; i<HAUTEUR; i++) {
+    //     for(int j=0; j<LARGEUR; j++) {
+    //         int indice = j+i*LARGEUR;
+    //         if (game.distances[indice] < 100) cout<<" ";
+    //         if (game.distances[indice] < 10) cout<<" ";
+    //         // On affiche la distance de la case par rapport a la sortie
+    //         cout<<game.distances[indice]<<"|";
+    //     }
+    //     cout<<endl;
+    // }
     
 }
 
@@ -107,18 +107,11 @@ void GameTxt::jouer() {
     srand(time(NULL));
     clock_t t_time;
 
-    game.updateDistances();
-
-    // On affiche le jeu en mode textuel
+    // On affiche le jeu plateau de jeu
     afficher();
 
-    while(game.joueur.getNbVies() > 0){ // Tant que le joueur a des vies
-
-        // On regarde si la vague est terminée
-        if(game.monstres.size() == 0) {
-            game.vague++;
-            game.InitVagueMonstre();    //Recréer une nouvelle vague de monstre
-        }
+    // Tant que le joueur a des vies
+    while(game.joueur.getNbVies() > 0){ 
     
         cout<<"====================================="<<endl;
         cout<<"Vague en approche : Vague N°"<<game.vague<<" ( "<<game.vague*4<<" monstres)"<<endl;
@@ -214,74 +207,17 @@ void GameTxt::jouer() {
 
             case 4 :
 
-                // On gère au tour par tour le mouvement des montres et l'attaques des défenses sur ces derniers
-
-                while(game.monstres.size() > 0){   
-                    // On boucle sur les défenses
-                    for (unsigned int i=0; i < game.defenses.size(); i++) {
-                        if (game.defenses[i].getType() == RIEN) continue; // Si la case est vide, on passe à la suivante
-                        cout<<"Tour de la défense : "<<i<<endl;
-
-                        for (unsigned int a = 0; a < game.monstres.size(); a++) {
-                            // Attack de la défense sur monstre a si possible
-                            retour = game.DefHitMonstre(game.monstres[a], i);
-                            // Si la défense a touché le monstre
-                            if (retour == 1) {
-                                cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;
-                            }
-                        }
-                    }
-
-                    
-
-                    // On boucle tout les monstres 
-                    for (unsigned int i=0; i < game.monstres.size(); i++) {
-
-                        // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
-                        if (game.monstres[i].getPosition().x >= LARGEUR) {
-                            // On le supprime si c'est le cas
-                            game.monstres.erase(game.monstres.begin()+i);
-
-                            // Et on enlève une vie au joueur
-                            game.joueur.setNbVies(game.joueur.getNbVies() - 1);
-                        }
-
-                        // On regarde si le monstre n'as plus de vies
-                        if (game.monstres[i].getHp() <=0) {
-                            // On le supprime si c'est le cas
-                            game.monstres.erase(game.monstres.begin()+i);
-
-                            // On ajoute un point au score joueur
-                            game.joueur.setScore(game.joueur.getScore() + 1);
-
-                            // On ajoute de l'argent au joueur
-                            game.joueur.money += 100;
-                            game.nbMonstreTues ++;
-                        }
-
-                        // On remet le tableau à la bonne taille
-                        game.monstres.shrink_to_fit();
-                    }
-
-                    // On fait bouger les monstres
-                    for (unsigned int i=0; i < game.monstres.size(); i++) {
-                        
-                        if(game.monstres[i].getHp() <= 0) continue;
-                        else
-                        {
-                            cout << "monstre # "<<i<<" > " << game.monstres[i].getHp() << " hp(s) / x: " << game.monstres[i].getPosition().x << " y: " << game.monstres[i].getPosition().y<<endl;
-                            // On affiche les infos du monstre
-                            game.monstres[i].MoveRight();
-                        }
-                    }
+                // on fait jouer les tour
+                bool vagueEnCours = true;
+                while(vagueEnCours){   
+                    vagueEnCours = game.playTurn();
 
                     afficher(); //réaffiche le plateau pour voir les monstres avancer
                     this_thread::sleep_for(chrono::milliseconds(500)); //met le jeu en pause pdt 0.5 seconde pour mieux voir 
                 }
             
                 break;
-            
-            break;
+                
         }
         afficher(); // afficher le plateau de jeu
 

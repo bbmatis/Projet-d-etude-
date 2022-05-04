@@ -84,9 +84,17 @@ TypeMonstres Monstre::getType() const{
 // Premier déplacement du monstre
 void Monstre::initMonstre(int numeroArriver, int modeAffichage, int vague) {
     // Si en mode graphique
-    if (modeAffichage == 1) position.y = 7*37;
-    position.x = -numeroArriver * 40;
-    setTargetPosition(0, position.y);
+    if (modeAffichage == 1) {
+        position.y = 7*37;
+        position.x = -numeroArriver * 40;
+        setTargetPosition(0, position.y);
+    }else {
+        // Si en mode console
+        position.y = 7;
+        position.x = 0;
+        setTargetPosition(0, 7);
+    }
+    
     hp+=(vague-1)*hp;
     maxHp = hp;
 }

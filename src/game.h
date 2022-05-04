@@ -45,6 +45,7 @@ class Game {
         Joueur joueur;
         int caseEntree;
         int caseSortie;
+        int frameCount = 0;
         
         //! \brief Constructeur
         Game(unsigned int leModeDAffichage);
@@ -119,6 +120,10 @@ class Game {
         //! \param position la case demander
         //! \return la position de la case (404) si la case n'existe pas
         unsigned int getCaseDistance(unsigned int position, unsigned int tmpDistances[]);
+
+        //! \brief Joue un tour de jeu
+        //! \return true si il reste des monstres à tuer, false sinon
+        bool playTurn();
 
 };
 

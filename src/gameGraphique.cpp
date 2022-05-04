@@ -32,7 +32,6 @@ GameGraphique::~GameGraphique() {
 
 //Affiche du texte selon l'entrée 
 void GameGraphique::AfficherTexte(string Msg, string MsgWithValeur, float Valeur, int x, int y, int w, int h, int r, int g, int b){
-    // cout << "AfficherTexte" << endl;
 
     SDL_Color color = { r, g, b };
 
@@ -45,8 +44,6 @@ void GameGraphique::AfficherTexte(string Msg, string MsgWithValeur, float Valeur
         text = val.c_str();
     }
 
-    cout << text << endl;
-
     SDL_Surface * surface = TTF_RenderText_Solid(font, text, color);
     SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);
 
@@ -56,38 +53,6 @@ void GameGraphique::AfficherTexte(string Msg, string MsgWithValeur, float Valeur
 
     SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
-        
-
-    return;
-    if(Msg == ""){
-
-        ostringstream Val;
-        Val<<Valeur;
-        string val(MsgWithValeur + Val.str());
-
-        Couleur_Texte.r = r; Couleur_Texte.g = g; Couleur_Texte.b = b;
-        SDL_Surface *textSurface = TTF_RenderText_Solid(font, val.c_str(), Couleur_Texte);
-        font_im.setSurface(textSurface);
-        font_im.loadFromCurrentSurface(renderer);
-
-        SDL_Rect RectVal;
-        RectVal.x = x; RectVal.y = y; RectVal.w = w; RectVal.h = h;
-        SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&RectVal);
-        SDL_FreeSurface(textSurface);
-    }
-    else
-    {
-        Couleur_Texte.r = r; Couleur_Texte.g = g; Couleur_Texte.b = b;
-        SDL_Surface *textSurface = TTF_RenderText_Solid(font, Msg.c_str(), Couleur_Texte);
-        font_im.setSurface(textSurface);
-        font_im.loadFromCurrentSurface(renderer);
-
-        SDL_Rect RectMsg;
-        RectMsg.x = x; RectMsg.y = y; RectMsg.w = w; RectMsg.h = h;
-        SDL_RenderCopy(renderer,font_im.getTexture(),nullptr,&RectMsg);
-        SDL_FreeSurface(textSurface);
-
-    }
     
 }
 
@@ -407,18 +372,6 @@ void GameGraphique::afficher(){
     
     afficherInit();
 
-    // On affiche un tableau avec les distances des cases par rapport a la sortie
-    for(int i=0; i<HAUTEUR; i++) {
-        for(int j=0; j<LARGEUR; j++) {
-            int indice = j+i*LARGEUR;
-            if (game.distances[indice] < 100) cout<<" ";
-            if (game.distances[indice] < 10) cout<<" ";
-            // On affiche la distance de la case par rapport a la sortie
-            cout<<game.distances[indice]<<"|";
-        }
-        cout<<endl;
-    }
-
     while(display){
         // Met le jeu en pause pdt 10ms pour avoir quelquechose comme 100fps
         this_thread::sleep_for(chrono::milliseconds(10));
@@ -596,128 +549,7 @@ void GameGraphique::afficher(){
 
         //===============================Lance la vague de monstres==========================================
         if(lancervague == true){ //Lancer vague de monstres
-
-            for(unsigned int i=0; i<game.monstres.size(); i++)
-            {
-                Vecteur2D monstrePos = game.monstres[i].getPosition();
-
-                // Centre de la case ou est le monstre
-                float centreCaseX = monstrePos.x + tailleCase/2;
-                float centreCaseY = monstrePos.y + tailleCase/2;
-
-                // On calcule la position du monstre en case
-                int X = floor((centreCaseX)/tailleCase);
-                int Y = floor((centreCaseY)/tailleCase);
-                const int monstreCase = Y*LARGEUR + X;
-
-                // On fait déplacer le monstre vers sa cible si il ne l'as pas atteinte on continue
-                if (!game.monstres[i].moveToTargetPosition()) {
-                    continue;
-                }
-
-                // On regarde si le monstre a la case de sortie et si oui il sort du plateau
-                if (monstreCase == game.caseSortie) {
-                    game.monstres[i].setTargetPosition(5000, monstrePos.y);
-                    continue;
-                }
-                
-
-                int tmpCase = -1;
-                // On regarde si la case du haut est accessible
-                if (game.isAccessibleCase(monstreCase, monstreCase - LARGEUR)) {
-                    cout << "Case du haut accessible N°" << monstreCase - LARGEUR << " ayant pour Distance : " << game.distances[monstreCase-LARGEUR] << " VS " << game.distances[monstreCase] << endl;
-                    tmpCase = monstreCase - LARGEUR;
-                }
-                // On regarde si la case de droite est accessible
-                if (game.isAccessibleCase(monstreCase, monstreCase + 1)) {
-                    // On regarde si elle est plus proche
-
-                    cout << "Case de droite accessible N°" << monstreCase + 1 << " ayant pour Distance : " << game.distances[monstreCase+1] << " VS " << game.distances[tmpCase] << endl;
-                    if (tmpCase == -1) {
-                        tmpCase = monstreCase + 1;
-                    } else if (game.distances[monstreCase + 1] < game.distances[tmpCase]) {
-                        tmpCase = monstreCase + 1;
-                    }
-                }
-                // On regarde si la case du bas est accessible
-                if (game.isAccessibleCase(monstreCase, monstreCase + LARGEUR)) {
-                    // On regarde si elle est plus proche
-                    cout << "Case du bas accessible N°" << monstreCase + 1 << " ayant pour Distance : " << game.distances[monstreCase+LARGEUR] << " VS " << game.distances[tmpCase] << endl;
-                    if (tmpCase == -1) {
-                        tmpCase = monstreCase + LARGEUR;
-                    }else if (game.distances[monstreCase + LARGEUR] < game.distances[tmpCase]) {
-                        tmpCase = monstreCase + LARGEUR;
-                    }
-                }
-                // On regarde si la case de gauche est accessible
-                if (game.isAccessibleCase(monstreCase, monstreCase - 1)) {
-                    cout << "Case de gauche accessible N°" << monstreCase - 1 << " Distance : " << game.distances[monstreCase-1] << " VS " << game.distances[tmpCase] << endl;
-                    // On regarde si elle est plus proche
-                    if (tmpCase == -1) {
-                        tmpCase = monstreCase - 1;
-                    }else if (game.distances[monstreCase - 1] < game.distances[tmpCase]) {
-                        tmpCase = monstreCase - 1;
-                    }
-                }
-
-                // On défini la nouvel target du monstre
-                int targetX = (tmpCase % LARGEUR)*tailleCase;
-                int targetY = (tmpCase / LARGEUR)*tailleCase;
-                game.monstres[i].setTargetPosition(targetX, targetY);
-            }
-
-            // On boucle sur les défenses
-            for (unsigned int i=0; i < game.defenses.size(); i++) {
-         
-                if (game.defenses[i].getType() == RIEN) continue; // Si la case est vide, on passe à la suivante
-                
-                for (unsigned int a = 0; a < game.monstres.size(); a++) {
-                    // Attack de la défense sur monstre a si possible
-                    SDL_RenderDrawLine(renderer, 0, game.monstres[a].getPosition().y+120,1000, game.monstres[a].getPosition().y+120 );
-                    
-                    // On regarde si le monstre a encore de la vie
-                    if (game.monstres[a].getHp() <= 0) {
-                        // On le supprime si c'est le cas
-                        game.monstres.erase(game.monstres.begin()+a);
-
-                        // On ajoute un point au score joueur
-                        game.joueur.setScore(game.joueur.getScore() + 1);
-
-                        // On ajoute de l'argent au joueur
-                        game.joueur.money += 100;
-                        game.nbMonstreTues ++;
-                    }else {
-                        if (game.defenses[i].getLastHit() + game.defenses[i].getReloadTime()*100 < totalFrames ) {
-                            retour = game.DefHitMonstre(game.monstres[a], i);
-                            // Si la défense a touché le monstre
-                            if (retour == 1) {
-                                // cout<<"Le monstre #"<<a<<" a été touché par la défense #"<<i<<endl;   
-                                // cout<<"Position du monstre : "<<game.monstres[a].getPosition().x<<" "<<game.monstres[a].getPosition().y<<endl;
-                                game.defenses[i].setLastHit(totalFrames);
-
-                            }
-                        }
-
-                    }
-                    // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
-                    if (game.monstres[a].getPosition().x >= DimWindowX-80) {
-                        // On le supprime si c'est le cas
-                        game.monstres.erase(game.monstres.begin()+a);
-                        // Et on enlève une vie au joueur
-                        game.joueur.setNbVies(game.joueur.getNbVies() - 1);
-                    }
-
-                        // On remet le tableau à la bonne taille
-                    game.monstres.shrink_to_fit();
-
-                    if(game.monstres.size() == 0) {
-                        lancervague = false;
-                        game.vague++;
-                        game.InitVagueMonstre();    //Recréer une nouvelle vague de monstre
-                    }
-                }
-            }
-               
+               lancervague = game.playTurn();
         }
             
         //======================Affichage des Menus / Texte / Elements d'infos (MouseHover + RangeCircle)============================================
