@@ -29,6 +29,7 @@ Game::~Game(){
 
 // Initialiser le jeu
 void Game::init() {
+    vague = 1;
     InitPlateauJeu();   // Initialise le plateau de jeu
     InitVagueMonstre();
 
@@ -488,10 +489,11 @@ bool Game::playTurn() {
             
             // on ajoute le score
             joueur.setScore(joueur.getScore() + score);
+            nbMonstreTues++;
+            joueur.money += score;
         }
 
         // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
-        if(a == 1) cout << "Monstre x " << monstres[a].getPosition().x << " Max : " << largeurMax << endl;
         if (monstres[a].getPosition().x >= largeurMax) {
             // On le supprime si c'est le cas
             monstres.erase(monstres.begin()+a);
@@ -499,6 +501,9 @@ bool Game::playTurn() {
             joueur.setNbVies(joueur.getNbVies() - 1);
         }
     }
+
+    // On remet a niveau la taille du tableau monstres
+    monstres.shrink_to_fit();
 
     frameCount++;
     if(monstres.size() == 0) {
