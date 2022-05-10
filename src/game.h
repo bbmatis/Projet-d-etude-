@@ -35,6 +35,7 @@ class Game {
         //! \return Distance entre 2 points
         float Distance(int x1, int y1, int x2, int y2);
         int modeDAffichage; //mode d'affichage
+
     public:
         std::vector<Monstre> monstres;          // Tableau dynamique de monstres
         std::vector<Defense> defenses;          // Tableau dynamique de défenses
@@ -89,6 +90,7 @@ class Game {
         void recupScoreFromFile(); 
 
         /** \brief écris les scores dans un fichier externe **/
+        //! \param nbParties numéro de la partie 
         void enregistreScore(); 
 
         /** \brief trie les scores **/
