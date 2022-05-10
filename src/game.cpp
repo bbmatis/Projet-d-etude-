@@ -100,8 +100,8 @@ void Game::InitPlateauJeu(){
 } */
 
 void Game::enregistreScore() {
-    int score1 = 1; // <-- Les variables "int" contenant les scores
-    int score2 = 0;
+    int score1 = joueur.getScore();
+    int score2 = joueur.getScore();
 
     string joueur1 = "Player"; // <-- Tes variables "string" (chaîne de caractères) contenant les pseudos
 

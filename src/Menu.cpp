@@ -53,37 +53,7 @@ void Menu::MenuInit(){
 
 }
 
-//Affiche du texte selon l'entrée 
-void Menu::AfficherTexteMenu(string Msg, string MsgWithValeur, float Valeur, int x, int y, int w, int h, int r, int g, int b){
-
-    SDL_Color color = { r, g, b };
-
-    const char* text = Msg.c_str();
-
-    if (Msg == ""){
-        ostringstream Val;
-        Val << Valeur;
-        string val = MsgWithValeur + Val.str();
-        text = val.c_str();
-    }
-
-    SDL_Surface * surface = TTF_RenderText_Solid(font, text, color);
-    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-    SDL_QueryTexture(texture, NULL, NULL, &w, &h);
-    SDL_Rect dstrect = { x, y, w, h };
-    SDL_RenderCopy(renderer, texture, NULL, &dstrect);
-
-    SDL_FreeSurface(surface);
-    SDL_DestroyTexture(texture);
-    
-}
-
 void Menu::MenuAfficher(){
-
-	AfficherTexteMenu("Jouer","",0,270,49,100,30,50,50,250);
-    AfficherTexteMenu("Options","",0,270,249,100,30,250,50,250);
-    AfficherTexteMenu("Scores","",0,270,49,100,30,50,250,250);
 
     /* font_color2.r = 50;font_color2.g = 250;font_color2.b = 255;
     font_im2.setSurface(TTF_RenderText_Solid(font,"Options",font_color2));

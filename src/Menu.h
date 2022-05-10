@@ -41,19 +41,7 @@ class Menu {
     public : 
         Menu();
         ~Menu();
-        //! \brief Afficher du texte sur la fenêtre
-        //! \param Msg Texte à afficher (si il n'y a pas de valeur à afficher, ex: "Hello") 
-        //! \param MsgWithValeur Texte qui accompagne une valeur ex: "Damage : " + Valeur
-        //! \param Valeur Valeur à afficher en Texte
-        //! \param x position en x du texte
-        //! \param y position en y du texte
-        //! \param w largeur du texte
-        //! \param h longueur du texte
-        //! \param r Couleur rouge
-        //! \param g Couleur verte
-        //! \param b Couleur bleue
-        void AfficherTexteMenu(string Msg, string MsgWithValeur, float Valeur, int x, int y, int w, int h, int r, int g, int b);
-        void MenuAfficher();
+        void MenuAfficher(); 
         void MenuInit();
         void MenuBoucle();
 

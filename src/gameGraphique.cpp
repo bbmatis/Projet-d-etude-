@@ -593,7 +593,7 @@ void GameGraphique::afficher(){
             AfficherInfosDefenseSelected(game.defenses[CaseChoisie],CaseChoisie, DimWindowX/2, 680, 100, 30 );
             AfficherDefenseUpgrade(game.defenses[CaseChoisie]);  
         }
-
+        game.enregistreScore();
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
      
