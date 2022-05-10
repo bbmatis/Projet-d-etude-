@@ -440,7 +440,7 @@ bool GameGraphique::afficherMenu() {
 
             if (events.type == SDL_MOUSEBUTTONDOWN) {
                 SDL_GetMouseState(&xMouse,&yMouse);
-                if(xMouse > 450 && yMouse > 150 && xMouse < 550 && yMouse < 165) {
+                if(xMouse > 450 && yMouse > 150 && xMouse < 550 && yMouse < 174) {
                     //lancer le jeu quand on appuie sur jouer
                     return true;
                 }
@@ -450,9 +450,9 @@ bool GameGraphique::afficherMenu() {
                 }
             }
         }
-
-        AfficherTexte("Jouer", "", 0, 450, 150, 100, 15, 255, 0, 0);
-        AfficherTexte("Options", "",0, 440, 250, 100, 15, 255, 0, 0);
+    
+        AfficherTexte("Jouer", "", 0, 450, 150, 0, 0, 255, 0, 0);
+        AfficherTexte("Regles", "",0, 440, 350, 100, 24, 255, 0, 0);
         //clear quand on le veut -> garder affiché les choix pour les défenses ?
 
         SDL_RenderPresent(renderer);
