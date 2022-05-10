@@ -66,7 +66,7 @@ void GameGraphique::afficherInit() {
     }
 
   
-    window = SDL_CreateWindow("Marine versus the Arabs", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, DimWindowX, DimWindowY, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow("SUPER MEGA ULTRA GIGA AWESOME AND SO COOOOL RANDOMLY GENERATED GAME NAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, DimWindowX, DimWindowY, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     if (window == NULL) {
         std::cout << "Erreur lors de la creation de la fenetre : " << SDL_GetError() << std::endl; 
         SDL_Quit(); 
@@ -113,6 +113,7 @@ void GameGraphique::afficherInit() {
     im_CercleRange.loadFromFile("img/CircleRange.png", renderer);
     im_rectangleHover.loadFromFile("img/RectangleHover.png",renderer);
 
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);
     SDL_RenderClear(renderer);
 
@@ -367,7 +368,6 @@ void GameGraphique::AfficherMessageErreur(int nbErr) {
 }
 
 //Boucle du jeu 
-
 void GameGraphique::afficher(){
     
     afficherInit();
@@ -375,16 +375,89 @@ void GameGraphique::afficher(){
     while (fenetreOuverte) {
         // Le menu
         fenetreOuverte = afficherMenu();
+        if (!fenetreOuverte) continue;
+
         // Le jeu
         fenetreOuverte = afficherGame();
+        if (!fenetreOuverte) continue;
 
         // Game Over
+        fenetreOuverte = afficherGameOver();
     }
     
 }    
 
+// Afficher le paneau de game over
+bool GameGraphique::afficherGameOver() {
+    bool display=true;
+    int xMouse, yMouse;
+
+    SDL_Event events;
+    AffichagePateau();
+    SDL_Rect rect = {0, 0, 1000, 800};
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 100);
+    SDL_RenderFillRect(renderer, &rect);
+    AfficherTexte("Game Over", "", 0, 430, 220, 0, 0, 255, 0, 0);
+    AfficherTexte("Retour au menu", "", 0, 405, 280, 100, 15, 255, 0, 0);
+    AfficherTexte("Quiter le jeu", "",0, 425, 310, 100, 15, 255, 0, 0);
+    SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);
+    SDL_RenderPresent(renderer);
+    while(display){
+        while(SDL_PollEvent(&events)){
+            if (events.type == SDL_QUIT) return false;
+
+            if (events.type == SDL_MOUSEBUTTONDOWN) {
+                SDL_GetMouseState(&xMouse,&yMouse);
+                cout << "Clique | x : " << xMouse << " y : " << yMouse << endl;
+                if(yMouse > 280 && yMouse < 305 && xMouse > 400 && xMouse < 580) {
+                    // On retourne sur le menu
+                    
+                    return true;
+                }
+
+                if(yMouse > 310 && yMouse < 335 && xMouse > 420 && xMouse < 555) {
+                    // On quite le jeu
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 // Afficher le menu
 bool GameGraphique::afficherMenu() {
+    
+    bool displayMenu=true;
+    int xMouse, yMouse;
+
+    SDL_Event events;
+
+    while(displayMenu){
+
+        while(SDL_PollEvent(&events)){
+            if (events.type == SDL_QUIT) return false;
+
+            if (events.type == SDL_MOUSEBUTTONDOWN) {
+                SDL_GetMouseState(&xMouse,&yMouse);
+                if(xMouse > 450 && yMouse > 150 && xMouse < 550 && yMouse < 174) {
+                    //lancer le jeu quand on appuie sur jouer
+                    return true;
+                }
+
+                if(xMouse > 270 && yMouse > 249 && xMouse < 370 && yMouse < 279) {
+                    //ouvre le menu d'options 
+                }
+            }
+        }
+    
+        AfficherTexte("Jouer", "", 0, 450, 150, 0, 0, 255, 0, 0);
+        AfficherTexte("Regles", "",0, 440, 350, 100, 24, 255, 0, 0);
+        //clear quand on le veut -> garder affiché les choix pour les défenses ?
+
+        SDL_RenderPresent(renderer);
+        SDL_RenderClear(renderer);
+    }
     return true;
 }
 
@@ -614,9 +687,10 @@ bool GameGraphique::afficherGame () {
             AfficherInfosDefenseSelected(game.defenses[CaseChoisie],CaseChoisie, DimWindowX/2, 680, 100, 30 );
             AfficherDefenseUpgrade(game.defenses[CaseChoisie]);  
         }
-        game.enregistreScore();
+        //game.enregistreScore();
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
-     
+    
+        if (game.isGameOver()) return true;
     }
 }

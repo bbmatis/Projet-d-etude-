@@ -380,7 +380,7 @@ bool Game::playTurn() {
     int facteurFrames = 1;
     if (modeDAffichage == 1) {
         tailleCase = 37;
-        largeurMax = 1080;
+        largeurMax = 920;
         facteurFrames = 100;
     }
     for(unsigned int i=0; i<monstres.size(); i++){
@@ -456,47 +456,47 @@ bool Game::playTurn() {
         // On regarde quels sont les monstre que la défense peut attaquer
         for (unsigned int a = 0; a < monstres.size(); a++) {                    
             // On regarde si le monstre a encore de la vie
-            if (monstres[a].getHp() <= 0) {
-                int score = 0;
-                if(monstres[a].getType() == Mob1)
-                {
-                    score += 10;
-                }
-                if(monstres[a].getType() == Mob2)
-                {
-                    score += 20;
-                }
-                if(monstres[a].getType() == Mob3)
-                {
-                    score += 40;
-                }
-                // On le supprime si c'est le cas
-                monstres.erase(monstres.begin()+a);
-
-                // On ajoute un point au score joueur
-                joueur.setScore(joueur.getScore() + score);
-
-                // On ajoute de l'argent au joueur
-                joueur.money += 100;
-                nbMonstreTues ++;
-            }else {
+            if (monstres[a].getHp() >= 0) {
                 if (defenses[i].getLastHit() + defenses[i].getReloadTime()*facteurFrames < frameCount ) {
                     int retour = DefHitMonstre(monstres[a], i);
                     // Si la défense a touché le monstre ont met a jour le temps de reload
                     if (retour == 1) defenses[i].setLastHit(frameCount);
                 }
-
             }
-            // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
-            if (monstres[a].getPosition().x >= largeurMax) {
-                // On le supprime si c'est le cas
-                monstres.erase(monstres.begin()+a);
-                // Et on enlève une vie au joueur
-                joueur.setNbVies(joueur.getNbVies() - 1);
-            }
+        }
+    }
 
-                // On remet le tableau à la bonne taille
-            monstres.shrink_to_fit();
+    // On boucle sur les monstre
+    for (unsigned int a = 0; a < monstres.size(); a++) {
+        // On regarde si le monstre a encore de la vie
+        if (monstres[a].getHp() <= 0) {
+            // On le supprime si c'est le cas
+            monstres.erase(monstres.begin()+a);
+            // Et ajoute le score suivant le type de monstre
+            int score = 0;
+            switch (monstres[a].getType()) {
+                case Mob1:
+                    score += 10;
+                    break;
+                case Mob2:
+                    score += 20;
+                    break;
+                case Mob3:
+                    score += 30;
+                    break;
+            }
+            
+            // on ajoute le score
+            joueur.setScore(joueur.getScore() + score);
+        }
+
+        // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
+        if(a == 1) cout << "Monstre x " << monstres[a].getPosition().x << " Max : " << largeurMax << endl;
+        if (monstres[a].getPosition().x >= largeurMax) {
+            // On le supprime si c'est le cas
+            monstres.erase(monstres.begin()+a);
+            // Et on enlève une vie au joueur
+            joueur.setNbVies(joueur.getNbVies() - 1);
         }
     }
 
@@ -509,3 +509,9 @@ bool Game::playTurn() {
 
     return true;
 } 
+
+// Game over
+bool Game::isGameOver() {
+    if (joueur.getNbVies() <= 0) return true;
+    return false;
+}
