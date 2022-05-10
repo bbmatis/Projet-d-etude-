@@ -55,7 +55,7 @@ void Menu::MenuInit(){
 
 void Menu::MenuAfficher(){
 
-    /* font_color2.r = 50;font_color2.g = 250;font_color2.b = 255;
+    font_color2.r = 50;font_color2.g = 250;font_color2.b = 255;
     font_im2.setSurface(TTF_RenderText_Solid(font,"Options",font_color2));
 	font_im2.loadFromCurrentSurface(renderer);
     // options
@@ -69,7 +69,7 @@ void Menu::MenuAfficher(){
     // options
     SDL_Rect position3;
     position3.x = 270; position3.y = 249; position3.w = 100; position3.h = 30;
-    SDL_RenderCopy(renderer,font_im2.getTexture(),nullptr,&position3);  */
+    SDL_RenderCopy(renderer,font_im2.getTexture(),nullptr,&position3);
 
 }
 

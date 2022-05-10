@@ -385,6 +385,40 @@ void GameGraphique::afficher(){
 
 // Afficher le menu
 bool GameGraphique::afficherMenu() {
+    
+    bool displayMenu=true;
+    int xMouse, yMouse;
+
+    SDL_Event events;
+
+    while(displayMenu){
+
+        SDL_WaitEvent(&events);
+            
+            if (events.type == SDL_QUIT) return false;
+
+            if(events.type == SDL_MOUSEBUTTONDOWN) {
+                SDL_GetMouseState(&xMouse,&yMouse);
+                if(xMouse > 450 && yMouse > 150 && xMouse < 550 && yMouse < 165) {
+                    //lancer le jeu quand on appuie sur jouer
+                    
+                    break;
+                }
+            }
+            if(events.type == SDL_MOUSEBUTTONDOWN) {
+                SDL_GetMouseState(&xMouse,&yMouse);
+                if(xMouse > 270 && yMouse > 249 && xMouse < 370 && yMouse < 279) {
+                    //ouvre le menu d'options 
+                }
+            }
+
+        AfficherTexte("Jouer", "", 0, 450, 150, 100, 15, 255, 0, 0);
+        AfficherTexte("Options", "",0, 440, 250, 100, 15, 255, 0, 0);
+        //clear quand on le veut -> garder affiché les choix pour les défenses ?
+
+        SDL_RenderPresent(renderer);
+        SDL_RenderClear(renderer);
+    }
     return true;
 }
 
