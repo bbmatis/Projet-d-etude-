@@ -125,6 +125,10 @@ class Game {
         //! \return true si il reste des monstres à tuer, false sinon
         bool playTurn();
 
+        //! \brief Determine si on as fait un game over
+        //! \return true si on a fait un game over, false sinon
+        bool isGameOver();
+
 };
 
 #endif

@@ -367,7 +367,6 @@ void GameGraphique::AfficherMessageErreur(int nbErr) {
 }
 
 //Boucle du jeu 
-
 void GameGraphique::afficher(){
     
     afficherInit();
@@ -375,16 +374,27 @@ void GameGraphique::afficher(){
     while (fenetreOuverte) {
         // Le menu
         fenetreOuverte = afficherMenu();
+        if (!fenetreOuverte) continue;
+
         // Le jeu
         fenetreOuverte = afficherGame();
+        if (!fenetreOuverte) continue;
 
         // Game Over
+        fenetreOuverte = afficherGameOver();
     }
     
 }    
 
+// Afficher le paneau de game over
+bool GameGraphique::afficherGameOver() {
+    cout << "Game Over" << endl;
+    return true;
+}
+
 // Afficher le menu
 bool GameGraphique::afficherMenu() {
+    cout << "Menu" << endl;
     return true;
 }
 
@@ -617,6 +627,7 @@ bool GameGraphique::afficherGame () {
         //game.enregistreScore();
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
-     
+    
+        if (game.isGameOver()) return true;
     }
 }

@@ -135,6 +135,10 @@ class GameGraphique {
         //! \return false si le joueur quitte le jeu
         bool afficherGame();
 
+        //! \brief Afficher le paneau de game over
+        //! \return false si le joueur quitte le jeu
+        bool afficherGameOver();
+
         //! \brief Initialise SDL
         void afficherInit(); 
 
