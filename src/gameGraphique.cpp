@@ -371,7 +371,27 @@ void GameGraphique::AfficherMessageErreur(int nbErr) {
 void GameGraphique::afficher(){
     
     afficherInit();
+    bool fenetreOuverte = true;
+    while (fenetreOuverte) {
+        // Le menu
+        fenetreOuverte = afficherMenu();
+        // Le jeu
+        fenetreOuverte = afficherGame();
 
+        // Game Over
+    }
+    
+}    
+
+// Afficher le menu
+bool GameGraphique::afficherMenu() {
+    return true;
+}
+
+
+// Afficher le jeu
+bool GameGraphique::afficherGame () {
+    bool display = true;
     while(display){
         // Met le jeu en pause pdt 10ms pour avoir quelquechose comme 100fps
         this_thread::sleep_for(chrono::milliseconds(10));
@@ -404,10 +424,10 @@ void GameGraphique::afficher(){
 
             if(events.type == SDL_QUIT) {
                 display = false;
-                continue; // On fini l'itération de la boucle
+                return false;
             }
 
-            if(events.type == SDL_MOUSEMOTION && lancervague == false)
+            if(events.type == SDL_MOUSEMOTION)
             {
                 SDL_GetMouseState(&xMouse, &yMouse); //Recupère pos x et y de la souris
                 for(unsigned int i=0; i<game.defenses.size(); i++)
@@ -429,7 +449,8 @@ void GameGraphique::afficher(){
                 }
 
             }
-            if(events.type == SDL_MOUSEBUTTONDOWN && lancervague==false)
+
+            if(events.type == SDL_MOUSEBUTTONDOWN)
             {
                 
                 for(unsigned int i=0; i<game.defenses.size(); i++)
@@ -598,4 +619,4 @@ void GameGraphique::afficher(){
         SDL_RenderClear(renderer);
      
     }
-}    
+}

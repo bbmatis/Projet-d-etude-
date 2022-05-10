@@ -34,7 +34,6 @@ class GameGraphique {
         
         int retour;
         bool choix;
-        bool display=true;
         bool AfficherInfosSansMenus =true;
         bool lancervague=false;
         bool AfficherMenuChoixShopBool=false;
@@ -109,12 +108,6 @@ class GameGraphique {
          */
         unsigned int getDimY();
 
-        //! \brief afficher le jeu en mode graphique
-        void afficherGame();
-
-        //! \brief afficher les prix des défenses
-        void afficherPrix();
-
         //! \brief Afficher du texte sur la fenêtre
         //! \param Msg Texte à afficher (si il n'y a pas de valeur à afficher, ex: "Hello") 
         //! \param MsgWithValeur Texte qui accompagne une valeur ex: "Damage : " + Valeur
@@ -133,6 +126,14 @@ class GameGraphique {
 
         //! \brief Afficher le jeu dans une fenêtre SDL2
         void afficher();
+
+        //! \brief Afficher le menu
+        //! \return false si le joueur quitte le jeu
+        bool afficherMenu();
+
+        //! \brief Afficher le jeu
+        //! \return false si le joueur quitte le jeu
+        bool afficherGame();
 
         //! \brief Initialise SDL
         void afficherInit(); 
