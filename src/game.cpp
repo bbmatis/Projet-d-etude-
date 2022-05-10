@@ -394,7 +394,7 @@ bool Game::playTurn() {
     int facteurFrames = 1;
     if (modeDAffichage == 1) {
         tailleCase = 37;
-        largeurMax = 1080;
+        largeurMax = 920;
         facteurFrames = 100;
     }
     for(unsigned int i=0; i<monstres.size(); i++){
@@ -505,7 +505,7 @@ bool Game::playTurn() {
         }
 
         // On regarde si le monstre atteint la base du joueur -> decremente nbVie joueur
-        cout << "Monstre x" << monstres[a].getPosition().x << " Max : " << largeurMax << endl;
+        if(a == 1) cout << "Monstre x " << monstres[a].getPosition().x << " Max : " << largeurMax << endl;
         if (monstres[a].getPosition().x >= largeurMax) {
             // On le supprime si c'est le cas
             monstres.erase(monstres.begin()+a);
