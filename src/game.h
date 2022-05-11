@@ -90,7 +90,6 @@ class Game {
         void recupScoreFromFile(); 
 
         /** \brief écris les scores dans un fichier externe **/
-        //! \param nbParties numéro de la partie 
         void enregistreScore(); 
 
         /** \brief trie les scores **/

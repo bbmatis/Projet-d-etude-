@@ -31,3 +31,13 @@ unsigned int Joueur::getScore() const {
 void Joueur::setScore(unsigned int newScore) {
     score = newScore;
 }
+
+// Obtenir le nom du joueur
+string Joueur::getNom() const {
+    return nom;
+}
+
+// Modifier le nom du joueur
+void Joueur::setNom(string newNom) {
+    nom = newNom;
+}

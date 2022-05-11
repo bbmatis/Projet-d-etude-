@@ -1,11 +1,15 @@
 #ifndef JOUEUR_H
 #define JOUEUR_H
+#include <string>
+
+using namespace std;
 
 class Joueur {
 
     private:
         int nbVies;             // nombre de vie du joueur
         unsigned int score;     // score du joueur
+        string nom = "Merlin";  // nom du joueur
 
     public:
 
@@ -30,6 +34,13 @@ class Joueur {
         //! \brief Modifier le score du joueur
         //! \param newScore Nouveau score
         void setScore(unsigned int newScore);
+
+        //! \brief Obtenir le nom du joueur
+        string getNom() const;
+
+        //! \brief Modifier le nom du joueur
+        //! \param newNom Nouveau nom
+        void setNom(string newNom);
 
 };
 
