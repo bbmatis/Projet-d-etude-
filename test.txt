@@ -1,2 +1,2 @@
-Merlin
-0
+NIC
+10

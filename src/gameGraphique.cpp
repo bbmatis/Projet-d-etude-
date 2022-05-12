@@ -387,6 +387,13 @@ void GameGraphique::afficher(){
     
 }    
 
+// Afficher le tableau des scores
+void GameGraphique::AfficherLesScores() {
+    unsigned int leS = game.recupScoreFromFile();
+    AfficherTexte("",joueur.getNom(),0, 440, 450, 100, 15, 255, 0, 0);
+    AfficherTexte("", "Score : ",leS, 440, 500, 100, 15, 255, 0, 0);
+}
+
 // Afficher le paneau de game over
 bool GameGraphique::afficherGameOver() {
     bool display=true;
@@ -416,7 +423,7 @@ bool GameGraphique::afficherGameOver() {
                 }
 
                 if(yMouse > 310 && yMouse < 335 && xMouse > 420 && xMouse < 555) {
-                    // On quite le jeu
+                    // On quitte le jeu
                     return false;
                 }
             }
@@ -448,11 +455,17 @@ bool GameGraphique::afficherMenu() {
                 if(xMouse > 270 && yMouse > 249 && xMouse < 370 && yMouse < 279) {
                     //ouvre le menu d'options 
                 }
+
+                if(xMouse > 440 && yMouse > 350 && xMouse < 540 && yMouse < 450) {
+                    //ouvre le menu des scores 
+                    AfficherLesScores();
+                }
             }
         }
 
         AfficherTexte("Jouer", "", 0, 450, 150, 100, 15, 255, 0, 0);
         AfficherTexte("Options", "",0, 440, 250, 100, 15, 255, 0, 0);
+        AfficherTexte("Scores", "",0, 440, 350, 100, 15, 255, 0, 0);
         //clear quand on le veut -> garder affiché les choix pour les défenses ?
 
         SDL_RenderPresent(renderer);
@@ -687,10 +700,10 @@ bool GameGraphique::afficherGame () {
             AfficherInfosDefenseSelected(game.defenses[CaseChoisie],CaseChoisie, DimWindowX/2, 680, 100, 30 );
             AfficherDefenseUpgrade(game.defenses[CaseChoisie]);  
         }
-        //game.enregistreScore();
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
         game.enregistreScore();
         if (game.isGameOver()) return true;
     }
+    return true;
 }

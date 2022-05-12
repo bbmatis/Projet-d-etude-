@@ -9,7 +9,7 @@ class Joueur {
     private:
         int nbVies;             // nombre de vie du joueur
         unsigned int score;     // score du joueur
-        string nom = "Merlin";  // nom du joueur
+        string nom = "NIC";  // nom du joueur
 
     public:
 

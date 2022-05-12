@@ -86,11 +86,16 @@ class Game {
         //! \param Defposition position de la défense qui va attaquer
         int DefHitMonstre(Monstre & monstre, unsigned int Defposition);
 
-        /** \brief récupère le score depuis un fichier externe **/
-        void recupScoreFromFile(); 
+        /** \brief récupère le score depuis un fichier externe 
+         *  \return le score contenu dans le fichier **/
+        unsigned int recupScoreFromFile(); 
 
         /** \brief écris les scores dans un fichier externe **/
         void enregistreScore(); 
+
+        /** \brief lis les scores dans un fichier externe 
+         *  \returns nombre de lignes que contient le fichier**/
+        unsigned int lireScore(); 
 
         /** \brief trie les scores **/
         void trieScore(); 
