@@ -120,7 +120,7 @@ class GameGraphique {
         //! \param r Couleur rouge
         //! \param g Couleur verte
         //! \param b Couleur bleue
-        void AfficherTexte(string Msg, string MsgWithValeur, float Valeur, int x, int y, int w, int h, int r, int g, int b);
+        void AfficherTexte(string Msg, string MsgWithValeur, float Valeur, int x, int y, int r, int g, int b);
 
         //! \brief Afficher les erreurs 
         void AfficherMessageErreur(int nbErr);

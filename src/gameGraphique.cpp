@@ -31,7 +31,7 @@ GameGraphique::~GameGraphique() {
 }
 
 //Affiche du texte selon l'entrée 
-void GameGraphique::AfficherTexte(string Msg, string MsgWithValeur, float Valeur, int x, int y, int w, int h, int r, int g, int b){
+void GameGraphique::AfficherTexte(string Msg, string MsgWithValeur, float Valeur, int x, int y, int r, int g, int b){
 
     SDL_Color color = { r, g, b };
 
@@ -46,7 +46,7 @@ void GameGraphique::AfficherTexte(string Msg, string MsgWithValeur, float Valeur
 
     SDL_Surface * surface = TTF_RenderText_Solid(font, text, color);
     SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);
-
+    int w,h = 24;
     SDL_QueryTexture(texture, NULL, NULL, &w, &h);
     SDL_Rect dstrect = { x, y, w, h };
     SDL_RenderCopy(renderer, texture, NULL, &dstrect);
@@ -165,6 +165,7 @@ void GameGraphique::AffichagePateau(){
             int maxHp = game.monstres[i].getMaxHp();
             int hpBar = (hp * 100 / maxHp)/2;
             SDL_Rect LifeRect = {monstreX-8, monstreY - 5, hpBar, 5};
+            AfficherTexte("", "", hpBar, monstreX-12, monstreY- 5, 0, 0, 0);
             SDL_RenderDrawRect(renderer, &LifeRect);
             SDL_RenderFillRect(renderer, &LifeRect);
         }
@@ -184,13 +185,13 @@ void GameGraphique::AffichagePateau(){
     //affichage de la money
     im_Money.draw(renderer,50, 50, 50, 50);
 
-    AfficherTexte("","",game.joueur.money,120, 50, 50, 50, 125, 125, 0);
+    AfficherTexte("","",game.joueur.money,120, 50, 125, 125, 0);
     
 
     //===============Afficher le temps===================================================
 
     temps = (SDL_GetTicks()/1000.f); //récup le temps toute les secondes
-    AfficherTexte("", "", temps, 900, 50, 35, 35, 0, 0, 0);
+    AfficherTexte("", "", temps, 900, 50, 0, 0, 0);
     // Gère le système d'affichage de vie
 
     if(game.joueur.getNbVies() == 3) im_hearts.draw(renderer, DimWindowX/2-90, DimWindowY-760, 180, 60);
@@ -204,10 +205,10 @@ void GameGraphique::AfficherInfosJeu(){
 
     im_Play.draw(renderer,ParamInitPlay[0], ParamInitPlay[1], ParamInitPlay[2], ParamInitPlay[3]);
 
-    AfficherTexte("", "Tues : ", game.nbMonstreTues, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1], 0, 0, 0, 0, 0);
+    AfficherTexte("", "Tues : ", game.nbMonstreTues, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1], 0, 0, 0);
 
-    AfficherTexte("", "Vague : ", game.vague, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1] + 30, 0, 0, 0, 0, 0);
-    AfficherTexte("", "Monstres : ", game.vague*4, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1]+55, 0, 0, 0, 0, 0);
+    AfficherTexte("", "Vague : ", game.vague, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1] + 30, 0, 0, 0);
+    AfficherTexte("", "Monstres : ", game.vague*4, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1]+55, 0, 0, 0);
 
 
 
@@ -217,14 +218,14 @@ void GameGraphique::AfficherInfosJeu(){
 void GameGraphique::AfficherMenuChoixShop(){
 
     im_shop.draw(renderer, ParamInitShop[0], ParamInitShop[1], ParamInitShop[2],ParamInitShop[3]);//acheter une défense
-    AfficherTexte("Shop", "",0, ParamInitShop[0], ParamInitShop[1]+65, 80, 20, 0, 0, 0);
+    AfficherTexte("Shop", "",0, ParamInitShop[0], ParamInitShop[1]+65, 0, 0, 0);
 }
 
 //Affiche les infos d'une defense selectionnée 
 void GameGraphique::AfficherInfosDefenseSelected(Defense def, int CaseChoisies,int posX, int posY, int W, int H){
 
 
-    AfficherTexte("", "Case : ", CaseChoisies, posX-45, posY, 90, 20, 0, 0, 0);
+    AfficherTexte("", "Case : ", CaseChoisies, posX-45, posY, 0, 0, 0);
     
     int type = def.getType();
     string Type;
@@ -240,15 +241,15 @@ void GameGraphique::AfficherInfosDefenseSelected(Defense def, int CaseChoisies,i
             Type = "MORTIER";
             break;
     }
-    AfficherTexte(Type, "", 0, posX-55, posY+20, 110, 15, 0, 0, 0);
+    AfficherTexte(Type, "", 0, posX-55, posY+20, 0, 0, 0);
 
-    AfficherTexte("","Damage : ", def.getDamage(), posX-W/2, posY+40, W, 15, 0, 0, 0);    
+    AfficherTexte("","Damage : ", def.getDamage(), posX-W/2, posY+40, 0, 0, 0);    
     
-    AfficherTexte("", "Range : ", def.getRange(), posX - W/2 +5, posY+60, W-10, 15, 0, 0, 0);
+    AfficherTexte("", "Range : ", def.getRange(), posX - W/2 +5, posY+60, 0, 0, 0);
 
-    AfficherTexte("", "AtkSpeed : ", def.getReloadTime(), posX - W/2, posY+80, W, 15, 0, 0, 0);
+    AfficherTexte("", "AtkSpeed : ", def.getReloadTime(), posX - W/2, posY+80, 0, 0, 0);
 
-    AfficherTexte("", "Level : ", def.getLevel(), posX - W/2 +10, posY+100, W-20, 15, 0, 0, 0);
+    AfficherTexte("", "Level : ", def.getLevel(), posX - W/2 +10, posY+100, 0, 0, 0);
     
 }
 
@@ -259,10 +260,10 @@ void GameGraphique::AfficherShopInfoDefense(typeDef type, int posx, int posy, in
     {
         case CANON: 
 
-            AfficherTexte("Damage : 5","",0, posx+h, posy, w, h, 0, 0, 0);
-            AfficherTexte("Range : 5","",0, posx+h, posy+h, w, h, 0, 0, 0);
-            AfficherTexte("AtkSpeed : 0.5s","",0, posx+h, posy+2*h, w, h, 0, 0, 0);
-            AfficherTexte("50", "", 0, posx+w+60, posy+10, 40, 40, 0, 0, 0);
+            AfficherTexte("Damage : 5","",0, posx+h, posy, 0, 0, 0);
+            AfficherTexte("Range : 5","",0, posx+h, posy+h, 0, 0, 0);
+            AfficherTexte("AtkSpeed : 0.5s","",0, posx+h, posy+2*h,0, 0, 0);
+            AfficherTexte("50", "", 0, posx+w+60, posy+10, 0, 0, 0);
 
             im_Money.draw(renderer, posx + w + 105 , posy + 17 , 25, 25);
 
@@ -270,10 +271,10 @@ void GameGraphique::AfficherShopInfoDefense(typeDef type, int posx, int posy, in
 
         case DOUBLECANON :
 
-            AfficherTexte("Damage : 10","",0, posx+h, posy, w, h, 0, 0, 0);
-            AfficherTexte("Range : 5","",0, posx+h, posy+h, w, h, 0, 0, 0);
-            AfficherTexte("AtkSpeed : 0.25s","",0, posx+h, posy+2*h, w, h, 0, 0, 0);
-            AfficherTexte("100", "", 0, posx+w+60, posy+10, 40, 40, 0, 0, 0);
+            AfficherTexte("Damage : 10","",0, posx+h, posy, 0, 0, 0);
+            AfficherTexte("Range : 5","",0, posx+h, posy+h, 0, 0, 0);
+            AfficherTexte("AtkSpeed : 0.25s","",0, posx+h, posy+2*h, 0, 0, 0);
+            AfficherTexte("100", "", 0, posx+w+60, posy+10, 0, 0, 0);
 
             im_Money.draw(renderer, posx + w + 105 , posy + 17 , 25, 25);
 
@@ -281,10 +282,10 @@ void GameGraphique::AfficherShopInfoDefense(typeDef type, int posx, int posy, in
 
         case MORTIER :
 
-            AfficherTexte("Damage : 25","",0, posx+h, posy, w, h, 0, 0, 0);
-            AfficherTexte("Range : 6","",0, posx+h, posy+h, w, h, 0, 0, 0);
-            AfficherTexte("AtkSpeed : 2s","",0, posx+h, posy+2*h, w, h, 0, 0, 0);
-            AfficherTexte("200", "", 0, posx+w+60, posy+10, 40, 40, 0, 0, 0);   
+            AfficherTexte("Damage : 25","",0, posx+h, posy, 0, 0, 0);
+            AfficherTexte("Range : 6","",0, posx+h, posy+h,  0, 0, 0);
+            AfficherTexte("AtkSpeed : 2s","",0, posx+h, posy+2*h, 0, 0, 0);
+            AfficherTexte("200", "", 0, posx+w+60, posy+10, 0, 0, 0);   
 
             im_Money.draw(renderer, posx + w + 105 , posy + 17 , 25, 25);
 
@@ -301,18 +302,18 @@ void GameGraphique::AfficherMenuBuyDef(){
     
     //===================Canon======================
     im_defenseCANON.draw(renderer,ParamInitShopCANON[0], ParamInitShopCANON[1], ParamInitShopCANON[2], ParamInitShopCANON[3]);
-    AfficherTexte("CANON", "", 0, ParamInitShopCANON[0], ParamInitShopCANON[1]+ 68, 70, 30, 0, 0, 0);
+    AfficherTexte("CANON", "", 0, ParamInitShopCANON[0], ParamInitShopCANON[1]+ 68, 0, 0, 0);
     AfficherShopInfoDefense(CANON, ParamInitShopCANON[0] + 60, ParamInitShopCANON[1] , 100, 30 );
     
     //===================DoubleCanon======================
     im_defenseDOUBLECANON.draw(renderer,ParamInitShopDOUBLECANON[0], ParamInitShopDOUBLECANON[1], ParamInitShopDOUBLECANON[2], ParamInitShopDOUBLECANON[3]);
-    AfficherTexte("DOUBLECANON", "", 0, ParamInitShopDOUBLECANON[0] -25,ParamInitShopDOUBLECANON[1]+68, 120, 30, 0, 0, 0);
+    AfficherTexte("DOUBLECANON", "", 0, ParamInitShopDOUBLECANON[0] -25,ParamInitShopDOUBLECANON[1]+68, 0, 0, 0);
     AfficherShopInfoDefense(DOUBLECANON, ParamInitShopDOUBLECANON[0] + 70, ParamInitShopDOUBLECANON[1], 100, 30);
     
     //===================Mortier======================
     
     im_defenseMORTIER.draw(renderer,ParamInitShopMORTIER[0], ParamInitShopMORTIER[1], ParamInitShopMORTIER[2], ParamInitShopMORTIER[3]);
-    AfficherTexte("MORTIER","", 0, ParamInitShopMORTIER[0], ParamInitShopMORTIER[1]+ 68, 80, 30, 0, 0, 0);
+    AfficherTexte("MORTIER","", 0, ParamInitShopMORTIER[0], ParamInitShopMORTIER[1]+ 68, 0, 0, 0);
     AfficherShopInfoDefense(MORTIER, ParamInitShopMORTIER[0] + 60, ParamInitShopMORTIER[1], 100, 30);
 }
 
@@ -320,10 +321,10 @@ void GameGraphique::AfficherMenuBuyDef(){
 void GameGraphique::AfficherMenuChoixUpgSell(){
 
     im_Sell.draw(renderer,ParamInitSell[0], ParamInitSell[1], ParamInitSell[2],ParamInitSell[3]); //Vendre une défenses
-    AfficherTexte("Vendre la defense", "",0,ParamInitSell[0]-180,  ParamInitSell[1]+30, 160, 40, 0, 0, 0);
+    AfficherTexte("Vendre la defense", "",0,ParamInitSell[0]-180,  ParamInitSell[1]+30, 0, 0, 0);
 
     im_Upgrade.draw(renderer,ParamInitUpgrade[0], ParamInitUpgrade[1], ParamInitUpgrade[2],ParamInitUpgrade[3]); //Améliorer une défense
-    AfficherTexte("Ameliorer la defense", "", 0,ParamInitUpgrade[0]+90, ParamInitUpgrade[1]+20, 200, 40, 0, 0, 0);
+    AfficherTexte("Ameliorer la defense", "", 0,ParamInitUpgrade[0]+90, ParamInitUpgrade[1]+20, 0, 0, 0);
 }
 
 void GameGraphique::AfficherDefenseUpgrade(Defense defense) {
@@ -333,15 +334,15 @@ void GameGraphique::AfficherDefenseUpgrade(Defense defense) {
     if(AfficherImageUpgrade == true) {
         if(defense.getType() == CANON) {
             //im_UpgradeCANON.draw(renderer,posX, posY, 35, 35);
-            AfficherTexte("1","",0,5*Tcase+X+10,5*Tcase+Y+8,20,20,0,100,200);
+            AfficherTexte("1","",0,5*Tcase+X+10,5*Tcase+Y+8,0,100,200);
         }
         if(defense.getType() == DOUBLECANON) {
             //im_UpgradeDOUBLECANON.draw(renderer,posX, posY, 35, 35);
-            AfficherTexte("1","",0,5*Tcase+X+10,5*Tcase+Y+8,20,20,0,0,255);
+            AfficherTexte("1","",0,5*Tcase+X+10,5*Tcase+Y+8,0,0,255);
         }
         if(defense.getType() == MORTIER) {
             //im_UpgradeMORTIER.draw(renderer,posX, posY, 35, 35);
-            AfficherTexte("1","",0,5*Tcase+X+10,5*Tcase+Y+8,20,20,0,0,255);
+            AfficherTexte("1","",0,5*Tcase+X+10,5*Tcase+Y+8,0,0,255);
         }
     }
 }
@@ -364,7 +365,7 @@ void GameGraphique::AfficherMessageErreur(int nbErr) {
         err = err3;
     }
 
-    AfficherTexte(err.c_str(),"",0, 500, 700 , 400, 50, 255, 50, 50);
+    AfficherTexte(err.c_str(),"",0, 500, 700, 255, 50, 50);
 }
 
 //Boucle du jeu 
@@ -404,9 +405,9 @@ bool GameGraphique::afficherGameOver() {
     SDL_Rect rect = {0, 0, 1000, 800};
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 100);
     SDL_RenderFillRect(renderer, &rect);
-    AfficherTexte("Game Over", "", 0, 430, 220, 0, 0, 255, 0, 0);
-    AfficherTexte("Retour au menu", "", 0, 405, 280, 100, 15, 255, 0, 0);
-    AfficherTexte("Quiter le jeu", "",0, 425, 310, 100, 15, 255, 0, 0);
+    AfficherTexte("Game Over", "", 0, 430, 220,255, 0, 0);
+    AfficherTexte("Retour au menu", "", 0, 405, 280, 255, 0, 0);
+    AfficherTexte("Quiter le jeu", "",0, 425, 310, 255, 0, 0);
     SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);
     SDL_RenderPresent(renderer);
     while(display){
@@ -447,7 +448,7 @@ bool GameGraphique::afficherMenu() {
 
             if (events.type == SDL_MOUSEBUTTONDOWN) {
                 SDL_GetMouseState(&xMouse,&yMouse);
-                if(xMouse > 450 && yMouse > 150 && xMouse < 550 && yMouse < 165) {
+                if(xMouse > 450 && yMouse > 150 && xMouse < 550 && yMouse < 174) {
                     //lancer le jeu quand on appuie sur jouer
                     return true;
                 }
@@ -462,12 +463,14 @@ bool GameGraphique::afficherMenu() {
                 }
             }
         }
-
-        AfficherTexte("Jouer", "", 0, 450, 150, 100, 15, 255, 0, 0);
-        AfficherTexte("Options", "",0, 440, 250, 100, 15, 255, 0, 0);
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        SDL_RenderDrawLine(renderer, 500, 0, 500, 800);
+        AfficherTexte("Jouer", "", 0, 468, 150, 255, 0, 0);
+        AfficherTexte("Regles", "",0, 440, 250, 255, 0, 0);
         AfficherTexte("Scores", "",0, 440, 350, 100, 15, 255, 0, 0);
+        AfficherTexte("Quitter le jeu","",0,400, 500, 255 , 0, 0);
         //clear quand on le veut -> garder affiché les choix pour les défenses ?
-
+        SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);    
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
     }
@@ -538,7 +541,7 @@ bool GameGraphique::afficherGame () {
 
             if(events.type == SDL_MOUSEBUTTONDOWN)
             {
-                
+                cout<<xMouse<<" "<<yMouse<<endl;
                 for(unsigned int i=0; i<game.defenses.size(); i++)
                 {
                     int Defy = i/25; //transforme la position en i
@@ -688,7 +691,7 @@ bool GameGraphique::afficherGame () {
         if(AfficherMenuChoixShopBool) 
         {
             AfficherMenuChoixShop();
-            AfficherTexte("", "Case : ", CaseChoisie, DimWindowX/2 - 45, 680, 90, 20, 0, 0, 0);
+            AfficherTexte("", "Case : ", CaseChoisie, DimWindowX/2 - 45, 680,0, 0, 0);
         }    
         else if(AfficherMenuChoixBuyDefBool) 
         {
