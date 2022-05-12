@@ -443,6 +443,7 @@ bool GameGraphique::afficherMenu() {
         SDL_RenderClear(renderer);
     }
     return true;
+}
 // Afficher le tableau des scores
 void GameGraphique::AfficherLesScores() {
     unsigned int leS = game.recupScoreFromFile();
