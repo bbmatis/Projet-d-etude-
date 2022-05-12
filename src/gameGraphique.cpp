@@ -391,8 +391,8 @@ void GameGraphique::afficher(){
 // Afficher le tableau des scores
 void GameGraphique::AfficherLesScores() {
     unsigned int leS = game.recupScoreFromFile();
-    AfficherTexte("",joueur.getNom(),0, 440, 450, 100, 15, 255, 0, 0);
-    AfficherTexte("", "Score : ",leS, 440, 500, 100, 15, 255, 0, 0);
+    AfficherTexte("",joueur.getNom(),0, 440, 400, 255, 0, 0);
+    AfficherTexte("", "Score : ",leS, 440, 450, 255, 0, 0);
 }
 
 // Afficher le paneau de game over
@@ -467,8 +467,8 @@ bool GameGraphique::afficherMenu() {
         SDL_RenderDrawLine(renderer, 500, 0, 500, 800);
         AfficherTexte("Jouer", "", 0, 468, 150, 255, 0, 0);
         AfficherTexte("Regles", "",0, 440, 250, 255, 0, 0);
-        AfficherTexte("Scores", "",0, 440, 350, 100, 15, 255, 0, 0);
-        AfficherTexte("Quitter le jeu","",0,400, 500, 255 , 0, 0);
+        AfficherTexte("Scores", "",0, 440, 350, 255, 0, 0);
+        AfficherTexte("Quitter le jeu","",0,400, 600, 255 , 0, 0);
         //clear quand on le veut -> garder affiché les choix pour les défenses ?
         SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);    
         SDL_RenderPresent(renderer);
