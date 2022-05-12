@@ -436,11 +436,18 @@ bool GameGraphique::afficherMenu() {
         im_MenuOrangeButton.draw(renderer, 400, 525, 200 ,50);
         AfficherTexte("Quitter le jeu","",0,430, 535, 0 , 0, 0);
 
+        //AfficherTexte("Scores", "",0, 440, 350, 255, 0, 0);
+
         SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);    
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
     }
     return true;
+// Afficher le tableau des scores
+void GameGraphique::AfficherLesScores() {
+    unsigned int leS = game.recupScoreFromFile();
+    AfficherTexte("",joueur.getNom(),0, 440, 400, 255, 0, 0);
+    AfficherTexte("", "Score : ",leS, 440, 450, 255, 0, 0);
 }
 
 // Afficher le paneau de game over
@@ -472,7 +479,7 @@ bool GameGraphique::afficherGameOver() {
                 }
 
                 if(yMouse > 310 && yMouse < 335 && xMouse > 420 && xMouse < 555) {
-                    // On quite le jeu
+                    // On quitte le jeu
                     return false;
                 }
             }
@@ -480,7 +487,6 @@ bool GameGraphique::afficherGameOver() {
     }
     return true;
 }
-
 
 
 
@@ -709,10 +715,10 @@ bool GameGraphique::afficherGame () {
             AfficherInfosDefenseSelected(game.defenses[CaseChoisie],CaseChoisie, DimWindowX/2, 680, 100, 30 );
             AfficherDefenseUpgrade(game.defenses[CaseChoisie]);  
         }
-        //game.enregistreScore();
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
         game.enregistreScore();
         if (game.isGameOver()) return true;
     }
+    return true;
 }

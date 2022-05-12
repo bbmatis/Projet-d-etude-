@@ -22,6 +22,7 @@ class GameGraphique {
     private: 
         Game game;
         Menu menu;
+        Joueur joueur;
         unsigned int dimx, dimy; // Dimentions X et Y de l'image
         SDL_Window * window; // Fenêtre SDL
         SDL_Renderer * renderer; // Renderer SDL
@@ -127,6 +128,9 @@ class GameGraphique {
 
         //! \brief Afficher les erreurs 
         void AfficherMessageErreur(int nbErr);
+
+        //! \brief Afficher les scores
+        void AfficherLesScores();
 
         //! \brief Afficher le jeu dans une fenêtre SDL2
         void afficher();
