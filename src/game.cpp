@@ -435,7 +435,7 @@ bool Game::isGameOver() {
 
 unsigned int Game::recupScoreFromFile() {
     unsigned int score_player = joueur.getScore();
-    cout<<score_player<<endl;
+    //cout<<score_player<<endl;
     return score_player;
 } 
 
@@ -446,7 +446,7 @@ unsigned int Game::lireScore() {
     ifstream lectureScore("test.txt");  //Ouverture du fichier en mode "lecture"
     if(lectureScore) {
         while (getline(lectureScore, unused)) numLines++;
-        cout<<numLines;
+        //cout<<numLines;
     }
     else {
         cout << "ERREUR: Impossible d'ouvrir le fichier!" << endl;

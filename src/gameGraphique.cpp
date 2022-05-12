@@ -408,13 +408,14 @@ bool GameGraphique::afficherMenu() {
 
             if (events.type == SDL_MOUSEBUTTONDOWN) {
                 SDL_GetMouseState(&xMouse,&yMouse);
-                if(xMouse > 400 && yMouse > 375 && xMouse < 600 && yMouse < 425) {
-                    //lancer le jeu quand on appuie sur jouer
-                    //return true;
-                    cout<<"Lance le jeu"<<endl;
-                }
+                
                 if(displayScores == false)
                 {
+                    if(xMouse > 400 && yMouse > 375 && xMouse < 600 && yMouse < 425) {
+                        //lancer le jeu quand on appuie sur jouer
+                        return true;
+                        cout<<"Lance le jeu"<<endl;
+                    }
                     if(xMouse > 400 && yMouse > 450 && xMouse < 600 && yMouse < 500) {
                         //ouvre le menu d'options 
                         cout<<"Ouvre les regles"<<endl;
@@ -433,7 +434,11 @@ bool GameGraphique::afficherMenu() {
                 }
                 if(displayScores == true)
                 {
-
+                    if(xMouse > 720 && yMouse > 210 && xMouse < 740 && yMouse < 230)
+                    {
+                        displayScores = false;
+                        cout<<"zerrer";
+                    }
                 }
             }
         }
@@ -470,6 +475,7 @@ void GameGraphique::AfficherLesScores() {
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 185);
     SDL_Rect rectScores = {250, 200, 500, 400};
     SDL_RenderFillRect(renderer, &rectScores);
+    im_Cross.draw(renderer,720, 210, 20, 20);
     AfficherTexte("",joueur.getNom(),0, 440, 400, 255, 0, 0);
     AfficherTexte("", "Score : ",leS, 440, 450, 255, 0, 0);
 }
@@ -495,7 +501,7 @@ bool GameGraphique::afficherGameOver() {
 
             if (events.type == SDL_MOUSEBUTTONDOWN) {
                 SDL_GetMouseState(&xMouse,&yMouse);
-                cout << "Clique | x : " << xMouse << " y : " << yMouse << endl;
+                //cout << "Clique | x : " << xMouse << " y : " << yMouse << endl;
                 if(yMouse > 280 && yMouse < 305 && xMouse > 400 && xMouse < 580) {
                     // On retourne sur le menu
                     
@@ -577,7 +583,7 @@ bool GameGraphique::afficherGame () {
 
             if(events.type == SDL_MOUSEBUTTONDOWN)
             {
-                cout<<xMouse<<" "<<yMouse<<endl;
+                //cout<<xMouse<<" "<<yMouse<<endl;
                 for(unsigned int i=0; i<game.defenses.size(); i++)
                 {
                     int Defy = i/25; //transforme la position en i
