@@ -422,6 +422,10 @@ bool GameGraphique::afficherMenu() {
                     cout<<"Quitte le jeu"<<endl;
                     return false;
                 }
+                if(xMouse > 775 && yMouse > 725 && xMouse < 975 && yMouse < 775)
+                {
+                    cout<<"Afficher Tab Scores"<<endl;
+                }
             }
         }
         im_FondMenu.draw(renderer,0, 0, DimWindowX, DimWindowY);
@@ -436,7 +440,8 @@ bool GameGraphique::afficherMenu() {
         im_MenuOrangeButton.draw(renderer, 400, 525, 200 ,50);
         AfficherTexte("Quitter le jeu","",0,430, 535, 0 , 0, 0);
 
-        //AfficherTexte("Scores", "",0, 440, 350, 255, 0, 0);
+        im_MenuOrangeButton.draw(renderer,775, 725, 200, 50);
+        AfficherTexte("Scores", "",0, 840, 735, 0, 0, 0);
 
         SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);    
         SDL_RenderPresent(renderer);
