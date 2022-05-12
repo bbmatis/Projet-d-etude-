@@ -112,6 +112,10 @@ void GameGraphique::afficherInit() {
     im_Play.loadFromFile("img/Play.png", renderer);
     im_CercleRange.loadFromFile("img/CircleRange.png", renderer);
     im_rectangleHover.loadFromFile("img/RectangleHover.png",renderer);
+    im_FondMenu.loadFromFile("img/FondMenu.png", renderer);
+    im_Menu.loadFromFile("img/MenuMenu.png", renderer);
+    im_MenuGreenButton.loadFromFile("img/BoutonVertMenu.png", renderer);
+    im_MenuOrangeButton.loadFromFile("img/BoutonOrangeMenu.png", renderer);
 
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);
@@ -388,6 +392,57 @@ void GameGraphique::afficher(){
     
 }    
 
+// Afficher le menu
+bool GameGraphique::afficherMenu() {
+    
+    bool displayMenu=true;
+    int xMouse, yMouse;
+
+    SDL_Event events;
+
+    while(displayMenu){
+
+        while(SDL_PollEvent(&events)){
+            if (events.type == SDL_QUIT) return false;
+
+            if (events.type == SDL_MOUSEBUTTONDOWN) {
+                SDL_GetMouseState(&xMouse,&yMouse);
+                if(xMouse > 400 && yMouse > 375 && xMouse < 600 && yMouse < 425) {
+                    //lancer le jeu quand on appuie sur jouer
+                    //return true;
+                    cout<<"Lance le jeu"<<endl;
+                }
+
+                if(xMouse > 400 && yMouse > 450 && xMouse < 600 && yMouse < 500) {
+                    //ouvre le menu d'options 
+                    cout<<"Ouvre les regles"<<endl;
+                }
+                if(xMouse > 400 && yMouse > 525 && xMouse < 600 && yMouse < 575)
+                {
+                    cout<<"Quitte le jeu"<<endl;
+                    return false;
+                }
+            }
+        }
+        im_FondMenu.draw(renderer,0, 0, DimWindowX, DimWindowY);
+        im_Menu.draw(renderer,250, 0, 500, 700);
+        SDL_RenderDrawLine(renderer, 500, 0, 500, 800);
+        SDL_RenderDrawLine(renderer, 0, 400, 1000, 400);
+
+        im_MenuGreenButton.draw(renderer, 400, 375, 200, 50);
+        AfficherTexte("Jouer", "", 0, 468, 385, 0, 0, 0);
+        im_MenuGreenButton.draw(renderer,400, 450,200, 50 );
+        AfficherTexte("Regles", "",0, 462, 460, 0, 0, 0);
+        im_MenuOrangeButton.draw(renderer, 400, 525, 200 ,50);
+        AfficherTexte("Quitter le jeu","",0,430, 535, 0 , 0, 0);
+
+        SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);    
+        SDL_RenderPresent(renderer);
+        SDL_RenderClear(renderer);
+    }
+    return true;
+}
+
 // Afficher le paneau de game over
 bool GameGraphique::afficherGameOver() {
     bool display=true;
@@ -426,43 +481,7 @@ bool GameGraphique::afficherGameOver() {
     return true;
 }
 
-// Afficher le menu
-bool GameGraphique::afficherMenu() {
-    
-    bool displayMenu=true;
-    int xMouse, yMouse;
 
-    SDL_Event events;
-
-    while(displayMenu){
-
-        while(SDL_PollEvent(&events)){
-            if (events.type == SDL_QUIT) return false;
-
-            if (events.type == SDL_MOUSEBUTTONDOWN) {
-                SDL_GetMouseState(&xMouse,&yMouse);
-                if(xMouse > 450 && yMouse > 150 && xMouse < 550 && yMouse < 174) {
-                    //lancer le jeu quand on appuie sur jouer
-                    return true;
-                }
-
-                if(xMouse > 270 && yMouse > 249 && xMouse < 370 && yMouse < 279) {
-                    //ouvre le menu d'options 
-                }
-            }
-        }
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        SDL_RenderDrawLine(renderer, 500, 0, 500, 800);
-        AfficherTexte("Jouer", "", 0, 468, 150, 255, 0, 0);
-        AfficherTexte("Regles", "",0, 440, 250, 255, 0, 0);
-        AfficherTexte("Quitter le jeu","",0,400, 500, 255 , 0, 0);
-        //clear quand on le veut -> garder affiché les choix pour les défenses ?
-        SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);    
-        SDL_RenderPresent(renderer);
-        SDL_RenderClear(renderer);
-    }
-    return true;
-}
 
 
 // Afficher le jeu

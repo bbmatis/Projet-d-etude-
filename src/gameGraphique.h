@@ -90,6 +90,10 @@ class GameGraphique {
         Image im_Play;
         Image im_CercleRange;
         Image im_rectangleHover;
+        Image im_FondMenu;
+        Image im_Menu;
+        Image im_MenuGreenButton;
+        Image im_MenuOrangeButton;
 
 
     public:
