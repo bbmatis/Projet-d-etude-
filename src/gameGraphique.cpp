@@ -396,6 +396,7 @@ void GameGraphique::afficher(){
 bool GameGraphique::afficherMenu() {
     
     bool displayMenu=true;
+    bool displayScores=false;
     int xMouse, yMouse;
 
     SDL_Event events;
@@ -412,22 +413,31 @@ bool GameGraphique::afficherMenu() {
                     //return true;
                     cout<<"Lance le jeu"<<endl;
                 }
+                if(displayScores == false)
+                {
+                    if(xMouse > 400 && yMouse > 450 && xMouse < 600 && yMouse < 500) {
+                        //ouvre le menu d'options 
+                        cout<<"Ouvre les regles"<<endl;
+                    }
+                    if(xMouse > 400 && yMouse > 525 && xMouse < 600 && yMouse < 575)
+                    {
+                        cout<<"Quitte le jeu"<<endl;
+                        return false;
+                    }
+                    if(xMouse > 775 && yMouse > 725 && xMouse < 975 && yMouse < 775)
+                    {
+                        cout<<"Afficher Tab Scores"<<endl;
+                        displayScores = true; 
 
-                if(xMouse > 400 && yMouse > 450 && xMouse < 600 && yMouse < 500) {
-                    //ouvre le menu d'options 
-                    cout<<"Ouvre les regles"<<endl;
+                    }
                 }
-                if(xMouse > 400 && yMouse > 525 && xMouse < 600 && yMouse < 575)
+                if(displayScores == true)
                 {
-                    cout<<"Quitte le jeu"<<endl;
-                    return false;
-                }
-                if(xMouse > 775 && yMouse > 725 && xMouse < 975 && yMouse < 775)
-                {
-                    cout<<"Afficher Tab Scores"<<endl;
+
                 }
             }
         }
+        
         im_FondMenu.draw(renderer,0, 0, DimWindowX, DimWindowY);
         im_Menu.draw(renderer,250, 0, 500, 700);
         SDL_RenderDrawLine(renderer, 500, 0, 500, 800);
@@ -443,6 +453,11 @@ bool GameGraphique::afficherMenu() {
         im_MenuOrangeButton.draw(renderer,775, 725, 200, 50);
         AfficherTexte("Scores", "",0, 840, 735, 0, 0, 0);
 
+        if(displayScores){ 
+            
+            AfficherLesScores();
+        }
+
         SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);    
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
@@ -452,6 +467,9 @@ bool GameGraphique::afficherMenu() {
 // Afficher le tableau des scores
 void GameGraphique::AfficherLesScores() {
     unsigned int leS = game.recupScoreFromFile();
+    SDL_SetRenderDrawColor(renderer, 200, 200, 200, 185);
+    SDL_Rect rectScores = {250, 200, 500, 400};
+    SDL_RenderFillRect(renderer, &rectScores);
     AfficherTexte("",joueur.getNom(),0, 440, 400, 255, 0, 0);
     AfficherTexte("", "Score : ",leS, 440, 450, 255, 0, 0);
 }
