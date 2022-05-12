@@ -67,93 +67,6 @@ void Game::InitPlateauJeu(){
     for(int i=0; i<HAUTEUR; i++) for(int j=0; j<LARGEUR; j++) distances[i*LARGEUR+j] = 404;
 }
 
-void Game::recupScoreFromFile() {
-    
-} 
-
-void Game::enregistreScore() {
-    unsigned int score[2];
-    score[0] = joueur.getScore();
-    score[1] = 18;
-    const int length = 10;
-    string joueur[2];
-    joueur[0] = "Player"; // <-- Tes variables "string" (chaîne de caractères) contenant les pseudos
-    joueur[1] = "Test";
-    //string Texte[2]; // <-- Création d'un tableau comportant un certain nombre de valeurs
-
-    /* int Prenoms = 0;
-    int Nbr = 0; */
-
-    string const NomFichier = "test.txt"; //Chemin d'accès au fichier
-    ofstream ScoreEcriture(NomFichier.c_str()); //Ouverture du fichier en mode "écriture"
-    if (ScoreEcriture) {
-        for(int i=0;i<2;i++) {
-            ScoreEcriture << joueur[i] << endl;
-            for(int j=0;j<2;j++) {
-                ScoreEcriture << score[j] << endl;
-            }
-        }
-    }
-
-    /*ifstream lectureScore("test.txt");  //Ouverture du fichier en mode "lecture"
-
-    if(lectureScore)
-    {
-        string ligne;
-    
-        while (getline(lectureScore, ligne))
-        {  
-            if (ligne == joueur1)
-            {
-                Prenoms = 1;
-            }
-            if(ligne == joueur2)
-            {
-                Prenoms = 2;
-            }
-
-            Nbr = Nbr + 1;
-            Texte[Nbr] = ligne;
-
-        //}
-    }
-    else
-    {
-        cout << "ERREUR: Impossible d'ouvrir le fichier!" << endl;
-    }
- 
-    ofstream ScoreEcriture(NomFichier.c_str()); //Ouverture du fichier en mode "écriture"
-
-    if (ScoreEcriture)
-    {
-        if (Prenoms == 1)
-        {
-            for (int i = 1; i <= Nbr; ++i)
-            {
-                ScoreEcriture << Texte[i] << endl;
-            }
-            ScoreEcriture << score << " ";
-            }
-            else
-            { 
-                for (int i = 1; i <= Nbr; ++i)
-                {
-                    ScoreEcriture << Texte[i];
-
-                    if (Nbr >= 1)
-                    {
-                        ScoreEcriture << endl;
-                    }
-                }
-                ScoreEcriture << joueur1 << endl << score << " ";
-            //}
-    }
-    else
-    {
-        cout << "ERREUR: Impossible d'ouvrir le fichier!" << endl;
-    }*/
-}
-
 // Acheter et placer une défense
 int Game::buyDefense(typeDef defense, unsigned int position) {
 
@@ -519,4 +432,52 @@ bool Game::playTurn() {
 bool Game::isGameOver() {
     if (joueur.getNbVies() <= 0) return true;
     return false;
+}
+
+void Game::recupScoreFromFile() {
+    
+} 
+
+void Game::enregistreScore() {
+    unsigned int score[10] = {0};
+    string player[10] = {""};
+    string Texte[2]; // <-- Création d'un tableau comportant un certain nombre de valeurs
+    string Bloc[30];
+    string const NomFichier = "test.txt"; //Chemin d'accès au fichier
+    int numLines = 0;
+    string unused;
+    ifstream lectureScore("test.txt");  //Ouverture du fichier en mode "lecture"
+    if(lectureScore) {
+        while (getline(lectureScore, unused)) numLines++;
+        cout<<numLines;
+    }
+    else {
+        cout << "ERREUR: Impossible d'ouvrir le fichier!" << endl;
+    } 
+    if(numLines == 0) {
+        player[3] = joueur.getNom();
+        score[3] = joueur.getScore();
+        ofstream ScoreEcriture(NomFichier.c_str()); //Ouverture du fichier en mode "écriture"
+        if (ScoreEcriture) {
+                ScoreEcriture << Bloc[3] << /* Texte[0] << */ player[3] << endl;
+                ScoreEcriture << Bloc[3] /* << Texte[3]  */<< score[3] << endl;
+                cout<<numLines;
+        } 
+        else {
+            cout << "ERREUR: Impossible d'ouvrir le fichier!" << endl;
+        }
+    }
+    else if(numLines > 2) {
+        player[5] = joueur.getNom();
+        score[5] = joueur.getScore();
+        ofstream ScoreEcriture(NomFichier.c_str()); //Ouverture du fichier en mode "écriture"
+        if (ScoreEcriture) {
+                ScoreEcriture << Bloc[5] << /* Texte[0] << */ player[5] << endl;
+                ScoreEcriture << Bloc[5] /* << Texte[1]  */<< score[5] << endl;
+                cout<<numLines;
+        } 
+        else {
+            cout << "ERREUR: Impossible d'ouvrir le fichier!" << endl;
+        }
+    }
 }
