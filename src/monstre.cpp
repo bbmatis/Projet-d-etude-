@@ -10,7 +10,7 @@ Monstre::Monstre(TypeMonstres typeMonstre) {
     {
         case Mob1:
             hp = 50;
-            speed = 1;
+            speed = 5;
             break;
         case Mob2:
             hp = 100;

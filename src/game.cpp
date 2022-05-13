@@ -501,7 +501,7 @@ void Game::reset() {
     // On remet le nombre de monstre tues a 0
     nbMonstreTues = 0;
     // On remet le nombre de vague a 0
-    vague = 0;
+    vague = 1;
     // On remet le temps a 0
     temps = 0;
     // On initialise la vague de monstre
