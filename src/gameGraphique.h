@@ -28,7 +28,7 @@ class GameGraphique {
         SDL_Renderer * renderer; // Renderer SDL
         
         TTF_Font * font;
-        Image font_im; 
+        TTF_Font * font_vie;
         SDL_Color Couleur_Texte; 
         SDL_Event events;
         
@@ -65,7 +65,7 @@ class GameGraphique {
         //On initalise des position et largeur prédefinie pour simplifier la gestion des menus
         int ParamInitShop[4] = {DimWindowX/2-45, DimWindowY -95, 90, 60};
         int ParamInitUpgrade[4] = {DimWindowX/2+160, DimWindowY -100, 60, 60};
-        int ParamInitPlay[4] = {DimWindowX/2-250, DimWindowY -90, 60, 60};
+        int ParamInitPlay[4] = {DimWindowX/2-30, DimWindowY -90, 60, 60};
         int ParamInitSell[4] = {DimWindowX/2-230, 686, 70, 85};
         int ParamInitShopCANON[4] = {DimWindowX/2-460, DimWindowY-100, 70, 70};
         int ParamInitShopDOUBLECANON[4] = {DimWindowX/2-150, DimWindowY-100, 70, 70};
@@ -95,6 +95,8 @@ class GameGraphique {
         Image im_Menu;
         Image im_MenuGreenButton;
         Image im_MenuOrangeButton;
+        Image im_HighScores;
+        Image im_GameOver;
 
 
     public:
@@ -124,7 +126,7 @@ class GameGraphique {
         //! \param r Couleur rouge
         //! \param g Couleur verte
         //! \param b Couleur bleue
-        void AfficherTexte(string Msg, string MsgWithValeur, float Valeur, int x, int y, int r, int g, int b);
+        void AfficherTexte(TTF_Font*font, string Msg, string MsgWithValeur, float Valeur, int x, int y, int r, int g, int b);
 
         //! \brief Afficher les erreurs 
         void AfficherMessageErreur(int nbErr);

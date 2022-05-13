@@ -94,8 +94,9 @@ void Monstre::initMonstre(int numeroArriver, int modeAffichage, int vague) {
         position.x = 0;
         setTargetPosition(0, 7);
     }
-    
-    hp+=(vague-1)*hp;
+    if(vague > 5){
+        hp+=((vague-1)*hp)/2;
+    }
     maxHp = hp;
 }
 

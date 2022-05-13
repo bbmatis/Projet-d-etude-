@@ -115,6 +115,8 @@ int Game::sellDefense(Defense & defense) {
 
 // Améliorer une défense au niveau supérieur
 int Game::upgradeDefense(Defense &defense) {
+
+    
     // On défini le prix de l'amélioration
     unsigned int prix = defense.getPrix() * 2;
     // Si il n'y a pas de défense sur la case
@@ -122,9 +124,13 @@ int Game::upgradeDefense(Defense &defense) {
     // Si le joueur n'as pas assez d'argent on retourne l'argent manquant en négatif
     else if (prix > joueur.money) return joueur.money - prix;
 
+    //Si la défense est level 4 ( lvl 4 max )
+    if(defense.getLevel() >= 4) return -2;
+
     // Sinon on lui enlève l'argent et on améliore la défense et on retourne le prix de l'amélioration
     joueur.money -= defense.getPrix()*2;
     defense.upgrade();
+
     return defense.getPrix();
 }
 
