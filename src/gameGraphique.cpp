@@ -144,6 +144,7 @@ void GameGraphique::AffichagePateau(){
         int Defx = j%25;            //transforme la position en x
         int posX = Defx*tailleCase+decalagePlateauX;      //calcul la position en x 
         int posY = Defy*tailleCase+decalagePlateauY;   //calcul la position en y
+        if(j == 175 || j == 199) continue;
         if(game.defenses[j].getType() == RIEN)
         {
             im_defenseRIEN.draw(renderer, posX, posY, 35, 35);
@@ -160,6 +161,7 @@ void GameGraphique::AffichagePateau(){
         {
             im_defenseMORTIER.draw(renderer,posX, posY, 35, 35);
         }
+        
     }
 
     for(unsigned int i =0; i<game.monstres.size(); i++)
@@ -580,7 +582,7 @@ bool GameGraphique::afficherGame () {
                     int Defy = i/25; //transforme la position en i
                     int Defx = i%25; //transforme la position en j
 
-                    if(xMouse > Defx*tailleCase+40 && xMouse < Defx*tailleCase+40 + 35 &&  yMouse > Defy*tailleCase+122 && yMouse < Defy*tailleCase+122 +35)
+                    if(i != 175 && i!=199 && xMouse > Defx*tailleCase+40 && xMouse < Defx*tailleCase+40 + 35 &&  yMouse > Defy*tailleCase+122 && yMouse < Defy*tailleCase+122 +35)
                         { 
                             AfficheRectangleHover = true;
                             PosXRectHover = Defx*tailleCase+40;
@@ -604,7 +606,7 @@ bool GameGraphique::afficherGame () {
                     int Defx = i%25; //transforme la position en j
 
                     //si on enfonce le bouton gauche de la souris et que la souris se trouve dans l'une des cases 
-                    if(xMouse > Defx*tailleCase+40 && xMouse < Defx*tailleCase+40 + 35 &&  yMouse > Defy*tailleCase+122 && yMouse < Defy*tailleCase+122 +35)
+                    if(i != 175 && i!=199 &&  xMouse > Defx*tailleCase+40 && xMouse < Defx*tailleCase+40 + 35 &&  yMouse > Defy*tailleCase+122 && yMouse < Defy*tailleCase+122 +35)
                     { 
                         if(events.button.button == SDL_BUTTON_LEFT && game.defenses[i].getType() == RIEN)
                         {         
