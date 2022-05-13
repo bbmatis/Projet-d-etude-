@@ -205,10 +205,7 @@ void GameGraphique::AffichagePateau()
 
     AfficherTexte(font, "", "", game.joueur.money, 120, 60, 125, 125, 0);
 
-    //===============Afficher le temps===================================================
 
-    game.temps = (SDL_GetTicks() / 1000.f); // récup le temps toute les secondes
-    AfficherTexte(font, "", "", game.temps, 900, 60, 0, 0, 0);
     // Gère le système d'affichage de vie
 
     if (game.joueur.getNbVies() == 3)
@@ -407,6 +404,7 @@ void GameGraphique::afficher()
         if (!fenetreOuverte)
             continue;
 
+         game.reset();
         // Le jeu
         fenetreOuverte = afficherGame();
         if (!fenetreOuverte)
@@ -414,7 +412,6 @@ void GameGraphique::afficher()
 
         // Game Over
         fenetreOuverte = afficherGameOver();
-         game.reset();
        
     }
 }
@@ -647,8 +644,13 @@ bool GameGraphique::afficherGame()
         currenttime = SDL_GetTicks();
         deltatime = (currenttime - prevtime) / 1000.f;
         frametime += deltatime;
-        game.temps=0;
+        game.temps = 0;
         int temps1;
+        
+        //===============Afficher le temps===================================================
+        
+        game.temps = (SDL_GetTicks() / 1000.f); // récup le temps toute les secondes
+        AfficherTexte(font, "", "", game.temps, 900, 60, 0, 0, 0);
 
         AffichagePateau();
         SDL_RenderDrawLine(renderer, 0, 400, 1000, 400);
@@ -853,9 +855,13 @@ bool GameGraphique::afficherGame()
         }
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
+
         game.enregistreScore();
-        if (game.isGameOver())
+        
+        if (game.isGameOver()){
             return true;
+        }
+
     }
     return true;
 }
