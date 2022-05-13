@@ -29,6 +29,7 @@ class GameGraphique {
         
         TTF_Font * font;
         TTF_Font * font_vie;
+        TTF_Font * font_infos;
         SDL_Color Couleur_Texte; 
         SDL_Event events;
         

@@ -90,6 +90,8 @@ void GameGraphique::afficherInit() {
             exit(1);
 	}
     font_vie = TTF_OpenFont("img/arial.ttf",10);
+    font_infos = TTF_OpenFont("img/arial.ttf",20);
+    
     
 
     renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
@@ -195,13 +197,13 @@ void GameGraphique::AffichagePateau(){
     //affichage de la money
     im_Money.draw(renderer,50, 50, 50, 50);
 
-    AfficherTexte(font,"","",game.joueur.money,120, 50, 125, 125, 0);
+    AfficherTexte(font,"","",game.joueur.money,120, 60, 125, 125, 0);
     
 
     //===============Afficher le temps===================================================
 
     temps = (SDL_GetTicks()/1000.f); //récup le temps toute les secondes
-    AfficherTexte(font,"", "", temps, 900, 50, 0, 0, 0);
+    AfficherTexte(font,"", "", temps, 900, 60, 0, 0, 0);
     // Gère le système d'affichage de vie
 
     if(game.joueur.getNbVies() == 3) im_hearts.draw(renderer, DimWindowX/2-90, DimWindowY-760, 180, 60);
@@ -215,10 +217,10 @@ void GameGraphique::AfficherInfosJeu(){
 
     im_Play.draw(renderer,ParamInitPlay[0], ParamInitPlay[1], ParamInitPlay[2], ParamInitPlay[3]);
 
-    AfficherTexte(font, "", "Tues : ", game.nbMonstreTues, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1], 0, 0, 0);
+    AfficherTexte(font_infos, "", "Tues : ", game.nbMonstreTues, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1], 0, 0, 0);
 
-    AfficherTexte(font, "", "Vague : ", game.vague, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1] + 30, 0, 0, 0);
-    AfficherTexte(font, "", "Monstres : ", game.vague*4, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1]+55, 0, 0, 0);
+    AfficherTexte(font_infos, "", "Vague : ", game.vague, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1] + 26, 0, 0, 0);
+    AfficherTexte(font_infos, "", "Monstres : ", game.vague*4, ParamInitPlay[0] + ParamInitPlay[2] + 20, ParamInitPlay[1]+55, 0, 0, 0);
 
 
 
@@ -228,14 +230,14 @@ void GameGraphique::AfficherInfosJeu(){
 void GameGraphique::AfficherMenuChoixShop(){
 
     im_shop.draw(renderer, ParamInitShop[0], ParamInitShop[1], ParamInitShop[2],ParamInitShop[3]);//acheter une défense
-    AfficherTexte(font, "Shop", "",0, ParamInitShop[0], ParamInitShop[1]+65, 0, 0, 0);
+    AfficherTexte(font_infos, "Shop", "",0, ParamInitShop[0]+20, ParamInitShop[1]+65, 0, 0, 0);
 }
 
 //Affiche les infos d'une defense selectionnée 
 void GameGraphique::AfficherInfosDefenseSelected(Defense def, int CaseChoisies,int posX, int posY, int W, int H){
 
 
-    AfficherTexte(font, "", "Case : ", CaseChoisies, posX-45, posY, 0, 0, 0);
+    AfficherTexte(font_infos, "", "Case : ", CaseChoisies, posX-45, posY, 0, 0, 0);
     
     int type = def.getType();
     string Type;
@@ -251,15 +253,15 @@ void GameGraphique::AfficherInfosDefenseSelected(Defense def, int CaseChoisies,i
             Type = "MORTIER";
             break;
     }
-    AfficherTexte(font, Type, "", 0, posX-55, posY+20, 0, 0, 0);
+    AfficherTexte(font_infos, Type, "", 0, posX-55, posY+20, 0, 0, 0);
 
-    AfficherTexte(font, "","Damage : ", def.getDamage(), posX-W/2, posY+40, 0, 0, 0);    
+    AfficherTexte(font_infos, "","Damage : ", def.getDamage(), posX-W/2, posY+40, 0, 0, 0);    
     
-    AfficherTexte(font, "", "Range : ", def.getRange(), posX - W/2 +5, posY+60, 0, 0, 0);
+    AfficherTexte(font_infos, "", "Range : ", def.getRange(), posX - W/2 +5, posY+60, 0, 0, 0);
 
-    AfficherTexte(font, "", "AtkSpeed : ", def.getReloadTime(), posX - W/2, posY+80, 0, 0, 0);
+    AfficherTexte(font_infos, "", "AtkSpeed : ", def.getReloadTime(), posX - W/2, posY+80, 0, 0, 0);
 
-    AfficherTexte(font, "", "Level : ", def.getLevel(), posX - W/2 +10, posY+100, 0, 0, 0);
+    AfficherTexte(font_infos, "", "Level : ", def.getLevel(), posX - W/2 +10, posY+100, 0, 0, 0);
     
 }
 
@@ -270,34 +272,34 @@ void GameGraphique::AfficherShopInfoDefense(typeDef type, int posx, int posy, in
     {
         case CANON: 
 
-            AfficherTexte(font, "Damage : 5","",0, posx+h, posy, 0, 0, 0);
-            AfficherTexte(font, "Range : 3","",0, posx+h, posy+h, 0, 0, 0);
-            AfficherTexte(font, "AtkSpeed : 0.5s","",0, posx+h, posy+2*h,0, 0, 0);
-            AfficherTexte(font, "50", "", 0, posx+w+60, posy+10, 0, 0, 0);
+            AfficherTexte(font_infos, "Damage : 5","",0, posx+h, posy, 0, 0, 0);
+            AfficherTexte(font_infos, "Range : 3","",0, posx+h, posy+h, 0, 0, 0);
+            AfficherTexte(font_infos, "AtkSpeed : 0.5s","",0, posx+h, posy+2*h,0, 0, 0);
+            AfficherTexte(font_infos, "50", "", 0, posx+w+70, posy+10, 0, 0, 0);
 
-            im_Money.draw(renderer, posx + w + 105 , posy + 17 , 25, 25);
+            im_Money.draw(renderer, posx + w + 105 , posy + 10 , 25, 25);
 
             break;
 
         case DOUBLECANON :
 
-            AfficherTexte(font, "Damage : 10","",0, posx+h, posy, 0, 0, 0);
-            AfficherTexte(font, "Range : 2","",0, posx+h, posy+h, 0, 0, 0);
-            AfficherTexte(font, "AtkSpeed : 0.25s","",0, posx+h, posy+2*h, 0, 0, 0);
-            AfficherTexte(font, "100", "", 0, posx+w+60, posy+10, 0, 0, 0);
+            AfficherTexte(font_infos, "Damage : 10","",0, posx+h, posy, 0, 0, 0);
+            AfficherTexte(font_infos, "Range : 2","",0, posx+h, posy+h, 0, 0, 0);
+            AfficherTexte(font_infos, "AtkSpeed : 0.25s","",0, posx+h, posy+2*h, 0, 0, 0);
+            AfficherTexte(font_infos, "100", "", 0, posx+w+60, posy+10, 0, 0, 0);
 
-            im_Money.draw(renderer, posx + w + 105 , posy + 17 , 25, 25);
+            im_Money.draw(renderer, posx + w + 105 , posy + 10 , 25, 25);
 
             break;
 
         case MORTIER :
 
-            AfficherTexte(font, "Damage : 25","",0, posx+h, posy, 0, 0, 0);
-            AfficherTexte(font, "Range : 4","",0, posx+h, posy+h,  0, 0, 0);
-            AfficherTexte(font, "AtkSpeed : 2s","",0, posx+h, posy+2*h, 0, 0, 0);
-            AfficherTexte(font, "200", "", 0, posx+w+60, posy+10, 0, 0, 0);   
+            AfficherTexte(font_infos, "Damage : 25","",0, posx+h, posy, 0, 0, 0);
+            AfficherTexte(font_infos, "Range : 4","",0, posx+h, posy+h,  0, 0, 0);
+            AfficherTexte(font_infos, "AtkSpeed : 2s","",0, posx+h, posy+2*h, 0, 0, 0);
+            AfficherTexte(font_infos, "200", "", 0, posx+w+60, posy+10, 0, 0, 0);   
 
-            im_Money.draw(renderer, posx + w + 105 , posy + 17 , 25, 25);
+            im_Money.draw(renderer, posx + w + 105 , posy + 10 , 25, 25);
 
             break;
 
@@ -312,29 +314,29 @@ void GameGraphique::AfficherMenuBuyDef(){
     
     //===================Canon======================
     im_defenseCANON.draw(renderer,ParamInitShopCANON[0], ParamInitShopCANON[1], ParamInitShopCANON[2], ParamInitShopCANON[3]);
-    AfficherTexte(font, "CANON", "", 0, ParamInitShopCANON[0], ParamInitShopCANON[1]+ 68, 0, 0, 0);
-    AfficherShopInfoDefense(CANON, ParamInitShopCANON[0] + 60, ParamInitShopCANON[1] , 100, 30 );
+    AfficherTexte(font_infos, "CANON", "", 0, ParamInitShopCANON[0], ParamInitShopCANON[1]+ 70, 0, 0, 0);
+    AfficherShopInfoDefense(CANON, ParamInitShopCANON[0] + 60, ParamInitShopCANON[1] , 100, 20 );
     
     //===================DoubleCanon======================
     im_defenseDOUBLECANON.draw(renderer,ParamInitShopDOUBLECANON[0], ParamInitShopDOUBLECANON[1], ParamInitShopDOUBLECANON[2], ParamInitShopDOUBLECANON[3]);
-    AfficherTexte(font, "DOUBLECANON", "", 0, ParamInitShopDOUBLECANON[0] -25,ParamInitShopDOUBLECANON[1]+68, 0, 0, 0);
-    AfficherShopInfoDefense(DOUBLECANON, ParamInitShopDOUBLECANON[0] + 70, ParamInitShopDOUBLECANON[1], 100, 30);
+    AfficherTexte(font_infos, "DOUBLECANON", "", 0, ParamInitShopDOUBLECANON[0] -30,ParamInitShopDOUBLECANON[1]+70, 0, 0, 0);
+    AfficherShopInfoDefense(DOUBLECANON, ParamInitShopDOUBLECANON[0] + 70, ParamInitShopDOUBLECANON[1], 100, 20);
     
     //===================Mortier======================
     
     im_defenseMORTIER.draw(renderer,ParamInitShopMORTIER[0], ParamInitShopMORTIER[1], ParamInitShopMORTIER[2], ParamInitShopMORTIER[3]);
-    AfficherTexte(font, "MORTIER","", 0, ParamInitShopMORTIER[0], ParamInitShopMORTIER[1]+ 68, 0, 0, 0);
-    AfficherShopInfoDefense(MORTIER, ParamInitShopMORTIER[0] + 60, ParamInitShopMORTIER[1], 100, 30);
+    AfficherTexte(font_infos, "MORTIER","", 0, ParamInitShopMORTIER[0]-5, ParamInitShopMORTIER[1]+ 70, 0, 0, 0);
+    AfficherShopInfoDefense(MORTIER, ParamInitShopMORTIER[0] + 60, ParamInitShopMORTIER[1], 100, 20);
 }
 
 //Affiche le menu pour vendre ou améliorer une défense 
 void GameGraphique::AfficherMenuChoixUpgSell(){
 
     im_Sell.draw(renderer,ParamInitSell[0], ParamInitSell[1], ParamInitSell[2],ParamInitSell[3]); //Vendre une défenses
-    AfficherTexte(font, "Vendre la defense", "",0,ParamInitSell[0]-180,  ParamInitSell[1]+30, 0, 0, 0);
+    AfficherTexte(font_infos, "Vendre la defense", "",0,ParamInitSell[0]-160,  ParamInitSell[1]+35, 0, 0, 0);
 
     im_Upgrade.draw(renderer,ParamInitUpgrade[0], ParamInitUpgrade[1], ParamInitUpgrade[2],ParamInitUpgrade[3]); //Améliorer une défense
-    AfficherTexte(font, "Ameliorer la defense", "", 0,ParamInitUpgrade[0]+90, ParamInitUpgrade[1]+20, 0, 0, 0);
+    AfficherTexte(font_infos, "Ameliorer la defense", "", 0,ParamInitUpgrade[0]+70, ParamInitUpgrade[1]+20, 0, 0, 0);
 }
 
 void GameGraphique::AfficherDefenseUpgrade(Defense defense) {
@@ -564,8 +566,8 @@ bool GameGraphique::afficherGame () {
 
         AffichagePateau();
         
-        //SDL_RenderDrawLine(renderer, 0, 398, 1000, 398);
-        //SDL_RenderDrawLine(renderer, 464, 0, 464, 800);
+        SDL_RenderDrawLine(renderer, 0, 400, 1000, 400);
+        SDL_RenderDrawLine(renderer, 500, 0, 500, 800);
              
         while(SDL_PollEvent(&events)){
 
@@ -749,7 +751,7 @@ bool GameGraphique::afficherGame () {
         if(AfficherMenuChoixShopBool) 
         {
             AfficherMenuChoixShop();
-            AfficherTexte(font, "", "Case : ", CaseChoisie, DimWindowX/2 - 45, 680,0, 0, 0);
+            AfficherTexte(font_infos, "", "Case : ", CaseChoisie, DimWindowX/2 - 45, 680,0, 0, 0);
         }    
         else if(AfficherMenuChoixBuyDefBool) 
         {
