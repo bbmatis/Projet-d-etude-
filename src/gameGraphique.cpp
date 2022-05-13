@@ -404,7 +404,9 @@ void GameGraphique::afficher()
         if (!fenetreOuverte)
             continue;
 
-         game.reset();
+         
+        game.reset();
+        lancervague=false;
         // Le jeu
         fenetreOuverte = afficherGame();
         if (!fenetreOuverte)
@@ -648,7 +650,7 @@ bool GameGraphique::afficherGame()
         int temps1;
         
         //===============Afficher le temps===================================================
-        
+
         game.temps = (SDL_GetTicks() / 1000.f); // récup le temps toute les secondes
         AfficherTexte(font, "", "", game.temps, 900, 60, 0, 0, 0);
 
