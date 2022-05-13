@@ -414,6 +414,7 @@ void GameGraphique::afficher()
 
         // Game Over
         fenetreOuverte = afficherGameOver();
+        game.reset();
     }
 }
 

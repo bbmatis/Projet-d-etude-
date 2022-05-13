@@ -135,6 +135,9 @@ class Game {
         //! \return true si on a fait un game over, false sinon
         bool isGameOver();
 
+        //! \brief Remet a 0 la partie pour une nouvelle partie
+        void reset();
+
 };
 
 #endif

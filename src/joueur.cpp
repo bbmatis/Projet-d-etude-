@@ -4,7 +4,7 @@
 // Constructeur
 Joueur::Joueur() {
     nbVies = 3;
-    money = 10000;
+    money = 500;
     score = 0;
 }
 
@@ -40,4 +40,11 @@ string Joueur::getNom() const {
 // Modifier le nom du joueur
 void Joueur::setNom(string newNom) {
     nom = newNom;
+}
+
+// Remet a 0 le joeuur
+void Joueur::reset() {
+    nbVies = 3;
+    money = 500;
+    score = 0;
 }

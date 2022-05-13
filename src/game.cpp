@@ -483,3 +483,25 @@ void Game::enregistreScore() {
         ScoreEcriture.close();
     }
 }
+
+// Remise a 0 de la partie
+void Game::reset() {
+    // On remet a 0 les monstres
+    monstres.clear();
+    monstres.shrink_to_fit();
+    // On remet a 0 les défenses
+    defenses.clear();
+    defenses.shrink_to_fit();
+    // On remet le tableau de défenses de base
+    InitPlateauJeu();
+    // On remet a jour les distances
+    updateDistances();
+    // On remet le joueur a 0
+    joueur.reset();
+    // On remet le nombre de monstre tues a 0
+    nbMonstreTues = 0;
+    // On remet le nombre de vague a 0
+    vague = 0;
+    // On initialise la vague de monstre
+    InitVagueMonstre();
+}

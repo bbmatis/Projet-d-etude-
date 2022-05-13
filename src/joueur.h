@@ -42,6 +42,8 @@ class Joueur {
         //! \param newNom Nouveau nom
         void setNom(string newNom);
 
+        //! \brief Remet a 0 le joeuur
+        void reset();
 };
 
 #endif
