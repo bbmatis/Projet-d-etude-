@@ -403,8 +403,7 @@ void GameGraphique::afficher()
         fenetreOuverte = afficherMenu();
         if (!fenetreOuverte)
             continue;
-
-         
+            
         game.reset();
         lancervague=false;
         // Le jeu
