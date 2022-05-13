@@ -207,8 +207,8 @@ void GameGraphique::AffichagePateau()
 
     //===============Afficher le temps===================================================
 
-    temps = (SDL_GetTicks() / 1000.f); // récup le temps toute les secondes
-    AfficherTexte(font, "", "", temps, 900, 60, 0, 0, 0);
+    game.temps = (SDL_GetTicks() / 1000.f); // récup le temps toute les secondes
+    AfficherTexte(font, "", "", game.temps, 900, 60, 0, 0, 0);
     // Gère le système d'affichage de vie
 
     if (game.joueur.getNbVies() == 3)
@@ -646,7 +646,7 @@ bool GameGraphique::afficherGame()
         currenttime = SDL_GetTicks();
         deltatime = (currenttime - prevtime) / 1000.f;
         frametime += deltatime;
-        temps=0;
+        game.temps=0;
         int temps1;
 
         AffichagePateau();

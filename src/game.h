@@ -44,6 +44,7 @@ class Game {
         unsigned int vague;                     // Indice de vague de monstres 
         unsigned int nbMonstreTues;             // nombre de monstre tué au cours de la partie
         Joueur joueur;
+        int temps;
         unsigned int caseEntree = 175;
         unsigned int caseSortie = 199;
         int frameCount = 0;

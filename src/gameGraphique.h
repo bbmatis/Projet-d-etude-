@@ -59,7 +59,6 @@ class GameGraphique {
         int frames = 0;
         float frametime=0;
         int prevtime = 0;
-        int temps=0;
         int currenttime = 0;
         float deltatime = 0.f;
 
