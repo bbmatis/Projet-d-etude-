@@ -48,6 +48,7 @@ class Game {
         unsigned int caseEntree = 175;
         unsigned int caseSortie = 199;
         int frameCount = 0;
+        string scores[10][2];
         
         //! \brief Constructeur
         Game(unsigned int leModeDAffichage);
@@ -87,9 +88,8 @@ class Game {
         //! \param Defposition position de la défense qui va attaquer
         int DefHitMonstre(Monstre & monstre, unsigned int Defposition);
 
-        /** \brief récupère le score depuis un fichier externe 
-         *  \return le score contenu dans le fichier **/
-        unsigned int recupScoreFromFile(); 
+        //! \brief récupère le score depuis un fichier externe 
+        void recupScoreFromFile();
 
         /** \brief écris les scores dans un fichier externe **/
         void enregistreScore(); 

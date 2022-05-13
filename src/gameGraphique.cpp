@@ -39,8 +39,7 @@ void GameGraphique::AfficherTexte(TTF_Font *font, string Msg, string MsgWithVale
     SDL_Color color = {r, g, b};
     const char *text = Msg.c_str();
 
-    if (Msg == "")
-    {
+    if (Msg == "") {
         ostringstream Val;
         Val << Valeur;
         string val = MsgWithValeur + Val.str();
@@ -99,16 +98,13 @@ void GameGraphique::afficherInit()
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) //Initialisation de l'API Mixer
-    {
-    printf("%s", Mix_GetError());
-    }
+    // if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) { //Initialisation de l'API Mixer
+    //     printf("%s", Mix_GetError());
+    // }
 
-    Mix_AllocateChannels(10);//Pour jouer 10 sons en même temps -> 10 cannaux de sons
-
-    
-    son = Mix_LoadWAV("son.wav"); //Charger un wav dans un pointeur
-    Mix_VolumeChunk(son, MIX_MAX_VOLUME/2); //Mettre un volume pour ce wav
+    // Mix_AllocateChannels(10);//Pour jouer 10 sons en même temps -> 10 cannaux de sons
+    // son = Mix_LoadWAV("son.wav"); //Charger un wav dans un pointeur
+    // Mix_VolumeChunk(son, MIX_MAX_VOLUME/2); //Mettre un volume pour ce wav
 
     im_plateauFond.loadFromFile("img/PlateauFond_old.png", renderer);
     im_monstre1.loadFromFile("img/Squelette.png", renderer);
@@ -410,6 +406,8 @@ void GameGraphique::afficher()
     bool fenetreOuverte = true;
     while (fenetreOuverte)
     {
+        // On actualise les scores depuis le fichier texte
+        game.recupScoreFromFile();
         // Le menu
         fenetreOuverte = afficherMenu();
         if (!fenetreOuverte)
@@ -531,7 +529,6 @@ bool GameGraphique::afficherMenu()
         }
         if (displayScores)
         {
-
             AfficherLesScores();
         }
         if (AfficheRectangleHoverButton)
@@ -550,15 +547,18 @@ bool GameGraphique::afficherMenu()
 // Afficher le tableau des scores
 void GameGraphique::AfficherLesScores()
 {
-    unsigned int leS = game.recupScoreFromFile();
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 185);
     im_HighScores.draw(renderer, 200, 150, 600, 500);
     im_Cross.draw(renderer, 740, 190, 20, 20);
 
-    AfficherTexte(font, "Nom du Joueur  |", "", 0, 250, 300, 0, 0, 0);
-    AfficherTexte(font, joueur.getNom(), "", 0, 250, 350, 0, 0, 0);
-    AfficherTexte(font, "Score", "", 0, 450, 300, 0, 0, 0);
-    AfficherTexte(font, "", "", leS, 450, 350, 0, 0, 0);
+    AfficherTexte(font, "Player", "", 0, 250, 250, 0, 0, 0);
+    AfficherTexte(font, "Score", "", 0, 450, 250, 0, 0, 0);
+    for (int i = 0; i < 10; i++)
+    {
+        AfficherTexte(font, game.scores[i][0], "", 0, 250, 280 + i * 30, 0, 0, 0);
+        AfficherTexte(font, game.scores[i][1], "",  0, 450, 280 + i * 30, 0, 0, 0);
+    }
+
 }
 
 // Afficher le paneau de game over
@@ -637,6 +637,7 @@ bool GameGraphique::afficherGameOver()
 bool GameGraphique::afficherGame()
 {
     bool display = true;
+    float beginTick = SDL_GetTicks();
     while (display)
     {
         // Met le jeu en pause pdt 10ms pour avoir quelquechose comme 100fps
@@ -661,7 +662,7 @@ bool GameGraphique::afficherGame()
         
         //===============Afficher le temps===================================================
 
-        game.temps = (SDL_GetTicks() / 1000.f); // récup le temps toute les secondes
+        game.temps = ((SDL_GetTicks() - beginTick) / 1000.f); // récup le temps toute les secondes
         AfficherTexte(font, "", "", game.temps, 900, 60, 0, 0, 0);
 
         AffichagePateau();
@@ -868,9 +869,9 @@ bool GameGraphique::afficherGame()
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
 
-        game.enregistreScore();
         
         if (game.isGameOver()){
+            game.enregistreScore();
             return true;
         }
 

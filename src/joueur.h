@@ -8,7 +8,7 @@ class Joueur {
 
     private:
         int nbVies;             // nombre de vie du joueur
-        unsigned int score;     // score du joueur
+        int score;     // score du joueur
         string nom = "NIC";  // nom du joueur
 
     public:
@@ -29,7 +29,7 @@ class Joueur {
         void setNbVies(int newNbVies);
 
         //! \brief Obtenir le score du joueur
-        unsigned int getScore() const;
+        int getScore() const;
 
         //! \brief Modifier le score du joueur
         //! \param newScore Nouveau score

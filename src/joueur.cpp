@@ -6,6 +6,7 @@ Joueur::Joueur() {
     nbVies = 3;
     money = 500;
     score = 0;
+    nom = "Player";
 }
 
 // Destructeur
@@ -23,7 +24,7 @@ void Joueur::setNbVies(int newNbVies) {
 }
 
 // Obtenir le score du joueur
-unsigned int Joueur::getScore() const {
+int Joueur::getScore() const {
     return score;
 }
 

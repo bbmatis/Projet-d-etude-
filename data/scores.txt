@@ -1,0 +1,10 @@
+Test;1500
+Test;1000
+NIC;600
+Julien;540
+Test;510
+Matis;500
+Ben;400
+Ju;100
+Jul;90
+Lol;10
