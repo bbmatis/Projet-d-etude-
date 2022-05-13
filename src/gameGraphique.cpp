@@ -453,7 +453,7 @@ bool GameGraphique::afficherMenu()
                 return false;
 
             SDL_GetMouseState(&xMouse, &yMouse);
-            if (events.type == SDL_MOUSEMOTION)
+            if (events.type == SDL_MOUSEMOTION && displayScores==false)
             {
                 if (xMouse > 400 && yMouse > 375 && xMouse < 600 && yMouse < 425)
                 {
