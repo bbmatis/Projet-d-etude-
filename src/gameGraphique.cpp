@@ -365,13 +365,13 @@ void GameGraphique::AfficherDefenseUpgrade(Defense defense) {
 //Affiche les message d'erreur
 void GameGraphique::AfficherMessageErreur(int nbErr) {
 
-    string err1 = "Le type de defense n'est pas valide !";
-    string err2 = "La position choisie est invalide !";
+    string err2 = "Le level max est atteint par la defense !";
     string err3 = "Vous n'avez pas assez d'argent pour acheter cette defense !";
-    string err;
+    string err4 = "Impossible de bloquer le chemin des monstres !";
+    string err = "";
 
-    if(nbErr == -1) {
-        err = err1;
+    if(nbErr == -4) {
+        err = err4;
     }
     if(nbErr == -2) {
         err = err2;
@@ -380,7 +380,7 @@ void GameGraphique::AfficherMessageErreur(int nbErr) {
         err = err3;
     }
 
-    AfficherTexte(font, err.c_str(),"",0, 50, 700, 255, 50, 50);
+    AfficherTexte(font_infos, err.c_str(),"",0, 50, 700, 255, 50, 50);
 }
 
 //Boucle du jeu 
@@ -693,6 +693,11 @@ bool GameGraphique::afficherGame () {
                             AfficherMenuChoixUpgSellBool = false;
                             AfficherCroix = false;
                             AfficherInfosSansMenus = true;
+                            if(retour == -2)
+                            {
+                                temps1=SDL_GetTicks()/1000;
+                                AfficherErreursBool = true;
+                            } 
                         }
                     }
                     if(AfficherCroix == true)

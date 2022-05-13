@@ -122,7 +122,7 @@ int Game::upgradeDefense(Defense &defense) {
     // Si il n'y a pas de défense sur la case
     if (defense.getType() == RIEN) return -1;
     // Si le joueur n'as pas assez d'argent on retourne l'argent manquant en négatif
-    else if (prix > joueur.money) return joueur.money - prix;
+    if (prix > joueur.money) return joueur.money - prix;
 
     //Si la défense est level 4 ( lvl 4 max )
     if(defense.getLevel() >= 4) return -2;
