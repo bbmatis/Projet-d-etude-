@@ -99,6 +99,17 @@ void GameGraphique::afficherInit()
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) //Initialisation de l'API Mixer
+    {
+    printf("%s", Mix_GetError());
+    }
+
+    Mix_AllocateChannels(10);//Pour jouer 10 sons en même temps -> 10 cannaux de sons
+
+    
+    son = Mix_LoadWAV("son.wav"); //Charger un wav dans un pointeur
+    Mix_VolumeChunk(son, MIX_MAX_VOLUME/2); //Mettre un volume pour ce wav
+
     im_plateauFond.loadFromFile("img/PlateauFond_old.png", renderer);
     im_monstre1.loadFromFile("img/Squelette.png", renderer);
     im_monstre2.loadFromFile("img/monstre2.png", renderer);
@@ -403,7 +414,7 @@ void GameGraphique::afficher()
         fenetreOuverte = afficherMenu();
         if (!fenetreOuverte)
             continue;
-            
+
         game.reset();
         lancervague=false;
         // Le jeu

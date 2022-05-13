@@ -98,6 +98,8 @@ class GameGraphique {
         Image im_HighScores;
         Image im_GameOver;
 
+        Mix_Chunk *son;//Créer un pointeur pour stocker un .WAV
+
 
     public:
         
