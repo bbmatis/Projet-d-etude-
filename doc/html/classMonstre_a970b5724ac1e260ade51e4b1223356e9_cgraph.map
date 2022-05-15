@@ -1,0 +1,7 @@
+<map id="Monstre::moveToTargetPosition" name="Monstre::moveToTargetPosition">
+<area shape="rect" id="node1" title="Se déplacer vers la position cible." alt="" coords="5,81,232,108"/>
+<area shape="rect" id="node2" href="$classMonstre.html#a47c849753c4a17f5615e804e82f73005" title="Déplacer le monstre vers le bas." alt="" coords="280,5,436,32"/>
+<area shape="rect" id="node3" href="$classMonstre.html#a5738a9aec8f64ff3135a2e8fe1ea3800" title="Déplacer le monstre vers la gauche." alt="" coords="287,56,429,83"/>
+<area shape="rect" id="node4" href="$classMonstre.html#a043d079319d32f6f837febee8892c8b4" title="Déplacer le monstre vers la droite." alt="" coords="281,107,435,133"/>
+<area shape="rect" id="node5" href="$classMonstre.html#a350aea87323e9958409964482a114a67" title="Déplacer le monstre vers le haut." alt="" coords="289,157,427,184"/>
+</map>

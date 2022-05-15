@@ -1,0 +1,5 @@
+<map id="Game::upgradeDefense" name="Game::upgradeDefense">
+<area shape="rect" id="node1" title="Permet d&#39;améliorer une défense. Retourne le prix d&#39;amélioration si la défense a bien été améliorer,..." alt="" coords="511,5,687,32"/>
+<area shape="rect" id="node2" href="$classGameGraphique.html#acda6a4861814b05066bf705ce401fb10" title="Afficher le jeu." alt="" coords="239,5,463,32"/>
+<area shape="rect" id="node3" href="$classGameGraphique.html#a0e528e891f61242c0e51ad5c5300adba" title="Afficher le jeu dans une fenêtre SDL2." alt="" coords="5,5,191,32"/>
+</map>

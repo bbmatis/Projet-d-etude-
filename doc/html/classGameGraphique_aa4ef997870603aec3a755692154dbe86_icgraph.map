@@ -1,0 +1,6 @@
+<map id="GameGraphique::AfficherShopInfoDefense" name="GameGraphique::AfficherShopInfoDefense">
+<area shape="rect" id="node1" title="Affiche les infos d&#39;une défense en texte en fonction du type de def &#45;&gt; shop buy." alt="" coords="781,5,1000,47"/>
+<area shape="rect" id="node2" href="$classGameGraphique.html#a0eb8b2843a7f57f3902250794d3532ae" title="Affiche le menu pour choisir la défense à acheter." alt="" coords="511,5,733,47"/>
+<area shape="rect" id="node3" href="$classGameGraphique.html#acda6a4861814b05066bf705ce401fb10" title="Afficher le jeu." alt="" coords="239,13,463,39"/>
+<area shape="rect" id="node4" href="$classGameGraphique.html#a0e528e891f61242c0e51ad5c5300adba" title="Afficher le jeu dans une fenêtre SDL2." alt="" coords="5,13,191,39"/>
+</map>
