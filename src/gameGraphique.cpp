@@ -21,7 +21,7 @@ GameGraphique::GameGraphique()
 GameGraphique::~GameGraphique()
 {
 
-    TTF_CloseFont(font);
+    TTF_CloseFont(font_default);
     TTF_CloseFont(font_vie);
     TTF_CloseFont(font_infos);
     TTF_Quit();
@@ -36,6 +36,7 @@ GameGraphique::~GameGraphique()
 void GameGraphique::AfficherTexte(TTF_Font *font, string Msg, string MsgWithValeur, float Valeur, int x, int y, int r, int g, int b)
 {
 
+    // return;
     SDL_Color color = {r, g, b};
     const char *text = Msg.c_str();
 
@@ -58,43 +59,49 @@ void GameGraphique::AfficherTexte(TTF_Font *font, string Msg, string MsgWithVale
 }
 
 // Initialise SDL TTF FONT Window Render + Elements du jeu (Image...)
-void GameGraphique::afficherInit()
-{
+void GameGraphique::afficherInit() {
 
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cout << "Erreur lors de l'initialisation de la SDL : " << SDL_GetError() << std::endl;
         SDL_Quit();
         exit(1);
     }
 
     window = SDL_CreateWindow("SUPER MEGA ULTRA GIGA AWESOME AND SO COOOOL RANDOMLY GENERATED GAME NAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, DimWindowX, DimWindowY, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-    if (window == NULL)
-    {
+    if (window == NULL) {
         std::cout << "Erreur lors de la creation de la fenetre : " << SDL_GetError() << std::endl;
         SDL_Quit();
         exit(1);
     }
 
-    if (TTF_Init() < 0)
-    {
+    if (TTF_Init() < 0) {
         cout << "Erreur lors de l'initialisation de TTF" << TTF_GetError() << endl;
         SDL_Quit();
         exit(1);
     }
 
     // FONTS
-    font = TTF_OpenFont("img/arial.ttf", 24);
-    if (font == nullptr)
-        font = TTF_OpenFont("img/arial.ttf", 24);
-    if (font == nullptr)
-    {
-        cout << "Failed to load img/Arial.ttf SDL_TTF Error: " << TTF_GetError() << endl;
+    font_default = TTF_OpenFont("img/arial.ttf", 24);
+    font_vie = TTF_OpenFont("img/arial.ttf", 10);
+    font_infos = TTF_OpenFont("img/arial.ttf", 20);
+
+    if (font_default == nullptr) {
+        cout << "Failed to load img/Arial.ttf in 24 SDL_TTF Error: " << TTF_GetError() << endl;
         SDL_Quit();
         exit(1);
     }
-    font_vie = TTF_OpenFont("img/arial.ttf", 10);
-    font_infos = TTF_OpenFont("img/arial.ttf", 20);
+
+    if (font_vie == nullptr) {
+        cout << "Failed to load img/Arial.ttf in 10 SDL_TTF Error: " << TTF_GetError() << endl;
+        SDL_Quit();
+        exit(1);
+    }
+
+    if (font_infos == nullptr) {
+        cout << "Failed to load img/Arial.ttf in 20 SDL_TTF Error: " << TTF_GetError() << endl;
+        SDL_Quit();
+        exit(1);
+    }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
@@ -210,7 +217,7 @@ void GameGraphique::AffichagePateau()
     // affichage de la money
     im_Money.draw(renderer, 50, 50, 50, 50);
 
-    AfficherTexte(font, "", "", game.joueur.money, 120, 60, 125, 125, 0);
+    AfficherTexte(font_default, "", "", game.joueur.money, 120, 60, 125, 125, 0);
 
 
     // Gère le système d'affichage de vie
@@ -414,7 +421,7 @@ void GameGraphique::afficher()
             continue;
 
         game.reset();
-        lancervague=false;
+        lancervague=0;
         // Le jeu
         fenetreOuverte = afficherGame();
         if (!fenetreOuverte)
@@ -444,16 +451,16 @@ bool GameGraphique::afficherMenu()
         // SDL_RenderDrawLine(renderer, 0, 400, 1000, 400);
 
         im_MenuGreenButton.draw(renderer, 400, 375, 200, 50);
-        AfficherTexte(font, "Jouer", "", 0, 468, 385, 0, 0, 0);
+        AfficherTexte(font_default, "Jouer", "", 0, 468, 385, 0, 0, 0);
 
         im_MenuGreenButton.draw(renderer, 400, 460, 200, 50);
-        AfficherTexte(font, "Regles", "", 0, 462, 470, 0, 0, 0);
+        AfficherTexte(font_default, "Regles", "", 0, 462, 470, 0, 0, 0);
 
         im_MenuOrangeButton.draw(renderer, 400, 545, 200, 50);
-        AfficherTexte(font, "Quitter le jeu", "", 0, 430, 555, 0, 0, 0);
+        AfficherTexte(font_default, "Quitter le jeu", "", 0, 430, 555, 0, 0, 0);
 
         im_MenuOrangeButton.draw(renderer, 775, 725, 200, 50);
-        AfficherTexte(font, "Scores", "", 0, 840, 735, 0, 0, 0);
+        AfficherTexte(font_default, "Scores", "", 0, 840, 735, 0, 0, 0);
 
         while (SDL_PollEvent(&events))
         {
@@ -551,12 +558,12 @@ void GameGraphique::AfficherLesScores()
     im_HighScores.draw(renderer, 200, 150, 600, 500);
     im_Cross.draw(renderer, 740, 190, 20, 20);
 
-    AfficherTexte(font, "Player", "", 0, 250, 250, 0, 0, 0);
-    AfficherTexte(font, "Score", "", 0, 450, 250, 0, 0, 0);
+    AfficherTexte(font_default, "Player", "", 0, 250, 250, 0, 0, 0);
+    AfficherTexte(font_default, "Score", "", 0, 450, 250, 0, 0, 0);
     for (int i = 0; i < 10; i++)
     {
-        AfficherTexte(font, game.scores[i][0], "", 0, 250, 280 + i * 30, 0, 0, 0);
-        AfficherTexte(font, game.scores[i][1], "",  0, 450, 280 + i * 30, 0, 0, 0);
+        AfficherTexte(font_default, game.scores[i][0], "", 0, 250, 280 + i * 30, 0, 0, 0);
+        AfficherTexte(font_default, game.scores[i][1], "",  0, 450, 280 + i * 30, 0, 0, 0);
     }
 
 }
@@ -579,10 +586,10 @@ bool GameGraphique::afficherGameOver()
         im_GameOver.draw(renderer, 100, 250, 800, 100);
 
         im_MenuGreenButton.draw(renderer, 400, 450, 200, 50);
-        AfficherTexte(font, "Retour au menu", "", 0, 416, 459, 0, 0, 0);
+        AfficherTexte(font_default, "Retour au menu", "", 0, 416, 459, 0, 0, 0);
 
         im_MenuOrangeButton.draw(renderer, 400, 550, 200, 50);
-        AfficherTexte(font, "Quitter le jeu", "", 0, 430, 559, 0, 0, 0);
+        AfficherTexte(font_default, "Quitter le jeu", "", 0, 430, 559, 0, 0, 0);
 
         while (SDL_PollEvent(&events))
         {
@@ -663,7 +670,7 @@ bool GameGraphique::afficherGame()
         //===============Afficher le temps===================================================
 
         game.temps = ((SDL_GetTicks() - beginTick) / 1000.f); // récup le temps toute les secondes
-        AfficherTexte(font, "", "", game.temps, 900, 60, 0, 0, 0);
+        AfficherTexte(font_default, "", "", game.temps, 900, 60, 0, 0, 0);
 
         AffichagePateau();
         SDL_RenderDrawLine(renderer, 0, 400, 1000, 400);
@@ -813,16 +820,21 @@ bool GameGraphique::afficherGame()
                     {
                         if (xMouse > ParamInitPlay[0] && xMouse < ParamInitPlay[0] + ParamInitPlay[2] && yMouse > ParamInitPlay[1] && yMouse < ParamInitPlay[1] + ParamInitPlay[3])
                         {
-                            lancervague = true;
+                            lancervague = -1;
                         }
                     }
                 }
             }
         }
         //===============================Lance la vague de monstres==========================================
-        if (lancervague == true)
+        if (lancervague)
         { // Lancer vague de monstres
             lancervague = game.playTurn();
+            cout << lancervague << endl;
+            if (lancervague > 0) {
+                // ici on lance un son de kill monstre
+                cout << "lancer son" << endl;
+            }
         }
 
         //======================Affichage des Menus / Texte / Elements d'infos (MouseHover + RangeCircle)============================================

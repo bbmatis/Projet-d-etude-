@@ -293,7 +293,8 @@ bool Game::updateDistances() {
 
 
 // Joue un tour de jeu
-bool Game::playTurn() {
+int Game::playTurn() {
+    int nbMonstresTuesTurn = 0;
     int tailleCase = 1;
     int largeurMax = LARGEUR;
     int facteurFrames = 1;
@@ -391,6 +392,7 @@ bool Game::playTurn() {
         if (monstres[a].getHp() <= 0) {
             // On le supprime si c'est le cas
             monstres.erase(monstres.begin()+a);
+            nbMonstresTuesTurn++;
             // Et ajoute le score suivant le type de monstre
             int score = 0;
             switch (monstres[a].getType()) {
@@ -415,6 +417,7 @@ bool Game::playTurn() {
         if (monstres[a].getPosition().x >= largeurMax) {
             // On le supprime si c'est le cas
             monstres.erase(monstres.begin()+a);
+            nbMonstresTuesTurn++;
             // Et on enlève une vie au joueur
             joueur.setNbVies(joueur.getNbVies() - 1);
         }
@@ -427,10 +430,13 @@ bool Game::playTurn() {
     if(monstres.size() == 0) {
         vague++;
         InitVagueMonstre();    //Recréer une nouvelle vague de monstre
-        return false;
+        return 0;
     }
 
-    return true;
+    if (nbMonstresTuesTurn > 0) {
+        return nbMonstresTuesTurn;
+    }
+    return -1;
 } 
 
 // Game over

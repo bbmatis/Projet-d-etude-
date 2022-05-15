@@ -27,7 +27,7 @@ class GameGraphique {
         SDL_Window * window; // Fenêtre SDL
         SDL_Renderer * renderer; // Renderer SDL
         
-        TTF_Font * font;
+        TTF_Font * font_default;
         TTF_Font * font_vie;
         TTF_Font * font_infos;
         SDL_Color Couleur_Texte; 
@@ -37,7 +37,7 @@ class GameGraphique {
         int retour;
         bool choix;
         bool AfficherInfosSansMenus =true;
-        bool lancervague=false;
+        int lancervague=0;
         bool AfficherMenuChoixShopBool=false;
         bool AfficherMenuChoixBuyDefBool=false;
         bool AfficherMenuChoixUpgSellBool=false;
@@ -98,7 +98,7 @@ class GameGraphique {
         Image im_HighScores;
         Image im_GameOver;
 
-        Mix_Chunk *son;//Créer un pointeur pour stocker un .WAV
+        //Mix_Chunk *son;//Créer un pointeur pour stocker un .WAV
 
 
     public:

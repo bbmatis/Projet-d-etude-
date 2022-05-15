@@ -6,5 +6,5 @@ Test;510
 Matis;500
 Ben;400
 Ju;100
-Jul;90
-Lol;10
+;
+;

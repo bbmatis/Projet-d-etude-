@@ -6,7 +6,6 @@ Joueur::Joueur() {
     nbVies = 3;
     money = 500;
     score = 0;
-    nom = "Player";
 }
 
 // Destructeur

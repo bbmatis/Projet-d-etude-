@@ -129,8 +129,8 @@ class Game {
         unsigned int getCaseDistance(unsigned int position, unsigned int tmpDistances[]);
 
         //! \brief Joue un tour de jeu
-        //! \return true si il reste des monstres à tuer, false sinon
-        bool playTurn();
+        //! \return 0 si fin de vague, -1 si la vague continue mais qu'aucun monstres n'as été tués et sinon le nombre de monstres tués sur le tour.
+        int playTurn();
 
         //! \brief Determine si on as fait un game over
         //! \return true si on a fait un game over, false sinon
