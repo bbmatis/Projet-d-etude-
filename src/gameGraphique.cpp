@@ -112,7 +112,7 @@ void GameGraphique::afficherInit() {
     
     
     Mix_AllocateChannels(2);//Pour jouer 2 sons en même temps -> 2 cannaux de sons
-    SonMonstreTue = Mix_LoadWAV("Son/ChewBaca.wav"); //Charger un wav dans un pointeur
+    SonMonstreTue = Mix_LoadWAV("Son/classic_hurt.wav"); //Charger un wav dans un pointeur
     
 
     im_plateauFond.loadFromFile("img/PlateauFond_old.png", renderer);
@@ -836,7 +836,7 @@ bool GameGraphique::afficherGame()
         if (lancervague)
         { // Lancer vague de monstres
             lancervague = game.playTurn();
-            if (lancervague > 0) {
+            if (lancervague != -1) {
                 // ici on lance un son de kill monstre
                 Mix_PlayChannel(1, SonMonstreTue ,0);
             }
