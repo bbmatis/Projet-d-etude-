@@ -113,6 +113,13 @@ void GameGraphique::afficherInit() {
     
     Mix_AllocateChannels(2);//Pour jouer 2 sons en même temps -> 2 cannaux de sons
     SonMonstreTue = Mix_LoadWAV("Son/classic_hurt.wav"); //Charger un wav dans un pointeur
+
+    //======================ARevoirAvecProf=============================================
+    //prob limite taille fichier ??? jsp
+    MusiqueFondMenu = Mix_LoadMUS("Son/Main_Theme.mp3"); //Chargement de la musique
+    if(MusiqueFondMenu == NULL) cout<< Mix_GetError()<<endl;
+    
+    
     
 
     im_plateauFond.loadFromFile("img/PlateauFond_old.png", renderer);
@@ -443,10 +450,12 @@ bool GameGraphique::afficherMenu()
     bool AfficheRectangleHoverButton = false;
     int xMouse, yMouse;
     int posx, posy; // pour le rect hover
+    Mix_PlayMusic(MusiqueFondMenu, -1); //Jouer infiniment la musique */
     SDL_Event events;
 
     while (displayMenu)
     {
+        
         im_FondMenu.draw(renderer, 0, 0, DimWindowX, DimWindowY);
         im_Menu.draw(renderer, 250, 20, 500, 700);
         // SDL_RenderDrawLine(renderer, 500, 0, 500, 800);
@@ -507,7 +516,7 @@ bool GameGraphique::afficherMenu()
                 {
                     if (xMouse > 400 && yMouse > 375 && xMouse < 600 && yMouse < 425)
                     {
-
+                        Mix_HaltMusic();
                         return true;
                         cout << "Lance le jeu" << endl;
                     }
