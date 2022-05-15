@@ -585,8 +585,12 @@ bool GameGraphique::afficherGameOver()
         SDL_RenderFillRect(renderer, &rect);
         im_GameOver.draw(renderer, 100, 250, 800, 100);
 
+        AfficherTexte(font_default, "Votre score est de : ", "", 0, 390, 375, 0, 0, 0);
+        AfficherTexte(font_default, "", "", game.joueur.getScore(), 605, 375, 0, 0, 0);
+
         im_MenuGreenButton.draw(renderer, 400, 450, 200, 50);
         AfficherTexte(font_default, "Retour au menu", "", 0, 416, 459, 0, 0, 0);
+
 
         im_MenuOrangeButton.draw(renderer, 400, 550, 200, 50);
         AfficherTexte(font_default, "Quitter le jeu", "", 0, 430, 559, 0, 0, 0);

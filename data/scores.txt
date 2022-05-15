@@ -2,9 +2,9 @@ Test;1500
 Test;1000
 NIC;600
 Julien;540
+Player;250
+Player;250
+Player;230
+Player;230
 Player;220
 Player;200
-Player;40
-Player;20
-Player;20
-Player;20
