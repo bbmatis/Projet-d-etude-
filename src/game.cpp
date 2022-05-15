@@ -449,7 +449,7 @@ void Game::recupScoreFromFile() {
     int i = 0;
     ifstream fichier("data/scores.txt", ios::in);
     if(fichier) {
-        while(getline(fichier, scores[i][0], ';') && getline(fichier, scores[i][1])) {
+        while(getline(fichier, scores[i][0], ';') && getline(fichier, scores[i][1]) && i < 9) {
             i++;
         }
         fichier.close();
@@ -471,13 +471,17 @@ void Game::enregistreScore() {
             scores[i][1] = to_string(joueur.getScore());
             break;
         }
+
     }
 
     // On enregistre les scores dans le fichier
     ofstream fichier("data/scores.txt", ios::out | ios::trunc);
     if(fichier) {
         for (int i = 0; i < 10; i++) {
-            fichier << scores[i][0] << ";" << scores[i][1] << endl;
+            if (scores[i][0] != "") {
+                fichier << scores[i][0] << ";" << scores[i][1];
+                if (i < 9) fichier << endl;
+            }
         }
         fichier.close();
     }

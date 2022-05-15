@@ -830,7 +830,6 @@ bool GameGraphique::afficherGame()
         if (lancervague)
         { // Lancer vague de monstres
             lancervague = game.playTurn();
-            cout << lancervague << endl;
             if (lancervague > 0) {
                 // ici on lance un son de kill monstre
                 cout << "lancer son" << endl;

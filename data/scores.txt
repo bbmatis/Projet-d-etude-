@@ -2,9 +2,9 @@ Test;1500
 Test;1000
 NIC;600
 Julien;540
-Test;510
-Matis;500
-Ben;400
-Ju;100
-;
-;
+Player;220
+Player;200
+Player;40
+Player;20
+Player;20
+Player;20
