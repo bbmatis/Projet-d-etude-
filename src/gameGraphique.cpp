@@ -53,6 +53,7 @@ void GameGraphique::AfficherTexte(TTF_Font *font, string Msg, string MsgWithVale
     SDL_QueryTexture(texture, NULL, NULL, &w, &h);
     SDL_Rect dstrect = {x, y, w, h};
     SDL_RenderCopy(renderer, texture, NULL, &dstrect);
+    SDL_CloseAudio();
 
     SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
@@ -105,13 +106,14 @@ void GameGraphique::afficherInit() {
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    // if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) { //Initialisation de l'API Mixer
-    //     printf("%s", Mix_GetError());
-    // }
-
-    // Mix_AllocateChannels(10);//Pour jouer 10 sons en même temps -> 10 cannaux de sons
-    // son = Mix_LoadWAV("son.wav"); //Charger un wav dans un pointeur
-    // Mix_VolumeChunk(son, MIX_MAX_VOLUME/2); //Mettre un volume pour ce wav
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) { //Initialisation de l'API Mixer
+        printf("%s", Mix_GetError());
+    }
+    
+    
+    Mix_AllocateChannels(2);//Pour jouer 2 sons en même temps -> 2 cannaux de sons
+    SonMonstreTue = Mix_LoadWAV("Son/ChewBaca.wav"); //Charger un wav dans un pointeur
+    
 
     im_plateauFond.loadFromFile("img/PlateauFond_old.png", renderer);
     im_monstre1.loadFromFile("img/Squelette.png", renderer);
@@ -836,7 +838,7 @@ bool GameGraphique::afficherGame()
             lancervague = game.playTurn();
             if (lancervague > 0) {
                 // ici on lance un son de kill monstre
-                cout << "lancer son" << endl;
+                Mix_PlayChannel(1, SonMonstreTue ,0);
             }
         }
 

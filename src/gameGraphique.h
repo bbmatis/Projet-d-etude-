@@ -97,8 +97,9 @@ class GameGraphique {
         Image im_MenuOrangeButton;
         Image im_HighScores;
         Image im_GameOver;
-
-        //Mix_Chunk *son;//Créer un pointeur pour stocker un .WAV
+        
+        Mix_Chunk *SonMonstreTue;//Creation d'un pointeur pour stocker un .WAV
+        Mix_Music *MusiqueFondMenu;//Création du pointeur de type Mix_Music
 
 
     public:

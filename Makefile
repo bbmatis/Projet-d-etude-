@@ -1,4 +1,4 @@
-SDL2=`sdl2-config --cflags --libs` -lSDL2 -lSDL2_image -lSDL2_ttf
+SDL2=`sdl2-config --cflags --libs` -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 CC=g++ -g -Wall
 
 all: bin/main
