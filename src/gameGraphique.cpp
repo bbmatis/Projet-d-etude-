@@ -455,9 +455,12 @@ bool GameGraphique::afficherMenu()
         im_MenuOrangeButton.draw(renderer, 775, 725, 200, 50);
         AfficherTexte(font_default, "Scores", "", 0, 840, 735, 0, 0, 0);
 
-        if(InputText.length() > 1 && AfficheName == false) //Detection Erreur -> Empeche le joueur d'appuyer sur Jouer tant quil n'a pas rentre de nom
+        if(InputText.length() > 0) //Detection Erreur -> Empeche le joueur d'appuyer sur Jouer tant quil n'a pas rentre de nom
         {
+            game.joueur.setNom(InputText);
             CanPlay = true;
+        }else {
+            CanPlay = false;
         }
 
         while (SDL_PollEvent(&events))
@@ -477,7 +480,7 @@ bool GameGraphique::afficherMenu()
                     AfficheName = false;
                     SDL_StopTextInput(); //Arrete l'ecriture
                 }
-                if(InputText.length() > 11) //Limite la saisie a 15 caracteres
+                if(InputText.length() > 14) //Limite la saisie a 15 caracteres
                 {
                     InputText.pop_back();
                 }
