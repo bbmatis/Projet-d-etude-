@@ -2,7 +2,6 @@
 #define GAMEGRAPHIQUE_H
 
 #include "game.h"
-#include "Menu.h"
 #include "Image.h"
 
 #include <stdlib.h>
@@ -21,7 +20,6 @@ class GameGraphique {
 
     private: 
         Game game;
-        Menu menu;
         Joueur joueur;
         unsigned int dimx, dimy; // Dimentions X et Y de l'image
         SDL_Window * window; // Fenêtre SDL

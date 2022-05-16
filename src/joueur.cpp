@@ -1,5 +1,4 @@
 #include "joueur.h"
-#include <time.h>
 
 // Constructeur
 Joueur::Joueur() {

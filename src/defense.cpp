@@ -1,5 +1,4 @@
 #include "defense.h"
-#include "monstre.h"
 
 Defense::Defense(typeDef typeDef) {
     type = typeDef;

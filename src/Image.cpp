@@ -50,15 +50,6 @@ void Image::loadFromFile (const char* filename, SDL_Renderer * renderer) {
     }
 }
 
-void Image::loadFromCurrentSurface (SDL_Renderer * renderer) {
-    m_texture = SDL_CreateTextureFromSurface(renderer,m_surface);
-    if (m_texture == nullptr) {
-        cout << "Error: problem to create the texture from surface " << endl;
-        SDL_Quit();
-        exit(1);
-    }
-}
-
 void Image::draw (SDL_Renderer * renderer, int x, int y, int w, int h) {
     int ok;
     SDL_Rect r;
@@ -76,7 +67,3 @@ void Image::draw (SDL_Renderer * renderer, int x, int y, int w, int h) {
     ok = SDL_RenderCopy(renderer,m_texture,nullptr,&r);
     assert(ok == 0);
 }
-
-SDL_Texture * Image::getTexture() const {return m_texture;}
-
-void Image::setSurface(SDL_Surface * surf) {m_surface = surf;}

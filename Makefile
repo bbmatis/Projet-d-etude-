@@ -3,8 +3,8 @@ CC=g++ -g -Wall
 
 all: bin/main
 
-bin/main : obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/gameGraphique.o obj/Image.o obj/Menu.o
-	$(CC) obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/gameGraphique.o obj/vecteur2D.o obj/Image.o obj/Menu.o -o bin/test $(SDL2)
+bin/main : obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/gameGraphique.o obj/vecteur2D.o obj/Image.o
+	$(CC) obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/gameGraphique.o obj/vecteur2D.o obj/Image.o -o bin/test $(SDL2)
 
 obj/main.o : src/main.cpp
 	$(CC) -c src/main.cpp -o obj/main.o $(SDL2)
@@ -32,9 +32,6 @@ obj/vecteur2D.o : src/vecteur2D.cpp src/vecteur2D.h
 
 obj/Image.o : src/Image.cpp src/Image.h
 	$(CC) -c src/Image.cpp -o obj/Image.o $(SDL2)
-
-obj/Menu.o : src/Menu.cpp src/Menu.h
-	$(CC) -c src/Menu.cpp -o obj/Menu.o $(SDL2)	
 
 clean : 
 	rm obj/*.o
