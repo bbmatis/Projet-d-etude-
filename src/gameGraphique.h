@@ -51,6 +51,8 @@ class GameGraphique {
         int PosYRectHover;
         int xMouse, yMouse;
         int RangeDefSelected;
+        bool AfficheName = true; //On l'initialise ici pour que le nom ne change pas tant que la fen n'est pas quitte
+
         const int tailleCase = 37;
 
 

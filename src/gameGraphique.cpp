@@ -225,8 +225,10 @@ void GameGraphique::AffichagePateau()
 
     // affichage de la money
     im_Money.draw(renderer, 50, 50, 50, 50);
-
     AfficherTexte(font_default, "", "", game.joueur.money, 120, 60, 125, 125, 0);
+
+    //Affichage nom du joueur
+    AfficherTexte(font_default, game.joueur.getNom(), "", 0, 500-(game.joueur.getNom().length()*12)/2, 10, 0, 0, 0);
 
 
     // Gère le système d'affichage de vie
@@ -446,16 +448,16 @@ void GameGraphique::afficher()
 bool GameGraphique::afficherMenu()
 {
     bool displayMenu = true;
+    string InputText = " ";
     bool displayScores = false;
     bool AfficheRectangleHoverButton = false;
     int xMouse, yMouse;
     int posx, posy; // pour le rect hover
     Mix_PlayMusic(MusiqueFondMenu, -1); //Jouer infiniment la musique */
     SDL_Event events;
-
+    SDL_StartTextInput();
     while (displayMenu)
     {
-        
         im_FondMenu.draw(renderer, 0, 0, DimWindowX, DimWindowY);
         im_Menu.draw(renderer, 250, 20, 500, 700);
         // SDL_RenderDrawLine(renderer, 500, 0, 500, 800);
@@ -473,10 +475,35 @@ bool GameGraphique::afficherMenu()
         im_MenuOrangeButton.draw(renderer, 775, 725, 200, 50);
         AfficherTexte(font_default, "Scores", "", 0, 840, 735, 0, 0, 0);
 
+        
+
         while (SDL_PollEvent(&events))
         {
             if (events.type == SDL_QUIT)
                 return false;
+
+            if(events.type == SDL_KEYDOWN)
+            {
+                if(events.key.keysym.sym == SDLK_BACKSPACE && InputText.length() > 0)
+                {
+                    InputText.pop_back(); 
+                  
+                }
+                else if(events.key.keysym.sym == SDLK_RETURN){
+                    game.joueur.setNom(InputText); //Applique le texte au nom
+                    AfficheName = false;
+                    SDL_StopTextInput(); //Arrete l'ecriture
+                }
+                if(InputText.length() > 11) //Limite la saisie a 15 caracteres
+                {
+                    InputText.pop_back();
+                }
+            }
+            if( events.type == SDL_TEXTINPUT )
+            {
+                //Append character
+                InputText += events.text.text;
+            }
 
             SDL_GetMouseState(&xMouse, &yMouse);
             if (events.type == SDL_MOUSEMOTION && displayScores==false)
@@ -516,23 +543,23 @@ bool GameGraphique::afficherMenu()
                 {
                     if (xMouse > 400 && yMouse > 375 && xMouse < 600 && yMouse < 425)
                     {
-                        Mix_HaltMusic();
+                        Mix_HaltMusic(); //Arrête la musique 
                         return true;
-                        cout << "Lance le jeu" << endl;
+                        //cout << "Lance le jeu" << endl;
                     }
                     if (xMouse > 400 && yMouse > 460 && xMouse < 600 && yMouse < 510)
                     {
 
-                        cout << "Ouvre les regles" << endl;
+                        //cout << "Ouvre les regles" << endl;
                     }
                     if (xMouse > 400 && yMouse > 545 && xMouse < 600 && yMouse < 595)
                     {
-                        cout << "Quitte le jeu" << endl;
+                        //cout << "Quitte le jeu" << endl;
                         return false;
                     }
                     if (xMouse > 775 && yMouse > 725 && xMouse < 975 && yMouse < 775)
                     {
-                        cout << "Afficher Tab Scores" << endl;
+                        //cout << "Afficher Tab Scores" << endl;
                         displayScores = true;
                     }
                 }
@@ -555,7 +582,18 @@ bool GameGraphique::afficherMenu()
             SDL_Rect RectHoverButton = {posx, posy, 200, 50};
             SDL_RenderFillRect(renderer, &RectHoverButton);
         }
-
+        if (AfficheName == true)
+        {
+            AfficherTexte(font_infos, "Entrez votre nom : ", "", 0, 415, 725, 0, 0, 0);
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 120);
+            SDL_Rect RectInput = {350, 750, 300, 30};
+            SDL_RenderFillRect(renderer, &RectInput);
+            AfficherTexte(font_default, InputText, "", 0, 360, 750, 0, 0, 0);
+        }
+        else {
+            AfficherTexte(font_default, game.joueur.getNom(), "", 0, 500-(game.joueur.getNom().length()*12)/2, 750, 0, 0, 0);
+        }
+        
         SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);
