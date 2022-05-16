@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['scores_90',['Scores',['../structScores.html',1,'']]]
+  ['vecteur2d_88',['Vecteur2D',['../classVecteur2D.html',1,'']]]
 ];
