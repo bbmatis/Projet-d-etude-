@@ -1,0 +1,4 @@
+<map id="GameGraphique::AfficherShopInfoDefense" name="GameGraphique::AfficherShopInfoDefense">
+<area shape="rect" id="node1" title="Affiche les infos d&#39;une défense en texte en fonction du type de def &#45;&gt; shop buy." alt="" coords="5,5,224,47"/>
+<area shape="rect" id="node2" href="$classGameGraphique.html#a8521759581d852de153e898719d73ecb" title="Afficher du texte sur la fenêtre." alt="" coords="272,13,493,39"/>
+</map>

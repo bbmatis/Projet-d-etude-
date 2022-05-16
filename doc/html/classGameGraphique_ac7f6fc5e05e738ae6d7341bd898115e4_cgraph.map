@@ -1,0 +1,7 @@
+<map id="GameGraphique::afficherGameOver" name="GameGraphique::afficherGameOver">
+<area shape="rect" id="node1" title="Afficher le paneau de game over." alt="" coords="5,60,260,87"/>
+<area shape="rect" id="node2" href="$classGameGraphique.html#aa618f7700023ae40326b7ffa108f5a2f" title="Iinitialise l&#39;affichage du plateau de def." alt="" coords="308,53,505,94"/>
+<area shape="rect" id="node3" href="$classGameGraphique.html#a8521759581d852de153e898719d73ecb" title="Afficher du texte sur la fenêtre." alt="" coords="553,5,775,32"/>
+<area shape="rect" id="node5" href="$classJoueur.html#adf4397ffb7fcc340c2d2cc6c45edc8e2" title="Obtenir le score du joueur." alt="" coords="343,119,471,145"/>
+<area shape="rect" id="node4" href="$classJoueur.html#a5da29d6e10ad45d22cd35e7f80f463e5" title="Obtenir le nombre de vies du joueur." alt="" coords="595,60,733,87"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Game::buyDefense" name="Game::buyDefense">
+<area shape="rect" id="node1" title="Permet de placer une défense sur le plateau de jeu. Retourne 0 si la défense a été placée avec succès..." alt="" coords="511,5,657,32"/>
+<area shape="rect" id="node2" href="$classGameGraphique.html#acda6a4861814b05066bf705ce401fb10" title="Afficher le jeu." alt="" coords="239,5,463,32"/>
+<area shape="rect" id="node3" href="$classGameGraphique.html#a0e528e891f61242c0e51ad5c5300adba" title="Afficher le jeu dans une fenêtre SDL2." alt="" coords="5,5,191,32"/>
+</map>
