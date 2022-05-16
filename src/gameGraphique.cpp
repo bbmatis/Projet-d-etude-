@@ -148,6 +148,10 @@ void GameGraphique::afficherInit() {
     im_MenuOrangeButton.loadFromFile("img/BoutonOrangeMenu.png", renderer);
     im_HighScores.loadFromFile("img/HighScores.png", renderer);
     im_GameOver.loadFromFile("img/GameOver.png", renderer);
+    im_rules1.loadFromFile("img/Regle1.png", renderer);
+    im_rules2.loadFromFile("img/Regle2.png", renderer);
+    im_RightArrow.loadFromFile("img/FlecheD.png", renderer);
+    im_LeftArrow.loadFromFile("img/FlecheG.png", renderer);
 
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);
@@ -425,10 +429,12 @@ void GameGraphique::afficher()
 bool GameGraphique::afficherMenu()
 {
     bool displayMenu = true;
-    string InputText = game.joueur.getNom();
+    string InputText = "";
     bool displayScores = false;
+    int pageRules;
     bool AfficheRectangleHoverButton = false;
     bool CanPlay = false;
+    bool displayRules = false;
     bool AfficheErreurMenu=false;
     int tempsAffiche;
     int xMouse, yMouse;
@@ -492,7 +498,7 @@ bool GameGraphique::afficherMenu()
             }
 
             SDL_GetMouseState(&xMouse, &yMouse);
-            if (events.type == SDL_MOUSEMOTION && displayScores==false)
+            if (events.type == SDL_MOUSEMOTION && displayScores==false && displayRules == false)
             {
                 if (xMouse > 400 && yMouse > 375 && xMouse < 600 && yMouse < 425)
                 {
@@ -525,7 +531,7 @@ bool GameGraphique::afficherMenu()
             if (events.type == SDL_MOUSEBUTTONDOWN)
             {
 
-                if (displayScores == false)
+                if (displayScores == false && displayRules == false)
                 {
                     if (xMouse > 400 && yMouse > 375 && xMouse < 600 && yMouse < 425 && CanPlay == true)
                     {
@@ -540,7 +546,8 @@ bool GameGraphique::afficherMenu()
                     }
                     if (xMouse > 400 && yMouse > 460 && xMouse < 600 && yMouse < 510)
                     {
-
+                        displayRules = true;
+                        pageRules = 0;
                         //cout << "Ouvre les regles" << endl;
                     }
                     if (xMouse > 400 && yMouse > 545 && xMouse < 600 && yMouse < 595)
@@ -561,6 +568,22 @@ bool GameGraphique::afficherMenu()
                         displayScores = false;
                     }
                 }
+                if (displayRules)
+                {
+                    if (xMouse > 950 && yMouse > 20 && xMouse < 970 && yMouse < 40)
+                    {
+                        displayRules = false;
+                    }
+                    if (xMouse > 20 && yMouse > 750 && xMouse < 50 && yMouse < 780)
+                    {
+                        pageRules = 0;
+                    }
+                    if (xMouse > 950 && yMouse > 750 && xMouse < 980 && yMouse < 780)
+                    {
+                        pageRules = 1;
+                    }
+                    
+                }
             }
         }
         if (AfficheErreurMenu)
@@ -571,26 +594,80 @@ bool GameGraphique::afficherMenu()
                 AfficheErreurMenu = false;
             }
         }
+        if (displayRules)
+        {
+            SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);
+            SDL_Rect RectRules ={0, 0, 1000, 800};
+            SDL_RenderFillRect(renderer, &RectRules);
+
+            im_Cross.draw(renderer, 950, 20, 20, 20);
+            im_LeftArrow.draw(renderer, 20, 750, 30, 30);
+            im_RightArrow.draw(renderer, 950, 750, 30, 30);
+
+            if(pageRules == 0){
+
+                im_rules1.draw(renderer, 250, 50, 500, 350);
+                AfficherTexte(font_infos, "Il y'a 3 types de monstres avec differentes caracteristiques ( vitesse, nombre de hp ) : ", "", 0, 120, 430, 0, 0, 0);
+
+                im_monstre1.draw(renderer, 200, 500, 100, 100);
+                AfficherTexte(font_infos, "Vitesse : 1", "", 0, 200, 630, 0, 0, 0);
+                AfficherTexte(font_infos, "HP de base : 50", "", 0, 200, 680, 0, 0, 0);
+
+                im_monstre2.draw(renderer, 433, 500, 100, 100);
+                AfficherTexte(font_infos, "Vitesse : 1.2", "", 0, 433, 630, 0, 0, 0);
+                AfficherTexte(font_infos, "HP de base: 100", "", 0, 433, 680, 0, 0, 0);
+
+                im_monstre3.draw(renderer, 700, 500, 100, 100);
+                AfficherTexte(font_infos, "Vitesse : 0.9", "", 0, 700, 630, 0, 0, 0);
+                AfficherTexte(font_infos, "HP de base : 150", "", 0, 700, 680, 0, 0, 0);
+
+                AfficherTexte(font_infos, "Au fil de la partie les monstres deviennent de plus en plus fort alors prepare toi !", "", 0, 170, 750, 0, 0,0);
+            }
+            else if(pageRules == 1)
+            {
+                im_rules2.draw(renderer, 200, 50, 600, 450);
+
+                AfficherTexte(font_infos, "Il y'a 3 types de defense avec differentes caracteristiques ( vitesse d'attaque, dmg, portee ) : ", "", 0, 120, 500, 0, 0, 0);
+
+                im_defenseCANON.draw(renderer, 200, 550, 70, 70);
+                AfficherTexte(font_infos, "CANON", "", 0, 200,630, 0, 0, 0);
+                
+                im_defenseDOUBLECANON.draw(renderer, 465, 550, 70, 70);
+                AfficherTexte(font_infos, "DOUBLECANON", "", 0, 420,630, 0, 0, 0);
+            
+                im_defenseMORTIER.draw(renderer, 730, 550, 70, 70);
+                AfficherTexte(font_infos, "MORTIER", "", 0, 700,630, 0, 0, 0);
+
+                AfficherTexte(font_infos, "On pourra soit les :", "", 0, 450, 680, 0, 0, 0 );
+                im_Upgrade.draw(renderer, 300, 700, 50, 50);
+                AfficherTexte(font_infos, "Ameliorer", "", 0, 280, 760, 0, 0, 0);
+                im_Sell.draw(renderer, 700, 690, 60, 60);
+                AfficherTexte(font_infos, "Vendre", "", 0, 695, 760, 0, 0, 0);
+
+            }
+        }
         if (displayScores)
         {
             AfficherLesScores();
         }
-        if (AfficheRectangleHoverButton)
+        if (AfficheRectangleHoverButton && displayRules == false && displayScores == false)
         {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 80);
             SDL_Rect RectHoverButton = {posx, posy, 200, 50};
             SDL_RenderFillRect(renderer, &RectHoverButton);
         }
-        if (AfficheName == true)
+        if (AfficheName == true && displayRules == false)
         {
             AfficherTexte(font_infos, "Entrez votre nom : ", "", 0, 415, 725, 0, 0, 0);
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 120);
             SDL_Rect RectInput = {350, 750, 300, 30};
             SDL_RenderFillRect(renderer, &RectInput);
-            AfficherTexte(font_default, InputText, "", 0, 360, 750, 0, 0, 0);
+            if(InputText != "")
+                AfficherTexte(font_default, InputText, "", 0, 360, 750, 0, 0, 0);
         }
         else {
-            AfficherTexte(font_default, game.joueur.getNom(), "", 0, 500-(game.joueur.getNom().length()*12)/2, 750, 0, 0, 0);
+            if(displayRules == false && displayScores == false)
+                AfficherTexte(font_default, game.joueur.getNom(), "", 0, 500-(game.joueur.getNom().length()*12)/2, 750, 0, 0, 0);
         }
         
         SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);
