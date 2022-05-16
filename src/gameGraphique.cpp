@@ -369,29 +369,6 @@ void GameGraphique::AfficherMenuChoixUpgSell()
     AfficherTexte(font_infos, "Ameliorer la defense", "", 0, ParamInitUpgrade[0] + 70, ParamInitUpgrade[1] + 20, 0, 0, 0);
 }
 
-void GameGraphique::AfficherDefenseUpgrade(Defense defense)
-{
-    //============================A REFAIRE==================================
-
-    /*     int Y = 120;
-        int X = 40;
-        int Tcase = 37;
-        if(AfficherImageUpgrade == true) {
-            if(defense.getType() == CANON) {
-                //im_UpgradeCANON.draw(renderer,posX, posY, 35, 35);
-                AfficherTexte(font, "1","",0,5*Tcase+X+10,5*Tcase+Y+8,0,100,200);
-            }
-            if(defense.getType() == DOUBLECANON) {
-                //im_UpgradeDOUBLECANON.draw(renderer,posX, posY, 35, 35);
-                AfficherTexte(font, "1","",0,5*Tcase+X+10,5*Tcase+Y+8,0,0,255);
-            }
-            if(defense.getType() == MORTIER) {
-                //im_UpgradeMORTIER.draw(renderer,posX, posY, 35, 35);
-                AfficherTexte(font, "1","",0,5*Tcase+X+10,5*Tcase+Y+8,0,0,255);
-            }
-        } */
-}
-
 // Affiche les message d'erreur
 void GameGraphique::AfficherMessageErreur(int nbErr)
 {
@@ -451,6 +428,9 @@ bool GameGraphique::afficherMenu()
     string InputText = " ";
     bool displayScores = false;
     bool AfficheRectangleHoverButton = false;
+    bool CanPlay = false;
+    bool AfficheErreurMenu=false;
+    int tempsAffiche;
     int xMouse, yMouse;
     int posx, posy; // pour le rect hover
     Mix_PlayMusic(MusiqueFondMenu, -1); //Jouer infiniment la musique */
@@ -475,8 +455,11 @@ bool GameGraphique::afficherMenu()
         im_MenuOrangeButton.draw(renderer, 775, 725, 200, 50);
         AfficherTexte(font_default, "Scores", "", 0, 840, 735, 0, 0, 0);
 
+        if(InputText.length() > 1 && AfficheName == false) //Detection Erreur -> Empeche le joueur d'appuyer sur Jouer tant quil n'a pas rentre de nom
+        {
+            CanPlay = true;
+        }
         
-
         while (SDL_PollEvent(&events))
         {
             if (events.type == SDL_QUIT)
@@ -541,11 +524,16 @@ bool GameGraphique::afficherMenu()
 
                 if (displayScores == false)
                 {
-                    if (xMouse > 400 && yMouse > 375 && xMouse < 600 && yMouse < 425)
+                    if (xMouse > 400 && yMouse > 375 && xMouse < 600 && yMouse < 425 && CanPlay == true)
                     {
                         Mix_HaltMusic(); //Arrête la musique 
                         return true;
                         //cout << "Lance le jeu" << endl;
+                    }
+                    else if(xMouse > 400 && yMouse > 375 && xMouse < 600 && yMouse < 425 && CanPlay == false)
+                    {
+                        tempsAffiche = SDL_GetTicks() / 1000;
+                        AfficheErreurMenu = true;
                     }
                     if (xMouse > 400 && yMouse > 460 && xMouse < 600 && yMouse < 510)
                     {
@@ -570,6 +558,14 @@ bool GameGraphique::afficherMenu()
                         displayScores = false;
                     }
                 }
+            }
+        }
+        if (AfficheErreurMenu)
+        {
+            AfficherTexte(font_default, "Entrez un nom avant de pouvoir jouer ! ", "", 0, 300, 770, 255, 0, 0);
+            if (SDL_GetTicks() / 1000 - tempsAffiche == 3) // Attend 3s avant d'effacer le message d'erreur
+            {
+                AfficheErreurMenu = false;
             }
         }
         if (displayScores)
@@ -928,7 +924,6 @@ bool GameGraphique::afficherGame()
         {
             AfficherMenuChoixUpgSell();
             AfficherInfosDefenseSelected(game.defenses[CaseChoisie], CaseChoisie, DimWindowX / 2, 680, 100, 30);
-            AfficherDefenseUpgrade(game.defenses[CaseChoisie]);
         }
         SDL_RenderPresent(renderer);
         SDL_RenderClear(renderer);

@@ -20,7 +20,6 @@ class GameGraphique {
 
     private: 
         Game game;
-        Joueur joueur;
         unsigned int dimx, dimy; // Dimentions X et Y de l'image
         SDL_Window * window; // Fenêtre SDL
         SDL_Renderer * renderer; // Renderer SDL
@@ -62,7 +61,7 @@ class GameGraphique {
         int currenttime = 0;
         float deltatime = 0.f;
 
-        //On initalise des position et largeur prédefinie pour simplifier la gestion des menus
+        //On initalise des position et largeur prédefinie pour simplifier la gestion des menus dans le jeu 
         int ParamInitShop[4] = {DimWindowX/2-45, DimWindowY -95, 90, 60};
         int ParamInitUpgrade[4] = {DimWindowX/2+160, DimWindowY -100, 60, 60};
         int ParamInitPlay[4] = {DimWindowX/2-30, DimWindowY -90, 60, 60};
@@ -110,15 +109,8 @@ class GameGraphique {
         //! \brief Destructeur
         ~GameGraphique();
 
-        /*! \brief Obtient la dimention X de l'image
-         */
-        unsigned int getDimX();
-        
-        /*! \brief Obtient la dimention Y de l'image
-         */
-        unsigned int getDimY();
-
         //! \brief Afficher du texte sur la fenêtre
+        //! \param font Font utilisé pour le texte
         //! \param Msg Texte à afficher (si il n'y a pas de valeur à afficher, ex: "Hello") 
         //! \param MsgWithValeur Texte qui accompagne une valeur ex: "Damage : " + Valeur
         //! \param Valeur Valeur à afficher en Texte
@@ -160,9 +152,6 @@ class GameGraphique {
         
         //! \brief Affiche bouton play et infos jeu (vague, monstres tuées...)
         void AfficherInfosJeu();
-
-        //! \brief Affiche les images des defenses améliorées
-        void AfficherDefenseUpgrade(Defense defense); 
         
         //! \brief Affiche le menu pour les choix pour une case vide -> just shop
         void AfficherMenuChoixShop();

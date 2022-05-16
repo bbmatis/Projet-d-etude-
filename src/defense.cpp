@@ -2,7 +2,6 @@
 
 Defense::Defense(typeDef typeDef) {
     type = typeDef;
-    zoneDamage = false;
     level = 1;
     lastHit = 0;
     switch (type)
@@ -11,21 +10,18 @@ Defense::Defense(typeDef typeDef) {
             reloadTime = 0.5f;
             damage = 5;
             range = 3;
-            zoneDamage = false;
             prix = 50;
             break;
         case DOUBLECANON:
             reloadTime = 0.25f;
             damage = 10;
             range = 2;
-            zoneDamage = false;
             prix = 100;
             break;
         case MORTIER:
             reloadTime = 2.0f;
             damage = 25;
             range = 4;
-            zoneDamage = true;
             prix = 200;
             break;
         default:
@@ -35,7 +31,6 @@ Defense::Defense(typeDef typeDef) {
 
 Defense::Defense(){
     type = RIEN;
-    zoneDamage = false;
     level = 0;
     reloadTime = 0.0f;
     damage = 0;

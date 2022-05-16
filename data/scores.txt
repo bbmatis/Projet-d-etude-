@@ -7,4 +7,4 @@ Test;1500
 Test;1000
 NIC;600
 Julien;540
-aerzerzer;10
+ testi;40

@@ -23,7 +23,6 @@ Game::Game() {
 Game::~Game(){
     vector<Monstre>().swap(monstres);       //remplace le tableau de monstres par un tableau null
     vector<Defense>().swap(defenses);
-    vector<Projectile>().swap(projectiles);
 }
 
 // Initialiser le jeu
