@@ -28,10 +28,6 @@ class Defense {
         //! \fn Obtenir le prix de la défense
         unsigned int getPrix() const;
 
-        //! \fn Modifier le prix de la défense
-        //! \param newPrix Nouveau prix de la défense
-        void setPrix(unsigned int newPrix);
-
         //! \fn Obtenir les dégats que fait la defense
         unsigned int getDamage() const;
 

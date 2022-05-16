@@ -82,9 +82,9 @@ void GameGraphique::afficherInit() {
     }
 
     // FONTS
-    font_default = TTF_OpenFont("img/arial.ttf", 24);
-    font_vie = TTF_OpenFont("img/arial.ttf", 10);
-    font_infos = TTF_OpenFont("img/arial.ttf", 20);
+    font_default = TTF_OpenFont("font/arial.ttf", 24);
+    font_vie = TTF_OpenFont("font/arial.ttf", 10);
+    font_infos = TTF_OpenFont("font/arial.ttf", 20);
 
     if (font_default == nullptr) {
         cout << "Failed to load img/Arial.ttf in 24 SDL_TTF Error: " << TTF_GetError() << endl;
@@ -112,12 +112,13 @@ void GameGraphique::afficherInit() {
     
     
     Mix_AllocateChannels(2);//Pour jouer 2 sons en même temps -> 2 cannaux de sons
-    SonMonstreTue = Mix_LoadWAV("Son/classic_hurt.wav"); //Charger un wav dans un pointeur
+    SonMonstreTue = Mix_LoadWAV("son/classic_hurt.wav"); //Charger un wav dans un pointeur
 
     //======================ARevoirAvecProf=============================================
     //prob limite taille fichier ??? jsp
-    MusiqueFondMenu = Mix_LoadMUS("Son/Main_Theme.mp3"); //Chargement de la musique
+    MusiqueFondMenu = Mix_LoadMUS("son/Main_Theme.mp3"); //Chargement de la musique
     if(MusiqueFondMenu == NULL) cout<< Mix_GetError()<<endl;
+    Mix_VolumeMusic(MIX_MAX_VOLUME/2);
     
     
     
@@ -152,6 +153,8 @@ void GameGraphique::afficherInit() {
     im_rules2.loadFromFile("img/Regle2.png", renderer);
     im_RightArrow.loadFromFile("img/FlecheD.png", renderer);
     im_LeftArrow.loadFromFile("img/FlecheG.png", renderer);
+    im_SoundOn.loadFromFile("img/SoundOn.png", renderer);
+    im_SoundOff.loadFromFile("img/SoundOff.png", renderer);
 
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(renderer, 238, 230, 211, 255);
@@ -433,6 +436,7 @@ bool GameGraphique::afficherMenu()
     bool displayScores = false;
     int pageRules;
     bool AfficheRectangleHoverButton = false;
+    bool displaySound = true;
     bool CanPlay = false;
     bool displayRules = false;
     bool AfficheErreurMenu=false;
@@ -446,6 +450,7 @@ bool GameGraphique::afficherMenu()
     {
         im_FondMenu.draw(renderer, 0, 0, DimWindowX, DimWindowY);
         im_Menu.draw(renderer, 250, 20, 500, 700);
+        
         // SDL_RenderDrawLine(renderer, 500, 0, 500, 800);
         // SDL_RenderDrawLine(renderer, 0, 400, 1000, 400);
 
@@ -461,13 +466,7 @@ bool GameGraphique::afficherMenu()
         im_MenuOrangeButton.draw(renderer, 775, 725, 200, 50);
         AfficherTexte(font_default, "Scores", "", 0, 840, 735, 0, 0, 0);
 
-        if(InputText.length() > 0) //Detection Erreur -> Empeche le joueur d'appuyer sur Jouer tant quil n'a pas rentre de nom
-        {
-            game.joueur.setNom(InputText);
-            CanPlay = true;
-        }else {
-            CanPlay = false;
-        }
+    
 
         while (SDL_PollEvent(&events))
         {
@@ -483,6 +482,14 @@ bool GameGraphique::afficherMenu()
                 }
                 else if(events.key.keysym.sym == SDLK_RETURN){
                     game.joueur.setNom(InputText); //Applique le texte au nom
+                    cout<<InputText<<endl;
+                    if(InputText.length() > 0) //Detection Erreur -> Empeche le joueur d'appuyer sur Jouer tant quil n'a pas rentre de nom
+                    {
+                        game.joueur.setNom(InputText);
+                        CanPlay = true;
+                    }else {
+                        CanPlay = false;
+                    }
                     AfficheName = false;
                     SDL_StopTextInput(); //Arrete l'ecriture
                 }
@@ -560,6 +567,11 @@ bool GameGraphique::afficherMenu()
                         //cout << "Afficher Tab Scores" << endl;
                         displayScores = true;
                     }
+                    if (xMouse > 40 && yMouse > 760 && xMouse < 70 && yMouse < 790)
+                    {
+                        Mix_PauseMusic();
+                        displaySound = !displaySound;
+                    }
                 }
                 if (displayScores)
                 {
@@ -586,9 +598,18 @@ bool GameGraphique::afficherMenu()
                 }
             }
         }
+        if (displaySound)
+        {
+            Mix_ResumeMusic();
+            im_SoundOn.draw(renderer, 40, 760, 30, 30);
+        }
+        else if(displayRules == false)
+        {
+            im_SoundOff.draw(renderer, 40, 760, 30, 30);
+        }
         if (AfficheErreurMenu)
         {
-            AfficherTexte(font_default, "Entrez un nom avant de pouvoir jouer ! ", "", 0, 300, 770, 255, 0, 0);
+            AfficherTexte(font_infos, "Entrez un nom et valider avec >Entrer< avant de pouvoir jouer ! ", "", 0, 200, 775, 255, 0, 0);
             if (SDL_GetTicks() / 1000 - tempsAffiche == 3) // Attend 3s avant d'effacer le message d'erreur
             {
                 AfficheErreurMenu = false;

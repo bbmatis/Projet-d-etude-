@@ -100,6 +100,8 @@ class GameGraphique {
         Image im_rules2;
         Image im_RightArrow;
         Image im_LeftArrow;
+        Image im_SoundOn;
+        Image im_SoundOff;
         
         Mix_Chunk *SonMonstreTue;//Creation d'un pointeur pour stocker un .WAV
         Mix_Music *MusiqueFondMenu;//Création du pointeur de type Mix_Music
