@@ -45,7 +45,7 @@ GameTxt::GameTxt() {
 GameTxt::~GameTxt() {}
 
 // Afficher le jeu en mode textuel
-void GameTxt::afficher(){ //test voir le .h
+void GameTxt::afficherPlateau(){ //test voir le .h
     int posXMonstre = 0;
     int posYMonstre = 0;
     if (game.monstres.size() > 0){
@@ -84,26 +84,25 @@ void GameTxt::afficher(){ //test voir le .h
     cout<<"Score : "<<game.joueur.getScore()<<endl;
     cout<<"Vague : "<<game.vague<<endl;
     cout<<"NbVie : "<<red<<game.joueur.getNbVies()<<def<<endl;
-    
-    // On affiche un tableau avec les distances des cases par rapport a la sortie
-    // for(int i=0; i<HAUTEUR; i++) {
-    //     for(int j=0; j<LARGEUR; j++) {
-    //         int indice = j+i*LARGEUR;
-    //         if (game.distances[indice] < 100) cout<<" ";
-    //         if (game.distances[indice] < 10) cout<<" ";
-    //         // On affiche la distance de la case par rapport a la sortie
-    //         cout<<game.distances[indice]<<"|";
-    //     }
-    //     cout<<endl;
-    // }
-    
 }
 
 // Jouer le jeu en mode textuel
 void GameTxt::jouer() {
 
+    // On met a jours les scores 
+    game.recupScoreFromFile();
+
+    afficherMenu();
+
+    afficherTour();
+
+    afficherFin();
+
+}
+
+void GameTxt::afficherTour() {
     // On affiche le jeu plateau de jeu
-    afficher();
+    afficherPlateau();
 
     // Tant que le joueur a des vies
     while(game.joueur.getNbVies() > 0){ 
@@ -207,21 +206,82 @@ void GameTxt::jouer() {
                 while(vagueEnCours){   
                     vagueEnCours = game.playTurn();
 
-                    afficher(); //réaffiche le plateau pour voir les monstres avancer
+                    afficherPlateau(); //réaffiche le plateau pour voir les monstres avancer
                     this_thread::sleep_for(chrono::milliseconds(500)); //met le jeu en pause pdt 0.5 seconde pour mieux voir 
                 }
             
                 break;
 
         }
-        afficher(); // afficher le plateau de jeu
+        afficherPlateau(); // afficher le plateau de jeu
 
         cout<<endl;
     }
+    game.enregistreScore();
+}
 
-    cout<<red<<"Vous n'avez plus de vie, la partie est terminé"<<def<<endl;
-    
+// afficher fin
+void GameTxt::afficherFin() {
+    cout<<red<<"====================================="<<endl;
+    cout<<"Vous avez perdu !"<<endl;
+    cout<<"Vous n'avez plus de vie, la partie est terminé"<<endl;
+    cout<<"Vous avez survécu à "<<game.nbMonstreTues<<" Montres."<<endl;
     cout<<"Votre score est de : "<<game.joueur.getScore()<<endl;
-    cout<<"Vous avez tué : "<<game.nbMonstreTues<<endl;
+    cout<<"====================================="<<def<<endl;
+}
+
+// Afficher Menu 
+void GameTxt::afficherMenu() {
+
+    while (true) {
+        cout<<"====================================="<<endl;
+        cout<<"1 : Jouer"<<endl;
+        cout<<"2 : Voir les scores"<<endl;
+        cout<<"3 : Quitter"<<endl;
+        cout<<"4 : Choisir mon pseudo (Pseudo actuel : "<<game.joueur.getNom()<<")"<<endl;
+        cout<<"====================================="<<endl;
+
+        int choix;
+        cin >> choix;
+
+        switch(choix)
+        {
+            case 1 :
+                // On lance le jeu
+                return;
+                break;
+
+            case 2 :
+                // On affiche les scores
+                cout << "Tableau des scores : "<<endl;
+                for (int i = 0; i < 10; i++) {
+                    if (game.scores[i][1] == "") continue;
+                    cout << "#"<<i+1<<" "<<game.scores[i][0]<<" : "<<game.scores[i][1]<<endl;
+                }
+                break;
+
+            case 3 :
+                exit(0);
+                break;
+            case 4 : 
+                bool pseudoValide = false;
+                string pseudo;
+                cout<<"Choisir votre pseudo (max 15 carractères) : ";
+                cin>>pseudo;
+
+                while (!pseudoValide) {
+                    if (pseudo.length() > 15) cout<<red<<"Pseudo trop long !"<<def<<endl;
+                    else {
+                        pseudoValide = true;
+                        continue;
+                    }
+                    cout<<"Choisir votre pseudo (max 15 carractères) : ";
+                    cin>>pseudo;
+                }
+                game.joueur.setNom(pseudo);
+                
+                break;
+        }
+    }
 
 }

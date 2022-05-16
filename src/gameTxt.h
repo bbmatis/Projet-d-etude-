@@ -17,10 +17,19 @@ class GameTxt {
         ~GameTxt();
 
         //! \brief afficher le jeu en mode textuel
-        void afficher();
+        void afficherPlateau();
 
         //! \brief jouer le jeu en mode textuel
         void jouer();
+
+        //! \brief afficher un tour de jeu en mode textuel
+        void afficherTour();
+
+        //! \brief afficher le menu en mode textuel
+        void afficherMenu();
+
+        //! \brief afficher le menu de fin de partie en mode textuel
+        void afficherFin();
         
 };
 
