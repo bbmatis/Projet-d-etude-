@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['operator_2a_53',['operator*',['../classVecteur2D.html#acd6c32b21a9472720a7df98ed0a5fda3',1,'Vecteur2D']]],
-  ['operator_2b_54',['operator+',['../classVecteur2D.html#aac240d9ec99e03c578980cbe92c208b4',1,'Vecteur2D']]],
-  ['operator_2d_55',['operator-',['../classVecteur2D.html#a497b9a632e6a0a2f915ba8ef8b976a19',1,'Vecteur2D']]],
-  ['operator_2f_56',['operator/',['../classVecteur2D.html#a64546fa74683bc7ffb2442367a1a2c98',1,'Vecteur2D']]]
+  ['projet_20lifap4_20du_20groupe_20ouep_50',['Projet LIFAP4 du groupe Ouep',['../index.html',1,'']]],
+  ['playturn_51',['playTurn',['../classGame.html#acc6af6ebe408d4edcd656708a27c8d6e',1,'Game']]]
 ];

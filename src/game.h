@@ -14,15 +14,6 @@
 
 using namespace std;
 
-// Définition de la stucture Projectile
-struct Projectile
-{
-    unsigned int defenseWhoSendMe;  // Identifie de quelle défense vient le projectile 
-    Vecteur2D position;             // Position du projectile
-    float vitesse;                  // vitesse du projectile
-    
-};
-
 class Game {
     private:
 
@@ -39,7 +30,6 @@ class Game {
     public:
         std::vector<Monstre> monstres;          // Tableau dynamique de monstres
         std::vector<Defense> defenses;          // Tableau dynamique de défenses
-        std::vector<Projectile> projectiles;    // Tableau dynamique de projectiles
         unsigned int distances[LARGEUR*HAUTEUR];         // Tableau de distances entre les défenses et les monstress
         unsigned int vague;                     // Indice de vague de monstres 
         unsigned int nbMonstreTues;             // nombre de monstre tué au cours de la partie

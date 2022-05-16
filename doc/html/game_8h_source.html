@@ -85,112 +85,101 @@ $(function() {
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">// Définition de la stucture Projectile</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="structProjectile.html">   18</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structProjectile.html">Projectile</a></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> defenseWhoSendMe;  <span class="comment">// Identifie de quelle défense vient le projectile </span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="classVecteur2D.html">Vecteur2D</a> position;             <span class="comment">// Position du projectile</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">float</span> vitesse;                  <span class="comment">// vitesse du projectile</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;};</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classGame.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="classGame.html">Game</a> {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">int</span> time; <span class="comment">//temps écoulé</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment"></span>        <span class="keywordtype">float</span> Distance(<span class="keywordtype">int</span> x1, <span class="keywordtype">int</span> y1, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y2);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">int</span> modeDAffichage; <span class="comment">//mode d&#39;affichage</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        std::vector&lt;Monstre&gt; monstres;          <span class="comment">// Tableau dynamique de monstres</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        std::vector&lt;Defense&gt; defenses;          <span class="comment">// Tableau dynamique de défenses</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        std::vector&lt;Projectile&gt; projectiles;    <span class="comment">// Tableau dynamique de projectiles</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> distances[LARGEUR*HAUTEUR];         <span class="comment">// Tableau de distances entre les défenses et les monstress</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> vague;                     <span class="comment">// Indice de vague de monstres </span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> nbMonstreTues;             <span class="comment">// nombre de monstre tué au cours de la partie</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <a class="code" href="classJoueur.html">Joueur</a> joueur;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">int</span> temps;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> caseEntree = 175;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> caseSortie = 199;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">int</span> frameCount = 0;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">string</span> scores[10][2];</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="classGame.html">Game</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> leModeDAffichage);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <a class="code" href="classGame.html">Game</a>();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        ~<a class="code" href="classGame.html">Game</a>();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordtype">void</span> init();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordtype">void</span> InitVagueMonstre(); </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordtype">void</span> InitPlateauJeu(); </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classGame.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="classGame.html">Game</a> {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordtype">int</span> time; <span class="comment">//temps écoulé</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"></span>        <span class="keywordtype">float</span> Distance(<span class="keywordtype">int</span> x1, <span class="keywordtype">int</span> y1, <span class="keywordtype">int</span> x2, <span class="keywordtype">int</span> y2);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordtype">int</span> modeDAffichage; <span class="comment">//mode d&#39;affichage</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        std::vector&lt;Monstre&gt; monstres;          <span class="comment">// Tableau dynamique de monstres</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        std::vector&lt;Defense&gt; defenses;          <span class="comment">// Tableau dynamique de défenses</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> distances[LARGEUR*HAUTEUR];         <span class="comment">// Tableau de distances entre les défenses et les monstress</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> vague;                     <span class="comment">// Indice de vague de monstres </span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> nbMonstreTues;             <span class="comment">// nombre de monstre tué au cours de la partie</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <a class="code" href="classJoueur.html">Joueur</a> joueur;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">int</span> temps;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> caseEntree = 175;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> caseSortie = 199;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordtype">int</span> frameCount = 0;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">string</span> scores[10][2];</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <a class="code" href="classGame.html">Game</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> leModeDAffichage);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <a class="code" href="classGame.html">Game</a>();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        ~<a class="code" href="classGame.html">Game</a>();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">void</span> init();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">void</span> InitVagueMonstre(); </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">void</span> InitPlateauJeu(); </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordtype">int</span> buyDefense(typeDef defense, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordtype">int</span> sellDefense(<a class="code" href="classDefense.html">Defense</a> &amp; defense);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordtype">int</span> buyDefense(typeDef defense, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordtype">int</span> sellDefense(<a class="code" href="classDefense.html">Defense</a> &amp; defense);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordtype">int</span> upgradeDefense(<a class="code" href="classDefense.html">Defense</a> &amp; defense);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordtype">int</span> DefHitMonstre(<a class="code" href="classMonstre.html">Monstre</a> &amp; monstre, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> Defposition);</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordtype">int</span> upgradeDefense(<a class="code" href="classDefense.html">Defense</a> &amp; defense);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordtype">int</span> DefHitMonstre(<a class="code" href="classMonstre.html">Monstre</a> &amp; monstre, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> Defposition);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordtype">void</span> recupScoreFromFile();</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordtype">void</span> enregistreScore(); </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> lireScore(); </div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordtype">void</span> recupScoreFromFile();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordtype">void</span> trieScore(); </div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordtype">void</span> enregistreScore(); </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> lireScore(); </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordtype">void</span> trieScore(); </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordtype">bool</span> updateDistances();</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordtype">bool</span> updateDistances();</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>* getDistances();</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordtype">bool</span> isAccessibleCase(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> from, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> to);</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>* getDistances();</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keywordtype">bool</span> isAccessibleCase(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> from, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> to);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keywordtype">bool</span> canVisitCase(<span class="keywordtype">int</span> from, <span class="keywordtype">int</span> to, vector&lt;bool&gt; &amp; visited, vector&lt;int&gt; &amp; toVisit);</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getCaseDistance(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> tmpDistances[]);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keywordtype">int</span> playTurn();</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keywordtype">bool</span> isGameOver();</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="keywordtype">void</span> reset();</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;};</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordtype">bool</span> canVisitCase(<span class="keywordtype">int</span> from, <span class="keywordtype">int</span> to, vector&lt;bool&gt; &amp; visited, vector&lt;int&gt; &amp; toVisit);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getCaseDistance(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> position, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> tmpDistances[]);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordtype">int</span> playTurn();</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordtype">bool</span> isGameOver();</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keywordtype">void</span> reset();</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;};</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassMonstre_html_a827e06bb7b36ee93d3d4d19e3657de5d"><div class="ttname"><a href="classMonstre.html#a827e06bb7b36ee93d3d4d19e3657de5d">Monstre::getHp</a></div><div class="ttdeci">int getHp() const</div><div class="ttdoc">Obtenir la santée du monstre.</div><div class="ttdef"><b>Definition:</b> monstre.cpp:55</div></div>
-<div class="ttc" id="aclassGame_html_a6f3a33940524b6ba9d83f627ccb14bbf"><div class="ttname"><a href="classGame.html#a6f3a33940524b6ba9d83f627ccb14bbf">Game::init</a></div><div class="ttdeci">void init()</div><div class="ttdoc">Initialiser le jeu.</div><div class="ttdef"><b>Definition:</b> game.cpp:30</div></div>
+<div class="ttc" id="aclassGame_html_a6f3a33940524b6ba9d83f627ccb14bbf"><div class="ttname"><a href="classGame.html#a6f3a33940524b6ba9d83f627ccb14bbf">Game::init</a></div><div class="ttdeci">void init()</div><div class="ttdoc">Initialiser le jeu.</div><div class="ttdef"><b>Definition:</b> game.cpp:29</div></div>
 <div class="ttc" id="aclassGame_html_ae3d112ca6e0e55150d2fdbc704474530"><div class="ttname"><a href="classGame.html#ae3d112ca6e0e55150d2fdbc704474530">Game::~Game</a></div><div class="ttdeci">~Game()</div><div class="ttdoc">Destructeur.</div><div class="ttdef"><b>Definition:</b> game.cpp:23</div></div>
-<div class="ttc" id="aclassGame_html_af340169e36821267e49a8e9ed091b35b"><div class="ttname"><a href="classGame.html#af340169e36821267e49a8e9ed091b35b">Game::sellDefense</a></div><div class="ttdeci">int sellDefense(Defense &amp;defense)</div><div class="ttdoc">vendre une défense</div><div class="ttdef"><b>Definition:</b> game.cpp:100</div></div>
-<div class="ttc" id="aclassGame_html_a275c5d82983d09a95bdf727cd334169a"><div class="ttname"><a href="classGame.html#a275c5d82983d09a95bdf727cd334169a">Game::DefHitMonstre</a></div><div class="ttdeci">int DefHitMonstre(Monstre &amp;monstre, unsigned int Defposition)</div><div class="ttdoc">retroune si le monstre a été haagrah ou non</div><div class="ttdef"><b>Definition:</b> game.cpp:147</div></div>
-<div class="ttc" id="aclassGame_html_a9fbc1572917d7b1586d90df894ae1f14"><div class="ttname"><a href="classGame.html#a9fbc1572917d7b1586d90df894ae1f14">Game::InitPlateauJeu</a></div><div class="ttdeci">void InitPlateauJeu()</div><div class="ttdoc">Initialisation du plateau de jeu avec des cases vide (plateau de défenses avec type : RIEN)</div><div class="ttdef"><b>Definition:</b> game.cpp:62</div></div>
-<div class="ttc" id="aclassGame_html_a2b055113455bad2d0bf48034a07833be"><div class="ttname"><a href="classGame.html#a2b055113455bad2d0bf48034a07833be">Game::getDistances</a></div><div class="ttdeci">unsigned int * getDistances()</div><div class="ttdoc">calcule les distances et retourne un tableau de distances</div><div class="ttdef"><b>Definition:</b> game.cpp:222</div></div>
+<div class="ttc" id="aclassGame_html_af340169e36821267e49a8e9ed091b35b"><div class="ttname"><a href="classGame.html#af340169e36821267e49a8e9ed091b35b">Game::sellDefense</a></div><div class="ttdeci">int sellDefense(Defense &amp;defense)</div><div class="ttdoc">vendre une défense</div><div class="ttdef"><b>Definition:</b> game.cpp:99</div></div>
+<div class="ttc" id="aclassGame_html_a275c5d82983d09a95bdf727cd334169a"><div class="ttname"><a href="classGame.html#a275c5d82983d09a95bdf727cd334169a">Game::DefHitMonstre</a></div><div class="ttdeci">int DefHitMonstre(Monstre &amp;monstre, unsigned int Defposition)</div><div class="ttdoc">retroune si le monstre a été haagrah ou non</div><div class="ttdef"><b>Definition:</b> game.cpp:146</div></div>
+<div class="ttc" id="aclassGame_html_a9fbc1572917d7b1586d90df894ae1f14"><div class="ttname"><a href="classGame.html#a9fbc1572917d7b1586d90df894ae1f14">Game::InitPlateauJeu</a></div><div class="ttdeci">void InitPlateauJeu()</div><div class="ttdoc">Initialisation du plateau de jeu avec des cases vide (plateau de défenses avec type : RIEN)</div><div class="ttdef"><b>Definition:</b> game.cpp:61</div></div>
+<div class="ttc" id="aclassGame_html_a2b055113455bad2d0bf48034a07833be"><div class="ttname"><a href="classGame.html#a2b055113455bad2d0bf48034a07833be">Game::getDistances</a></div><div class="ttdeci">unsigned int * getDistances()</div><div class="ttdoc">calcule les distances et retourne un tableau de distances</div><div class="ttdef"><b>Definition:</b> game.cpp:221</div></div>
 <div class="ttc" id="aclassMonstre_html_adb163b937824bc7dc4ec4e8a86363ce3"><div class="ttname"><a href="classMonstre.html#adb163b937824bc7dc4ec4e8a86363ce3">Monstre::setHp</a></div><div class="ttdeci">void setHp(int newHp)</div><div class="ttdoc">Modifier la santée du monstre.</div><div class="ttdef"><b>Definition:</b> monstre.cpp:65</div></div>
 <div class="ttc" id="aclassGame_html_ad59df6562a58a614fda24622d3715b65"><div class="ttname"><a href="classGame.html#ad59df6562a58a614fda24622d3715b65">Game::Game</a></div><div class="ttdeci">Game()</div><div class="ttdoc">Constructeur par défaut.</div><div class="ttdef"><b>Definition:</b> game.cpp:17</div></div>
-<div class="ttc" id="aclassGame_html_a4e38eaea2aa96478fb468cc23f03daac"><div class="ttname"><a href="classGame.html#a4e38eaea2aa96478fb468cc23f03daac">Game::InitVagueMonstre</a></div><div class="ttdeci">void InitVagueMonstre()</div><div class="ttdoc">Initialise des vagues de monstres.</div><div class="ttdef"><b>Definition:</b> game.cpp:41</div></div>
-<div class="ttc" id="aclassGame_html_ad49e4b016232e9a172f39745722c8e7e"><div class="ttname"><a href="classGame.html#ad49e4b016232e9a172f39745722c8e7e">Game::enregistreScore</a></div><div class="ttdeci">void enregistreScore()</div><div class="ttdoc">écris les scores dans un fichier externe.</div><div class="ttdef"><b>Definition:</b> game.cpp:462</div></div>
+<div class="ttc" id="aclassGame_html_a4e38eaea2aa96478fb468cc23f03daac"><div class="ttname"><a href="classGame.html#a4e38eaea2aa96478fb468cc23f03daac">Game::InitVagueMonstre</a></div><div class="ttdeci">void InitVagueMonstre()</div><div class="ttdoc">Initialise des vagues de monstres.</div><div class="ttdef"><b>Definition:</b> game.cpp:40</div></div>
+<div class="ttc" id="aclassGame_html_ad49e4b016232e9a172f39745722c8e7e"><div class="ttname"><a href="classGame.html#ad49e4b016232e9a172f39745722c8e7e">Game::enregistreScore</a></div><div class="ttdeci">void enregistreScore()</div><div class="ttdoc">écris les scores dans un fichier externe.</div><div class="ttdef"><b>Definition:</b> game.cpp:461</div></div>
 <div class="ttc" id="aclassVecteur2D_html"><div class="ttname"><a href="classVecteur2D.html">Vecteur2D</a></div><div class="ttdef"><b>Definition:</b> vecteur2D.h:4</div></div>
-<div class="ttc" id="aclassGame_html_aaad0ec6d13081f987a613e69a9e7b513"><div class="ttname"><a href="classGame.html#aaad0ec6d13081f987a613e69a9e7b513">Game::isAccessibleCase</a></div><div class="ttdeci">bool isAccessibleCase(unsigned int from, unsigned int to)</div><div class="ttdoc">Détermine si la case est accessible ou non.</div><div class="ttdef"><b>Definition:</b> game.cpp:180</div></div>
-<div class="ttc" id="aclassGame_html_a28fe4c3f9ef4d2d0aa5fc8e5bf1ab40b"><div class="ttname"><a href="classGame.html#a28fe4c3f9ef4d2d0aa5fc8e5bf1ab40b">Game::buyDefense</a></div><div class="ttdeci">int buyDefense(typeDef defense, unsigned int position)</div><div class="ttdoc">Permet de placer une défense sur le plateau de jeu. Retourne 0 si la défense a été placée avec succès...</div><div class="ttdef"><b>Definition:</b> game.cpp:70</div></div>
-<div class="ttc" id="aclassGame_html_acfc767c4294f103afcc00406e250fc18"><div class="ttname"><a href="classGame.html#acfc767c4294f103afcc00406e250fc18">Game::recupScoreFromFile</a></div><div class="ttdeci">void recupScoreFromFile()</div><div class="ttdoc">récupère le score depuis un fichier externe</div><div class="ttdef"><b>Definition:</b> game.cpp:448</div></div>
+<div class="ttc" id="aclassGame_html_aaad0ec6d13081f987a613e69a9e7b513"><div class="ttname"><a href="classGame.html#aaad0ec6d13081f987a613e69a9e7b513">Game::isAccessibleCase</a></div><div class="ttdeci">bool isAccessibleCase(unsigned int from, unsigned int to)</div><div class="ttdoc">Détermine si la case est accessible ou non.</div><div class="ttdef"><b>Definition:</b> game.cpp:179</div></div>
+<div class="ttc" id="aclassGame_html_a28fe4c3f9ef4d2d0aa5fc8e5bf1ab40b"><div class="ttname"><a href="classGame.html#a28fe4c3f9ef4d2d0aa5fc8e5bf1ab40b">Game::buyDefense</a></div><div class="ttdeci">int buyDefense(typeDef defense, unsigned int position)</div><div class="ttdoc">Permet de placer une défense sur le plateau de jeu. Retourne 0 si la défense a été placée avec succès...</div><div class="ttdef"><b>Definition:</b> game.cpp:69</div></div>
+<div class="ttc" id="aclassGame_html_acfc767c4294f103afcc00406e250fc18"><div class="ttname"><a href="classGame.html#acfc767c4294f103afcc00406e250fc18">Game::recupScoreFromFile</a></div><div class="ttdeci">void recupScoreFromFile()</div><div class="ttdoc">récupère le score depuis un fichier externe</div><div class="ttdef"><b>Definition:</b> game.cpp:447</div></div>
 <div class="ttc" id="aclassJoueur_html"><div class="ttname"><a href="classJoueur.html">Joueur</a></div><div class="ttdef"><b>Definition:</b> joueur.h:7</div></div>
-<div class="ttc" id="aclassGame_html_a102ce6e5a222e403aa7a0465ff6281dc"><div class="ttname"><a href="classGame.html#a102ce6e5a222e403aa7a0465ff6281dc">Game::isGameOver</a></div><div class="ttdeci">bool isGameOver()</div><div class="ttdoc">Determine si on as fait un game over.</div><div class="ttdef"><b>Definition:</b> game.cpp:443</div></div>
+<div class="ttc" id="aclassGame_html_a102ce6e5a222e403aa7a0465ff6281dc"><div class="ttname"><a href="classGame.html#a102ce6e5a222e403aa7a0465ff6281dc">Game::isGameOver</a></div><div class="ttdeci">bool isGameOver()</div><div class="ttdoc">Determine si on as fait un game over.</div><div class="ttdef"><b>Definition:</b> game.cpp:442</div></div>
 <div class="ttc" id="aclassMonstre_html_a94de429b7fe5f9044872e6c87298f9e6"><div class="ttname"><a href="classMonstre.html#a94de429b7fe5f9044872e6c87298f9e6">Monstre::getPosition</a></div><div class="ttdeci">Vecteur2D getPosition() const</div><div class="ttdoc">Obtenir la position du monstre.</div><div class="ttdef"><b>Definition:</b> monstre.cpp:70</div></div>
-<div class="ttc" id="aclassGame_html_acc6af6ebe408d4edcd656708a27c8d6e"><div class="ttname"><a href="classGame.html#acc6af6ebe408d4edcd656708a27c8d6e">Game::playTurn</a></div><div class="ttdeci">int playTurn()</div><div class="ttdoc">Joue un tour de jeu.</div><div class="ttdef"><b>Definition:</b> game.cpp:296</div></div>
-<div class="ttc" id="aclassGame_html_a39bb2fd26b5ea6b164f28f9f6723582e"><div class="ttname"><a href="classGame.html#a39bb2fd26b5ea6b164f28f9f6723582e">Game::reset</a></div><div class="ttdeci">void reset()</div><div class="ttdoc">Remet a 0 la partie pour une nouvelle partie.</div><div class="ttdef"><b>Definition:</b> game.cpp:494</div></div>
-<div class="ttc" id="aclassDefense_html"><div class="ttname"><a href="classDefense.html">Defense</a></div><div class="ttdef"><b>Definition:</b> defense.h:7</div></div>
-<div class="ttc" id="aclassGame_html_a75700dad8497d02ed320f5eca4e6e630"><div class="ttname"><a href="classGame.html#a75700dad8497d02ed320f5eca4e6e630">Game::getCaseDistance</a></div><div class="ttdeci">unsigned int getCaseDistance(unsigned int position, unsigned int tmpDistances[])</div><div class="ttdoc">Récupèrer la distance d'une case.</div><div class="ttdef"><b>Definition:</b> game.cpp:215</div></div>
-<div class="ttc" id="aclassGame_html_a52fac9996bbbfbb83be863a934704870"><div class="ttname"><a href="classGame.html#a52fac9996bbbfbb83be863a934704870">Game::canVisitCase</a></div><div class="ttdeci">bool canVisitCase(int from, int to, vector&lt; bool &gt; &amp;visited, vector&lt; int &gt; &amp;toVisit)</div><div class="ttdoc">Récupère la distance qui sépare une case de l'arrivée tout en testant si elle est accessible.</div><div class="ttdef"><b>Definition:</b> game.cpp:197</div></div>
-<div class="ttc" id="aclassGame_html_a8df1cf7ef2d6df7b69e12217a57e9cce"><div class="ttname"><a href="classGame.html#a8df1cf7ef2d6df7b69e12217a57e9cce">Game::updateDistances</a></div><div class="ttdeci">bool updateDistances()</div><div class="ttdoc">Met à jour les distances des cases par rapport a l'arrivé</div><div class="ttdef"><b>Definition:</b> game.cpp:287</div></div>
-<div class="ttc" id="astructProjectile_html"><div class="ttname"><a href="structProjectile.html">Projectile</a></div><div class="ttdef"><b>Definition:</b> game.h:18</div></div>
-<div class="ttc" id="aclassGame_html"><div class="ttname"><a href="classGame.html">Game</a></div><div class="ttdef"><b>Definition:</b> game.h:26</div></div>
+<div class="ttc" id="aclassGame_html_acc6af6ebe408d4edcd656708a27c8d6e"><div class="ttname"><a href="classGame.html#acc6af6ebe408d4edcd656708a27c8d6e">Game::playTurn</a></div><div class="ttdeci">int playTurn()</div><div class="ttdoc">Joue un tour de jeu.</div><div class="ttdef"><b>Definition:</b> game.cpp:295</div></div>
+<div class="ttc" id="aclassGame_html_a39bb2fd26b5ea6b164f28f9f6723582e"><div class="ttname"><a href="classGame.html#a39bb2fd26b5ea6b164f28f9f6723582e">Game::reset</a></div><div class="ttdeci">void reset()</div><div class="ttdoc">Remet a 0 la partie pour une nouvelle partie.</div><div class="ttdef"><b>Definition:</b> game.cpp:493</div></div>
+<div class="ttc" id="aclassDefense_html"><div class="ttname"><a href="classDefense.html">Defense</a></div><div class="ttdef"><b>Definition:</b> defense.h:6</div></div>
+<div class="ttc" id="aclassGame_html_a75700dad8497d02ed320f5eca4e6e630"><div class="ttname"><a href="classGame.html#a75700dad8497d02ed320f5eca4e6e630">Game::getCaseDistance</a></div><div class="ttdeci">unsigned int getCaseDistance(unsigned int position, unsigned int tmpDistances[])</div><div class="ttdoc">Récupèrer la distance d'une case.</div><div class="ttdef"><b>Definition:</b> game.cpp:214</div></div>
+<div class="ttc" id="aclassGame_html_a52fac9996bbbfbb83be863a934704870"><div class="ttname"><a href="classGame.html#a52fac9996bbbfbb83be863a934704870">Game::canVisitCase</a></div><div class="ttdeci">bool canVisitCase(int from, int to, vector&lt; bool &gt; &amp;visited, vector&lt; int &gt; &amp;toVisit)</div><div class="ttdoc">Récupère la distance qui sépare une case de l'arrivée tout en testant si elle est accessible.</div><div class="ttdef"><b>Definition:</b> game.cpp:196</div></div>
+<div class="ttc" id="aclassGame_html_a8df1cf7ef2d6df7b69e12217a57e9cce"><div class="ttname"><a href="classGame.html#a8df1cf7ef2d6df7b69e12217a57e9cce">Game::updateDistances</a></div><div class="ttdeci">bool updateDistances()</div><div class="ttdoc">Met à jour les distances des cases par rapport a l'arrivé</div><div class="ttdef"><b>Definition:</b> game.cpp:286</div></div>
+<div class="ttc" id="aclassGame_html"><div class="ttname"><a href="classGame.html">Game</a></div><div class="ttdef"><b>Definition:</b> game.h:17</div></div>
 <div class="ttc" id="aclassMonstre_html"><div class="ttname"><a href="classMonstre.html">Monstre</a></div><div class="ttdef"><b>Definition:</b> monstre.h:8</div></div>
-<div class="ttc" id="aclassGame_html_a22aa6b67b03d7f676ec491d8ba3a70a9"><div class="ttname"><a href="classGame.html#a22aa6b67b03d7f676ec491d8ba3a70a9">Game::upgradeDefense</a></div><div class="ttdeci">int upgradeDefense(Defense &amp;defense)</div><div class="ttdoc">Permet d'améliorer une défense. Retourne le prix d'amélioration si la défense a bien été améliorer,...</div><div class="ttdef"><b>Definition:</b> game.cpp:117</div></div>
+<div class="ttc" id="aclassGame_html_a22aa6b67b03d7f676ec491d8ba3a70a9"><div class="ttname"><a href="classGame.html#a22aa6b67b03d7f676ec491d8ba3a70a9">Game::upgradeDefense</a></div><div class="ttdeci">int upgradeDefense(Defense &amp;defense)</div><div class="ttdoc">Permet d'améliorer une défense. Retourne le prix d'amélioration si la défense a bien été améliorer,...</div><div class="ttdef"><b>Definition:</b> game.cpp:116</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Généré par &#160;<a href="http://www.doxygen.org/index.html">

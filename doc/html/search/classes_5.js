@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['projectile_87',['Projectile',['../structProjectile.html',1,'']]]
+  ['vecteur2d_79',['Vecteur2D',['../classVecteur2D.html',1,'']]]
 ];

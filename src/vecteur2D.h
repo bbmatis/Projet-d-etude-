@@ -16,22 +16,6 @@ class Vecteur2D
 
         //! \brief destructeur
         ~Vecteur2D();
-
-        //! \brief opération d'addition avec un autre vecteur
-        //! \param other_v vecteur n°2
-        Vecteur2D operator+(Vecteur2D other_v);
-
-        //! \brief opération de soustraction avec un autre vecteur
-        //! \param other_v vecteur n°2
-        Vecteur2D operator-(Vecteur2D other_v);
-
-        //! \brief opération de multiplication avec un autre vecteur
-        //! \param other_v vecteur n°2
-        Vecteur2D operator*(Vecteur2D other_v);
-
-        //! \brief opération de division avec un autre vecteur
-        //! \param other_v vecteur n°2
-        Vecteur2D operator/(Vecteur2D other_v);
 };
 
 #endif
