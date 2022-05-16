@@ -1,3 +1,2 @@
 Dieu;50000
-julienlapute;120
 Julien;60
