@@ -1,7 +1,7 @@
 #include "game.h"
 #include <iostream>
-#include <fstream> // <-- Pour lire et écrire dans le fichier "Score.txt"
-#include <string> // <-- Pour pouvoir déclarer les variable "string"
+#include <fstream>
+#include <string>
 #include <math.h>
 #include <time.h>
 #include <cassert>

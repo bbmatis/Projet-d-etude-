@@ -3,7 +3,7 @@ CC=g++ -g -Wall
 
 all: bin/main
 
-bin/main : obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/gameGraphique.o obj/Image.o 
+bin/main : obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/gameGraphique.o obj/vecteur2D.o obj/Image.o
 	$(CC) obj/main.o obj/game.o obj/monstre.o obj/defense.o obj/joueur.o obj/gameTxt.o obj/gameGraphique.o obj/vecteur2D.o obj/Image.o -o bin/test $(SDL2)
 
 obj/main.o : src/main.cpp

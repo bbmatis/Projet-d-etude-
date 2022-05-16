@@ -1,7 +1,6 @@
 #ifndef DEFENSE_H
 #define DEFENSE_H
 
-
 enum typeDef {RIEN, CANON, DOUBLECANON, MORTIER};
 
 class Defense {

@@ -1,6 +1,5 @@
 #include "gameTxt.h"
 #include <iostream>
-#include "game.h"
 #include <unistd.h>
 #include <thread>
 #include <ostream>
