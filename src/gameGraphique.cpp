@@ -448,7 +448,7 @@ void GameGraphique::afficher()
 bool GameGraphique::afficherMenu()
 {
     bool displayMenu = true;
-    string InputText = " ";
+    string InputText = game.joueur.getNom();
     bool displayScores = false;
     bool AfficheRectangleHoverButton = false;
     int xMouse, yMouse;
@@ -610,7 +610,8 @@ void GameGraphique::AfficherLesScores()
     AfficherTexte(font_default, "Player", "", 0, 250, 250, 0, 0, 0);
     AfficherTexte(font_default, "Score", "", 0, 450, 250, 0, 0, 0);
     for (int i = 0; i < 10; i++)
-    {
+    {   
+        if (game.scores[i][1] == "") continue;
         AfficherTexte(font_default, game.scores[i][0], "", 0, 250, 280 + i * 30, 0, 0, 0);
         AfficherTexte(font_default, game.scores[i][1], "",  0, 450, 280 + i * 30, 0, 0, 0);
     }

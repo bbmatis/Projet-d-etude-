@@ -1,10 +1,3 @@
- CRAKITOS;1300000040
- groskiki;400000000
- groskiki;100000000
- michel;100000000
- papa;100000000
-Test;1500
-Test;1000
-NIC;600
-Julien;540
-aerzerzer;10
+ ;40
+
+;
