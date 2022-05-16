@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['projet_20lifap4_20du_20groupe_20ouep_57',['Projet LIFAP4 du groupe Ouep',['../index.html',1,'']]],
-  ['playturn_58',['playTurn',['../classGame.html#acc6af6ebe408d4edcd656708a27c8d6e',1,'Game']]],
-  ['projectile_59',['Projectile',['../structProjectile.html',1,'']]]
+  ['recupscorefromfile_52',['recupScoreFromFile',['../classGame.html#acfc767c4294f103afcc00406e250fc18',1,'Game']]],
+  ['reset_53',['reset',['../classGame.html#a39bb2fd26b5ea6b164f28f9f6723582e',1,'Game::reset()'],['../classJoueur.html#ad4f7425dabe12972e46a20f57da7abba',1,'Joueur::reset()']]]
 ];

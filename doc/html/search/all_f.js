@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['updatedistances_70',['updateDistances',['../classGame.html#a8df1cf7ef2d6df7b69e12217a57e9cce',1,'Game']]],
-  ['upgradedefense_71',['upgradeDefense',['../classGame.html#a22aa6b67b03d7f676ec491d8ba3a70a9',1,'Game']]]
+  ['vecteur2d_64',['Vecteur2D',['../classVecteur2D.html',1,'Vecteur2D'],['../classVecteur2D.html#a5f2aa85999487f468a06f54ff6f93212',1,'Vecteur2D::Vecteur2D()'],['../classVecteur2D.html#a740d3e323255fe1da911f189cab0e9ed',1,'Vecteur2D::Vecteur2D(float x, float y)']]]
 ];
