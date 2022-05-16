@@ -459,7 +459,7 @@ bool GameGraphique::afficherMenu()
         {
             CanPlay = true;
         }
-        
+
         while (SDL_PollEvent(&events))
         {
             if (events.type == SDL_QUIT)
@@ -722,8 +722,8 @@ bool GameGraphique::afficherGame()
         AfficherTexte(font_default, "", "", game.temps, 900, 60, 0, 0, 0);
 
         AffichagePateau();
-        SDL_RenderDrawLine(renderer, 0, 400, 1000, 400);
-        SDL_RenderDrawLine(renderer, 500, 0, 500, 800);
+        //SDL_RenderDrawLine(renderer, 0, 400, 1000, 400);
+        //SDL_RenderDrawLine(renderer, 500, 0, 500, 800);
 
         while (SDL_PollEvent(&events))
         {
