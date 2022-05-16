@@ -1,0 +1,4 @@
+<map id="Monstre::setHp" name="Monstre::setHp">
+<area shape="rect" id="node1" title="Modifier la santée du monstre." alt="" coords="217,5,339,32"/>
+<area shape="rect" id="node2" href="$classGame.html#a275c5d82983d09a95bdf727cd334169a" title="retroune si le monstre a été haagrah ou non" alt="" coords="5,5,169,32"/>
+</map>

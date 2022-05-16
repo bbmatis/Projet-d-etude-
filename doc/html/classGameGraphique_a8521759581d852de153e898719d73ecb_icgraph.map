@@ -1,0 +1,17 @@
+<map id="GameGraphique::AfficherTexte" name="GameGraphique::AfficherTexte">
+<area shape="rect" id="node1" title="Afficher du texte sur la fenêtre." alt="" coords="1120,318,1341,345"/>
+<area shape="rect" id="node2" href="$classGameGraphique.html#aa618f7700023ae40326b7ffa108f5a2f" title="Iinitialise l&#39;affichage du plateau de def." alt="" coords="562,456,759,497"/>
+<area shape="rect" id="node3" href="$classGameGraphique.html#acda6a4861814b05066bf705ce401fb10" title="Afficher le jeu." alt="" coords="254,254,478,281"/>
+<area shape="rect" id="node5" href="$classGameGraphique.html#ac7f6fc5e05e738ae6d7341bd898115e4" title="Afficher le paneau de game over." alt="" coords="239,514,493,541"/>
+<area shape="rect" id="node7" href="$classGameGraphique.html#a91c074971912a8598fbd320e00142025" title="Affiche les infos d&#39;une defense déja posé" alt="" coords="551,188,770,229"/>
+<area shape="rect" id="node8" href="$classGameGraphique.html#ac1315991d71e1abd426ff2ff57955a2a" title="Affiche bouton play et infos jeu (vague, monstres tuées...)" alt="" coords="541,254,780,281"/>
+<area shape="rect" id="node9" href="$classGameGraphique.html#ae63913c668e750b16f1d7fd1e5a065ed" title="Afficher les scores." alt="" coords="846,624,1054,665"/>
+<area shape="rect" id="node10" href="$classGameGraphique.html#ab6f30ed01d9a089454cddafc71824573" title="Afficher le menu." alt="" coords="550,573,771,599"/>
+<area shape="rect" id="node11" href="$classGameGraphique.html#a0eb8b2843a7f57f3902250794d3532ae" title="Affiche le menu pour choisir la défense à acheter." alt="" coords="549,305,772,347"/>
+<area shape="rect" id="node12" href="$classGameGraphique.html#a36701942a1a8ef8ba38eb34e12e4f7f3" title="Affiche le menu pour les choix pour une case vide &#45;&gt; just shop." alt="" coords="839,405,1061,447"/>
+<area shape="rect" id="node13" href="$classGameGraphique.html#a030eeaf4549090d3fb37cf7501ec43a8" title="Affiche le menu pour les choix pour une case rempli &#45;&gt; sell and upgrade." alt="" coords="839,5,1061,47"/>
+<area shape="rect" id="node14" href="$classGameGraphique.html#aacef4e8964e17f055025d78b31158df5" title="Afficher les erreurs." alt="" coords="828,71,1072,112"/>
+<area shape="rect" id="node15" href="$classGameGraphique.html#aa4ef997870603aec3a755692154dbe86" title="Affiche les infos d&#39;une défense en texte en fonction du type de def &#45;&gt; shop buy." alt="" coords="841,340,1059,381"/>
+<area shape="rect" id="node6" href="$classGameGraphique.html#a19dcac22086b864a6e8d24261120e999" title="Initialise SDL." alt="" coords="263,463,469,490"/>
+<area shape="rect" id="node4" href="$classGameGraphique.html#a0e528e891f61242c0e51ad5c5300adba" title="Afficher le jeu dans une fenêtre SDL2." alt="" coords="5,489,191,515"/>
+</map>

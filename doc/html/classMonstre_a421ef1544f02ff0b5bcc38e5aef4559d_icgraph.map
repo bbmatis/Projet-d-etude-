@@ -1,0 +1,4 @@
+<map id="Monstre::setTargetPosition" name="Monstre::setTargetPosition">
+<area shape="rect" id="node1" title="Définir une position a laquelle le monstre doit se déplacer." alt="" coords="211,5,405,32"/>
+<area shape="rect" id="node2" href="$classMonstre.html#ae4aa17bc3d5016f6df2cdd01928819d2" title="Initialise le monstre par rapport a son numéro d&#39;arriver dans la vague." alt="" coords="5,5,163,32"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="GameGraphique::AfficherInfosDefenseSelected" name="GameGraphique::AfficherInfosDefenseSelected">
+<area shape="rect" id="node1" title="Affiche les infos d&#39;une defense déja posé" alt="" coords="511,5,729,47"/>
+<area shape="rect" id="node2" href="$classGameGraphique.html#acda6a4861814b05066bf705ce401fb10" title="Afficher le jeu." alt="" coords="239,13,463,39"/>
+<area shape="rect" id="node3" href="$classGameGraphique.html#a0e528e891f61242c0e51ad5c5300adba" title="Afficher le jeu dans une fenêtre SDL2." alt="" coords="5,13,191,39"/>
+</map>
